@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBox.Resources.Resource;
+using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {

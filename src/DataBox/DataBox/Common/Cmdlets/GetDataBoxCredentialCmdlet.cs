@@ -20,7 +20,7 @@ using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.DataBox.Common
 {
-    [Cmdlet(VerbsCommon.Get, ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "DataBoxCredential" , DefaultParameterSetName = GetByNameParameterSet), OutputType(typeof(IEnumerable<UnencryptedCredentials>))]
+    [Cmdlet(VerbsCommon.Get, ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "DataBoxEdgeCredential" , DefaultParameterSetName = GetByNameParameterSet), OutputType(typeof(IEnumerable<UnencryptedCredentials>))]
     public class GetDataBoxCredentialCmdlet : AzureDataBoxCmdletBase
     {
 

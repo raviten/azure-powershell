@@ -65,8 +65,8 @@ RequiredAssemblies = '.\Microsoft.Azure.Management.DataBox.dll'
 # TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = 
-               '.\Microsoft.Azure.PowerShell.Cmdlets.DataBox.generated.format.ps1xml'
+#FormatsToProcess = 
+#               '.\Microsoft.Azure.PowerShell.Cmdlets.DataBox.generated.format.ps1xml'
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @('.\Microsoft.Azure.PowerShell.Cmdlets.DataBox.dll')
@@ -75,7 +75,7 @@ NestedModules = @('.\Microsoft.Azure.PowerShell.Cmdlets.DataBox.dll')
 FunctionsToExport = @()
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-CmdletsToExport = 'Get-AzDataBoxJob', 'Get-AzDataBoxCredential', 'Stop-AzDataBoxJob', 
+CmdletsToExport = 'Get-AzDataBoxJob', 'Get-AzDataBoxEdgeCredential', 'Stop-AzDataBoxJob', 
                'Remove-AzDataBoxJob', 'New-AzDataBoxJob'
 
 # Variables to export from this module

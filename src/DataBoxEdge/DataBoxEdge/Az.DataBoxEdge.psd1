@@ -56,7 +56,9 @@ DotNetFrameworkVersion = '4.7.2'
 RequiredModules = @(@{ModuleName = 'Az.Accounts'; ModuleVersion = '1.6.1'; })
 
 # Assemblies that must be loaded prior to importing this module
-RequiredAssemblies = '.\Microsoft.Azure.Management.DataBox.dll'
+RequiredAssemblies = @(
+'.\Microsoft.Azure.Management.DataBox.dll', 
+'.\Microsoft.Azure.Management.EdgeGateway.dll')
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 # ScriptsToProcess = @()
@@ -65,8 +67,10 @@ RequiredAssemblies = '.\Microsoft.Azure.Management.DataBox.dll'
 # TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
-#FormatsToProcess = 
-#               '.\Microsoft.Azure.PowerShell.Cmdlets.DataBox.generated.format.ps1xml'
+FormatsToProcess = @(
+'.\Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.generated.format.ps1xml',
+'.\Microsoft.Azure.PowerShell.Cmdlets.DataBox.generated.format.ps1xml'
+)
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @('.\Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll')
@@ -75,8 +79,7 @@ NestedModules = @('.\Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll')
 FunctionsToExport = @()
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-CmdletsToExport = 'Get-AzDataBoxJob', 'Get-AzDataBoxEdgeCredential', 'Stop-AzDataBoxJob', 
-               'Remove-AzDataBoxJob', 'New-AzDataBoxJob'
+CmdletsToExport = 'Get-AzDataBoxJob', 'Get-AzDataBoxEdgeDevice'
 
 # Variables to export from this module
 # VariablesToExport = @()
