@@ -68,8 +68,7 @@ RequiredAssemblies = @(
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-'.\Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.generated.format.ps1xml',
-'.\Microsoft.Azure.PowerShell.Cmdlets.DataBox.generated.format.ps1xml'
+'.\Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.generated.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
@@ -102,7 +101,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Azure','ResourceManager','ARM','DataBox'
+        Tags = 'Azure','ResourceManager','ARM','DataBoxEdge'
 
         # A URL to the license for this module.
         LicenseUri = 'https://aka.ms/azps-license'
