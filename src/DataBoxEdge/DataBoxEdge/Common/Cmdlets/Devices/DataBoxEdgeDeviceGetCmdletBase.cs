@@ -12,30 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
-using Microsoft.Rest.Azure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
-    [Cmdlet(VerbsCommon.Get,
-         "AzDataBoxEdgeDevice",
-         DefaultParameterSetName = ListParameterSet
+    [Cmdlet(VerbsCommon.Get, Constants.Device, DefaultParameterSetName = ListParameterSet
      ),
      OutputType(typeof(PSDataBoxEdgeDevice))]
     public class DataBoxEdgeDeviceGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string GetByResourceGroupNameParameterSet = "GetByResourceGroupNameParameterSet";
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
 
         [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByResourceGroupNameParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
@@ -49,112 +49,65 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
-        public SwitchParameter Completed { get; set; } = false;
+        public bool NotNullOrEmpty(string val)
+        {
+            return !string.IsNullOrEmpty(val);
+        }
 
-        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
-        public SwitchParameter CompletedWithError { get; set; } = false;
-
-        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
-        public SwitchParameter Cancelled { get; set; } = false;
-
-        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
-        public SwitchParameter Aborted { get; set; } = false;
 
         public override void ExecuteCmdlet()
         {
-            WriteVerbose("Inside Execute CMDletbase");
-            if (this.ParameterSetName.Equals("GetByResourceIdParameterSet"))
+            if (this.ParameterSetName.Equals(GetByResourceIdParameterSet))
             {
                 this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(ResourceId);
                 this.Name = ResourceIdHandler.GetResourceName(ResourceId);
             }
 
-            if (!string.IsNullOrEmpty(this.Name))
+            var results = new List<PSDataBoxEdgeDevice>();
+            if (NotNullOrEmpty(this.Name))
             {
-                List<PSDataBoxEdgeDevice> result = new List<PSDataBoxEdgeDevice>();
-                result.Add(new PSDataBoxEdgeDevice(
-                    DevicesOperationsExtensions.Get(
-                        this.DataBoxEdgeManagementClient.Devices,
-                        this.Name,
-                        this.ResourceGroupName)));
-                WriteObject(result, true);
+                results.Add(
+                    new PSDataBoxEdgeDevice(
+                        DevicesOperationsExtensions.Get(
+                            this.DataBoxEdgeManagementClient.Devices,
+                            this.Name,
+                            this.ResourceGroupName)));
             }
             else if (!string.IsNullOrEmpty(this.ResourceGroupName))
             {
-                IPage<DataBoxEdgeDevice> dataBoxEdgePageList = null;
-                List<DataBoxEdgeDevice> result = new List<DataBoxEdgeDevice>();
-                List<PSDataBoxEdgeDevice> finalResult = new List<PSDataBoxEdgeDevice>();
-
-                do
+                var dataBoxEdgeDevices = DevicesOperationsExtensions.ListByResourceGroup(
+                    this.DataBoxEdgeManagementClient.Devices,
+                    this.ResourceGroupName);
+                var paginatedResult = new List<DataBoxEdgeDevice>(dataBoxEdgeDevices);
+                while (NotNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
                 {
-                    // Lists all the jobs available under resource group.
-                    if (dataBoxEdgePageList == null)
-                    {
-                        dataBoxEdgePageList = DevicesOperationsExtensions.ListByResourceGroup(
-                            this.DataBoxEdgeManagementClient.Devices,
-                            this.ResourceGroupName);
-                    }
-                    else
-                    {
-                        dataBoxEdgePageList = DevicesOperationsExtensions.ListByResourceGroupNext(
-                            this.DataBoxEdgeManagementClient.Devices,
-                            this.ResourceGroupName);
-                    }
-
-                    foreach (DataBoxEdgeDevice device in dataBoxEdgePageList)
-                    {
-                        result.Add(device);
-                    }
-                } while (!(string.IsNullOrEmpty(dataBoxEdgePageList.NextPageLink)));
-
-                foreach (var dataBoxEdgeDevice in result)
-                {
-                    finalResult.Add(new PSDataBoxEdgeDevice(dataBoxEdgeDevice));
+                    dataBoxEdgeDevices = DevicesOperationsExtensions.ListByResourceGroupNext(
+                        this.DataBoxEdgeManagementClient.Devices,
+                        dataBoxEdgeDevices.NextPageLink
+                    );
+                    paginatedResult.AddRange(dataBoxEdgeDevices);
                 }
 
-                WriteObject(finalResult, true);
+                results = paginatedResult.Select(t => new PSDataBoxEdgeDevice(t)).ToList();
             }
             else
             {
-                WriteVerbose("Inside fetching subscription");
-                IPage<DataBoxEdgeDevice> dataBoxEdgeDevices = null;
-                List<DataBoxEdgeDevice> result = new List<DataBoxEdgeDevice>();
-                List<PSDataBoxEdgeDevice> finalResult = new List<PSDataBoxEdgeDevice>();
-
-                do
+                var dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscription(
+                    this.DataBoxEdgeManagementClient.Devices);
+                var paginatedResult = new List<DataBoxEdgeDevice>(dataBoxEdgeDevices);
+                while (NotNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
                 {
-                    // Lists all the jobs available under the subscription.
-                    if (dataBoxEdgeDevices == null)
-                    {
-                        WriteVerbose("List is null");
-                        IPage<DataBoxEdgeDevice> devices = DevicesOperationsExtensions.ListBySubscription(
-                            this.DataBoxEdgeManagementClient.Devices);
-                        dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscription(
-                            this.DataBoxEdgeManagementClient.Devices);
-                    }
-                    else
-                    {
-                        WriteVerbose("Fetching next Devices List");
-                        WriteVerbose(dataBoxEdgeDevices.NextPageLink);
-                        dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscriptionNext(
-                            this.DataBoxEdgeManagementClient.Devices,
-                            dataBoxEdgeDevices.NextPageLink);
-                    }
-
-                    result.AddRange(dataBoxEdgeDevices.ToList());
-                } while (!(string.IsNullOrEmpty(dataBoxEdgeDevices.NextPageLink)));
-
-                foreach (var dataBoxEdgeDevice in result)
-                {
-                    WriteVerbose(dataBoxEdgeDevice.Id);
-                    finalResult.Add(new PSDataBoxEdgeDevice(dataBoxEdgeDevice));
+                    dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscriptionNext(
+                        this.DataBoxEdgeManagementClient.Devices,
+                        dataBoxEdgeDevices.NextPageLink
+                    );
+                    paginatedResult.AddRange(dataBoxEdgeDevices);
                 }
 
-                WriteVerbose("Final Devices " + finalResult.Count);
-
-                WriteObject(finalResult, true);
+                results = paginatedResult.Select(t => new PSDataBoxEdgeDevice(t)).ToList();
             }
+
+            WriteObject(results, true);
         }
     }
 }
