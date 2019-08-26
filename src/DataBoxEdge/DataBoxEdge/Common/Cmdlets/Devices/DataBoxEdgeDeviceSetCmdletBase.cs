@@ -23,37 +23,34 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
-    [Cmdlet(VerbsCommon.New, Constants.User, DefaultParameterSetName = NewParameterSet
+    [Cmdlet(VerbsCommon.Set, Constants.Device, DefaultParameterSetName = SetParameterSet
      ),
      OutputType(typeof(PSDataBoxEdgeDevice))]
-    public class DataBoxEdgeUserNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgeDeviceSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string NewParameterSet = "NewParameterSet";
+        private const string SetParameterSet = "SetParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
-        public string DeviceName { get; set; }
+        public string Name { get; set; }
 
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
-        [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string Username { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string Password { get; set; }
+        public string Location { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string EncryptedKey { get; set; }
+        [ValidateSet("Edge", "Gateway")]
+        public string Sku { get; set; }
 
         public bool NotNullOrEmpty(string val)
         {
@@ -63,24 +60,18 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 
         public override void ExecuteCmdlet()
         {
-            AsymmetricEncryptedSecret encryptedSecret =
-                DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
-                    this.DeviceName,
-                    this.ResourceGroupName,
-                    this.Password,
-                    this.EncryptedKey
-                );
-                var results = new List<PSDataBoxEdgeUser>();
-            var user = new PSDataBoxEdgeUser(
-                UsersOperationsExtensions.CreateOrUpdate(
-                    this.DataBoxEdgeManagementClient.Users,
-                    this.DeviceName,
-                    this.Username,
-                    this.ResourceGroupName,
-                    encryptedSecret
-                ));
-            results.Add(user);
-
+            DataBoxEdgeDevice dbe = new DataBoxEdgeDevice();
+            dbe.Sku = new Sku(this.Sku);
+            dbe.Location = this.Location;
+            var results = new List<PSDataBoxEdgeDevice>();
+            var device = new PSDataBoxEdgeDevice(
+                DevicesOperationsExtensions.CreateOrUpdate(
+                    this.DataBoxEdgeManagementClient.Devices,
+                    this.Name,
+                    dbe,
+                    this.ResourceGroupName));
+            results.Add(device);
+            
             WriteObject(results, true);
         }
     }

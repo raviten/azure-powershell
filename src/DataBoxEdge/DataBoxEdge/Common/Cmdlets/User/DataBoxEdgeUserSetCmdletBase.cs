@@ -23,34 +23,33 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
-    [Cmdlet(VerbsCommon.New, Constants.User, DefaultParameterSetName = NewParameterSet
-     ),
+    [Cmdlet(VerbsCommon.Set, Constants.User, DefaultParameterSetName = SetParameterSet),
      OutputType(typeof(PSDataBoxEdgeDevice))]
-    public class DataBoxEdgeUserNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgeUserSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string NewParameterSet = "NewParameterSet";
+        private const string SetParameterSet = "SetParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Username { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Password { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string EncryptedKey { get; set; }
@@ -70,6 +69,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                     this.Password,
                     this.EncryptedKey
                 );
+                WriteVerbose(encryptedSecret.Value);
                 var results = new List<PSDataBoxEdgeUser>();
             var user = new PSDataBoxEdgeUser(
                 UsersOperationsExtensions.CreateOrUpdate(

@@ -23,10 +23,9 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
-    [Cmdlet(VerbsCommon.New, Constants.User, DefaultParameterSetName = NewParameterSet
-     ),
-     OutputType(typeof(PSDataBoxEdgeDevice))]
-    public class DataBoxEdgeUserNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    [Cmdlet(VerbsCommon.New, Constants.Sac, DefaultParameterSetName = NewParameterSet),
+     OutputType(typeof(PSStorageAccountCredential))]
+    public class StorageAccountCredentialNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
 
@@ -39,25 +38,55 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [ValidateNotNullOrEmpty]
+        [ResourceGroupCompleter]
+        public string StorageAccountName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string Username { get; set; }
+        public string Name { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string Password { get; set; }
+        public string StorageAccountType { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string EncryptedKey { get; set; }
+        public string StorageAccountSSLStatus { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [ValidateNotNullOrEmpty]
+        [ResourceGroupCompleter]
+        public string StorageAccountAccessKey { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [ValidateNotNullOrEmpty]
+        [ResourceGroupCompleter]
+        public string EncryptionKey { get; set; }
 
         public bool NotNullOrEmpty(string val)
         {
             return !string.IsNullOrEmpty(val);
+        }
+
+        private StorageAccountCredential initSACObject(
+            string name,
+            string storageAccountName,
+            string accountType,
+            string sslStatus,
+            AsymmetricEncryptedSecret secret)
+        {
+            StorageAccountCredential sac = new StorageAccountCredential(
+                name,
+                sslStatus,
+                accountType,
+                userName: storageAccountName,
+                accountKey: secret);
+            return sac;
         }
 
 
@@ -67,17 +96,24 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
-                    this.Password,
-                    this.EncryptedKey
+                    this.StorageAccountAccessKey,
+                    this.EncryptionKey
                 );
-                var results = new List<PSDataBoxEdgeUser>();
-            var user = new PSDataBoxEdgeUser(
-                UsersOperationsExtensions.CreateOrUpdate(
-                    this.DataBoxEdgeManagementClient.Users,
+            StorageAccountCredential sac = new StorageAccountCredential();
+            var results = new List<PSStorageAccountCredential>();
+            var user = new PSStorageAccountCredential(
+                StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
+                    this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                     this.DeviceName,
-                    this.Username,
-                    this.ResourceGroupName,
-                    encryptedSecret
+                    this.Name,
+                    this.initSACObject(
+                        name: this.Name,
+                        storageAccountName: this.StorageAccountName,
+                        accountType: this.StorageAccountType,
+                        sslStatus: this.StorageAccountSSLStatus,
+                        secret: encryptedSecret
+                    ),
+                    this.ResourceGroupName
                 ));
             results.Add(user);
 

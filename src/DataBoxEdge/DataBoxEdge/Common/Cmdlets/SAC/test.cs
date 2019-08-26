@@ -23,38 +23,37 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
-    [Cmdlet(VerbsCommon.New, Constants.User, DefaultParameterSetName = NewParameterSet
-     ),
-     OutputType(typeof(PSDataBoxEdgeDevice))]
-    public class DataBoxEdgeUserNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    [Cmdlet(VerbsCommon.Get, Constants.Test, DefaultParameterSetName = NewParameterSet),
+     OutputType(typeof(PSStorageAccountCredential))]
+    public class TestCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
+        private const string SMBParameterSet = "SMBParameterSet";
+        private const string NFSParameterSet = "NFSParameterSet";
 
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = NFSParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string DeviceName { get; set; }
+        [Parameter(Mandatory = false, HelpMessage = "Collect notice log type.", ParameterSetName = SMBParameterSet)]
+        public SwitchParameter SMB { get; set; }
 
-
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Username { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = false, ParameterSetName = NFSParameterSet,
+            HelpMessage = "Collect notice log type.")]
+        public SwitchParameter NFS { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = NFSParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string Password { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
-        [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string EncryptedKey { get; set; }
-
+        public string ClientId { get; set; }
         public bool NotNullOrEmpty(string val)
         {
             return !string.IsNullOrEmpty(val);
@@ -63,25 +62,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 
         public override void ExecuteCmdlet()
         {
-            AsymmetricEncryptedSecret encryptedSecret =
-                DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
-                    this.DeviceName,
-                    this.ResourceGroupName,
-                    this.Password,
-                    this.EncryptedKey
-                );
-                var results = new List<PSDataBoxEdgeUser>();
-            var user = new PSDataBoxEdgeUser(
-                UsersOperationsExtensions.CreateOrUpdate(
-                    this.DataBoxEdgeManagementClient.Users,
-                    this.DeviceName,
-                    this.Username,
-                    this.ResourceGroupName,
-                    encryptedSecret
-                ));
-            results.Add(user);
-
-            WriteObject(results, true);
+            WriteVerbose("NFS.IsPresent" + NFS.IsPresent);
         }
     }
 }

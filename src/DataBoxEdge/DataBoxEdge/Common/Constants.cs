@@ -15,6 +15,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         public const string Device = AzurePrefix + SERVICE_NAME + "Device";
         public const string ExtendedInfo = AzurePrefix + SERVICE_NAME + "Device" + "ExtendedInfo";
         public const string User = AzurePrefix + SERVICE_NAME + "User";
+        public const string Sac = AzurePrefix + SERVICE_NAME + "SAC";
+        public const string Share = AzurePrefix + SERVICE_NAME + "Share";
+        public const string Test = AzurePrefix + SERVICE_NAME + "Test";
 
 
         //Job Comands
