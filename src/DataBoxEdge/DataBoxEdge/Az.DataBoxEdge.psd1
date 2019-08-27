@@ -77,11 +77,12 @@ FunctionsToExport = @()
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = 'Get-AzDataBoxEdgeJob', 
-				  'Get-AzDataBoxEdgeDevice', 'New-AzDataBoxEdgeDevice', 'Set-AzDataBoxEdgeDevice',
-				  'Get-AzDataBoxEdgeDeviceExtendedInfo', 
-				  'Get-AzDataBoxEdgeUser', 'New-AzDataBoxEdgeUser','Set-AzDataBoxEdgeUser',
-				  'Get-AzDataBoxEdgeSAC', 'New-AzDataBoxEdgeSAC',
-				  'Get-AzDataBoxEdgeShare', 'New-AzDataBoxEdgeShare',
+				  'Get-AzDataBoxEdgeDevice', 'New-AzDataBoxEdgeDevice', 'Set-AzDataBoxEdgeDevice', 'Remove-AzDataBoxEdgeDevice',
+				  'Get-AzDataBoxEdgeDeviceExtendedInfo',
+				  'Get-AzDataBoxEdgeUser', 'New-AzDataBoxEdgeUser','Set-AzDataBoxEdgeUser','Remove-AzDataBoxEdgeUser',
+				  'Get-AzDataBoxEdgeSAC', 'New-AzDataBoxEdgeSAC', 'Set-AzDataBoxEdgeSAC','Remove-AzDataBoxEdgeSAC',
+				  'Get-AzDataBoxEdgeShare', 'New-AzDataBoxEdgeShare', 'Set-AzDataBoxEdgeShare', 'Remove-AzDataBoxEdgeShare',
+				  'Get-AzDataBoxEdgeBandwidthSchedule', 'Set-AzDataBoxEdgeBandwidthSchedule', 'New-AzDataBoxEdgeBandwidthSchedule', 'Remove-AzDataBoxEdgeBandwidthSchedule',
 				  'Get-AzDataBoxEdgeTest'
 # Variables to export from this module
 # VariablesToExport = @()
