@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
     [Cmdlet(VerbsCommon.New, Constants.Share, DefaultParameterSetName = NewParameterSet),
      OutputType(typeof(PSDataBoxEdgeShare))]
-    public class DataBoxEdgeShareNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgebandWidthNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
         private const string NFSParameterSet = "NFSParameterSet";
