@@ -32,66 +32,66 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         private const string SMBParameterSet = "SMBParameterSet";
 
         [Parameter(Mandatory = true, 
-            HelpMessage = "By Default it creates SMB share in the provided ResourceGroupName", 
+            HelpMessage = "Share will be created under this ResourceGroupName", 
             ParameterSetName = NewParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Creates SMB share by passing -SMB for this ResourceGroup", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Creates NFS share by passing -NFS for this ResourceGroup", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName", ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with resource name as DeviceName", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with resource name as DeviceName", ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
 
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = SMBParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide existing StorageAccountCredential's Resource Name", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide existing StorageAccountCredential's Resource Name", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide existing StorageAccountCredential's Resource Name", ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string SACName { get; set; }
 
 
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = SMBParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Set for NFS Share access types", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share access types", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Defaults to SMB Share Access type", ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Set for SMB Share types", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = false, HelpMessage = "Set Share access type as SMB", ParameterSetName = SMBParameterSet)]
         public SwitchParameter SMB { get; set; }
 
 
-        [Parameter(Mandatory = true, HelpMessage = "Username for SMB Share types", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "provide an existing username for SMB Share types", ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Username { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Collect notice log type.", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide user access right for the Username", ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string UserAccessRight { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Collect notice log type.", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = false, HelpMessage = "Set Share access type as NFS", ParameterSetName = NFSParameterSet)]
         public SwitchParameter NFS { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Collect notice log type.", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide ClientId for the NFS", ParameterSetName = NFSParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ClientId { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Collect notice log type.", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide Read/Write Access for clientId", ParameterSetName = NFSParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ClientAccessRight { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Set for SMB Share types", ParameterSetName = NewParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Collect notice log type.", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Collect notice log type.", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Set Data Format ex: PageBlob, BlobBlob", ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Set Data Format ex: PageBlob, BlobBlob", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Set Data Format ex: PageBlob, BlobBlob", ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string DataFormat { get; set; }
