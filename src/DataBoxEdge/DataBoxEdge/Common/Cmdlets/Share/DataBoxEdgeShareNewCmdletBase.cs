@@ -41,8 +41,8 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with resource name as DeviceName", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with resource name as DeviceName", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with Resource name as DeviceName", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with Resource name as DeviceName", ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 

@@ -167,7 +167,7 @@ Accept wildcard characters: False
 ```
 
 ### -SACName
-Provide existing StorageAccessCredential's Resource Name
+Provide existing StorageAccountCredential's Resource Name
 
 ```yaml
 Type: System.String
