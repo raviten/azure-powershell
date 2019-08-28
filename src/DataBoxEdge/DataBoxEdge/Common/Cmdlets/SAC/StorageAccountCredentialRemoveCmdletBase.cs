@@ -23,37 +23,31 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
-    [Cmdlet(VerbsCommon.Get, Constants.Test, DefaultParameterSetName = NewParameterSet),
+    [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = RemoveParameterSet),
      OutputType(typeof(PSStorageAccountCredential))]
-    public class TestCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class StorageAccountCredentialRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string NewParameterSet = "NewParameterSet";
-        private const string SMBParameterSet = "SMBParameterSet";
-        private const string NFSParameterSet = "NFSParameterSet";
+        private const string RemoveParameterSet = "RemoveParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = SMBParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = RemoveParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Collect notice log type.", ParameterSetName = SMBParameterSet)]
-        public SwitchParameter SMB { get; set; }
+        [Parameter(Mandatory = true, ParameterSetName = RemoveParameterSet)]
+        [ValidateNotNullOrEmpty]
+        public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = RemoveParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string Username { get; set; }
+        public string StorageAccountName { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = NFSParameterSet,
-            HelpMessage = "Collect notice log type.")]
-        public SwitchParameter NFS { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = RemoveParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string ClientId { get; set; }
+        public string Name { get; set; }
+
 
         public bool NotNullOrEmpty(string val)
         {
@@ -63,7 +57,12 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 
         public override void ExecuteCmdlet()
         {
-            WriteVerbose("NFS.IsPresent" + NFS.IsPresent);
+            StorageAccountCredentialsOperationsExtensions.Delete(
+                this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName
+            );
             WriteObject(true);
         }
     }
