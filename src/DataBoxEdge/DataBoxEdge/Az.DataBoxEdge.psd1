@@ -80,9 +80,10 @@ CmdletsToExport = 'Get-AzDataBoxEdgeJob',
 				  'Get-AzDataBoxEdgeDevice', 'New-AzDataBoxEdgeDevice', 'Set-AzDataBoxEdgeDevice', 'Remove-AzDataBoxEdgeDevice',
 				  'Get-AzDataBoxEdgeDeviceExtendedInfo',
 				  'Get-AzDataBoxEdgeUser', 'New-AzDataBoxEdgeUser','Set-AzDataBoxEdgeUser','Remove-AzDataBoxEdgeUser',
-				  'Get-AzDataBoxEdgeSAC', 'New-AzDataBoxEdgeSAC', 'Set-AzDataBoxEdgeSAC','Remove-AzDataBoxEdgeSAC',
+				  'Get-AzDataBoxEdgeStorageAccountCredential', 'New-AzDataBoxEdgeStorageAccountCredential', 'Set-AzDataBoxEdgeStorageAccountCredential','Remove-AzDataBoxEdgeStorageAccountCredential',
 				  'Get-AzDataBoxEdgeShare', 'New-AzDataBoxEdgeShare', 'Set-AzDataBoxEdgeShare', 'Remove-AzDataBoxEdgeShare',
 				  'Get-AzDataBoxEdgeBandwidthSchedule', 'Set-AzDataBoxEdgeBandwidthSchedule', 'New-AzDataBoxEdgeBandwidthSchedule', 'Remove-AzDataBoxEdgeBandwidthSchedule',
+				  'Get-AzDataBoxEdgeRole', 'New-AzDataBoxEdgeRole', 'Remove-AzDataBoxEdgeRole',
 				  'Get-AzDataBoxEdgeTest'
 # Variables to export from this module
 # VariablesToExport = @()

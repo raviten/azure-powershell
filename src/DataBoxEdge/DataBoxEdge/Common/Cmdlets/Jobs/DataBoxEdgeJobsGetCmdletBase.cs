@@ -13,15 +13,11 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
-using Microsoft.Rest.Azure;
 using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
-using Job = Microsoft.Azure.Management.EdgeGateway.Models.Job;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
