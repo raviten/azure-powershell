@@ -52,12 +52,6 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         [ValidateSet("Edge", "Gateway")]
         public string Sku { get; set; }
 
-        public bool NotNullOrEmpty(string val)
-        {
-            return !string.IsNullOrEmpty(val);
-        }
-
-
         public override void ExecuteCmdlet()
         {
             DataBoxEdgeDevice dbe = new DataBoxEdgeDevice();
@@ -71,7 +65,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                     dbe,
                     this.ResourceGroupName));
             results.Add(device);
-            
+
             WriteObject(results, true);
         }
     }

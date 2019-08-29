@@ -12,17 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
     [Cmdlet(VerbsCommon.Get, Constants.Device, DefaultParameterSetName = ListParameterSet
      ),
@@ -32,9 +31,8 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceGroupNameParameterSet = "GetByResourceGroupNameParameterSet";
-        private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
 
-        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByResourceGroupNameParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
@@ -44,27 +42,10 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            ParameterSetName = GetByResourceIdParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string ResourceId { get; set; }
-
-        public bool NotNullOrEmpty(string val)
-        {
-            return !string.IsNullOrEmpty(val);
-        }
-
-
         public override void ExecuteCmdlet()
         {
-            if (this.ParameterSetName.Equals(GetByResourceIdParameterSet))
-            {
-                this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(ResourceId);
-                this.Name = ResourceIdHandler.GetResourceName(ResourceId);
-            }
-
             var results = new List<PSDataBoxEdgeDevice>();
-            if (NotNullOrEmpty(this.Name))
+            if (this.ParameterSetName.Equals(GetByNameParameterSet))
             {
                 results.Add(
                     new PSDataBoxEdgeDevice(
@@ -73,13 +54,13 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                             this.Name,
                             this.ResourceGroupName)));
             }
-            else if (!string.IsNullOrEmpty(this.ResourceGroupName))
+            else if (this.ParameterSetName.Equals(GetByResourceGroupNameParameterSet))
             {
                 var dataBoxEdgeDevices = DevicesOperationsExtensions.ListByResourceGroup(
                     this.DataBoxEdgeManagementClient.Devices,
                     this.ResourceGroupName);
                 var paginatedResult = new List<DataBoxEdgeDevice>(dataBoxEdgeDevices);
-                while (NotNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
+                while (!string.IsNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
                 {
                     dataBoxEdgeDevices = DevicesOperationsExtensions.ListByResourceGroupNext(
                         this.DataBoxEdgeManagementClient.Devices,
@@ -95,7 +76,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 var dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscription(
                     this.DataBoxEdgeManagementClient.Devices);
                 var paginatedResult = new List<DataBoxEdgeDevice>(dataBoxEdgeDevices);
-                while (NotNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
+                while (!string.IsNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
                 {
                     dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscriptionNext(
                         this.DataBoxEdgeManagementClient.Devices,

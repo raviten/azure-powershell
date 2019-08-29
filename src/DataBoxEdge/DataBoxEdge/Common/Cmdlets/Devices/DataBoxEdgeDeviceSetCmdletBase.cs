@@ -52,18 +52,16 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         [ValidateSet("Edge", "Gateway")]
         public string Sku { get; set; }
 
-        public bool NotNullOrEmpty(string val)
-        {
-            return !string.IsNullOrEmpty(val);
-        }
-
-
         public override void ExecuteCmdlet()
         {
-            DataBoxEdgeDevice dbe = new DataBoxEdgeDevice();
+            
+            var results = new List<PSDataBoxEdgeDevice>();
+            var dbe =  DevicesOperationsExtensions.Get(
+                    this.DataBoxEdgeManagementClient.Devices,
+                    this.Name,
+                    this.ResourceGroupName);
             dbe.Sku = new Sku(this.Sku);
             dbe.Location = this.Location;
-            var results = new List<PSDataBoxEdgeDevice>();
             var device = new PSDataBoxEdgeDevice(
                 DevicesOperationsExtensions.CreateOrUpdate(
                     this.DataBoxEdgeManagementClient.Devices,
@@ -71,7 +69,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                     dbe,
                     this.ResourceGroupName));
             results.Add(device);
-            
+
             WriteObject(results, true);
         }
     }
