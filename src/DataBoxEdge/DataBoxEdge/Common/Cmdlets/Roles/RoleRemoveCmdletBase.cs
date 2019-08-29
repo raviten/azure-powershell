@@ -13,66 +13,50 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 {
-    [Cmdlet(VerbsCommon.Get,
-         Constants.Job,
-         DefaultParameterSetName = GetByNameParameterSet
+    [Cmdlet(VerbsCommon.Remove, Constants.Role, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeJob))]
-    public class DataBoxEdgeJobsGetCmdletBase : AzureDataBoxEdgeCmdletBase
+     OutputType(typeof(PSStorageAccountCredential))]
+    public class RoleRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
+        private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
 
+        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
+        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+
+        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        public string ResourceId { get; set; }
-
-
         public override void ExecuteCmdlet()
         {
-            if (this.ParameterSetName.Equals(GetByNameParameterSet))
-            {
-                this.ResourceGroupName = ResourceGroupName;
-                this.DeviceName = DeviceName;
-                this.Name = Name;
-            }
-
-            List<PSDataBoxEdgeJob> results = new List<PSDataBoxEdgeJob>();
-            if (!string.IsNullOrEmpty(this.Name) &&
-                !string.IsNullOrEmpty(this.DeviceName) &&
-                !string.IsNullOrEmpty(this.ResourceGroupName))
-            {
-                results.Add(
-                    new PSDataBoxEdgeJob(
-                        JobsOperationsExtensions.Get(
-                            this.DataBoxEdgeManagementClient.Jobs,
-                            this.DeviceName,
-                            this.Name,
-                            this.ResourceGroupName
-                        )
-                    )
-                );
-            }
-
-            WriteObject(results, true);
+            var results = new List<PSRole>();
+            RolesOperationsExtensions.Delete(
+                this.DataBoxEdgeManagementClient.Roles,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+            WriteObject(true);
         }
     }
 }

@@ -665,7 +665,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential</maml:name>
+          <maml:name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSRole</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1040,7 +1040,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential</maml:name>
+          <maml:name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSRole</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1641,7 +1641,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential</maml:name>
+          <maml:name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSRole</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
