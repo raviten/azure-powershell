@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         public override void ExecuteCmdlet()
         {
             var results = new List<PSDataBoxEdgeBandWidthSchedule>();
-            if (NotNullOrEmpty(this.Name))
+            if (this.ParameterSetName.Equals(GetByNameParameterSet))
             {
                 results.Add(
                     new PSDataBoxEdgeBandWidthSchedule(
@@ -67,7 +67,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                             this.Name,
                             this.ResourceGroupName)));
             }
-            else if (!string.IsNullOrEmpty(this.ResourceGroupName))
+            else if (this.ParameterSetName.Equals(ListParameterSet))
             {
                 var bandwidthSchedules = BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDevice(
                     this.DataBoxEdgeManagementClient.BandwidthSchedules,

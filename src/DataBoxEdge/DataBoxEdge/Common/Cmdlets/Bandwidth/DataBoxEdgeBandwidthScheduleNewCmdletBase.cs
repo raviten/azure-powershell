@@ -13,11 +13,9 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
@@ -30,8 +28,6 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
     public class DataBoxEdgeBandwidthNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
-        private const string LimitParameterSet = "LimitParameterSet";
-        private const string BandwidthLimitParameterSet = "BandwidthLimitParameterSet";
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -82,17 +78,18 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 Bandwidth,
                 days,
                 null,
-                this.Name);
+                this.Name
+            );
 
-            
-                results.Add(
-                    new PSDataBoxEdgeBandWidthSchedule(
-                        BandwidthSchedulesOperationsExtensions.CreateOrUpdate(
-                            this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                            this.DeviceName,
-                            this.Name,
-                            scheduler,
-                            this.ResourceGroupName)));
+
+            results.Add(
+                new PSDataBoxEdgeBandWidthSchedule(
+                    BandwidthSchedulesOperationsExtensions.CreateOrUpdate(
+                        this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                        this.DeviceName,
+                        this.Name,
+                        scheduler,
+                        this.ResourceGroupName)));
 
             WriteObject(results, true);
         }

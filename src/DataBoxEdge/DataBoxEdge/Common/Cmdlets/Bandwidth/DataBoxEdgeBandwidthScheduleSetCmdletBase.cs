@@ -91,16 +91,12 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 bandwidthSchedule.Start = this.StartTime;
             }
 
-            if (NotNullOrEmpty(this.StartDay))
+            if (NotNullOrEmpty(this.StopTime))
             {
                 bandwidthSchedule.Stop = this.StopTime;
             }
 
-            if (this.Bandwidth > 0)
-            {
-                bandwidthSchedule.RateInMbps = Bandwidth;
-            }
-
+            bandwidthSchedule.RateInMbps = Bandwidth;
             results.Add(
                 new PSDataBoxEdgeBandWidthSchedule(
                     BandwidthSchedulesOperationsExtensions.CreateOrUpdate(
