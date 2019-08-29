@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.Common.Strategies;
@@ -114,11 +115,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string RoleStatus { get; set; }
-
-        public bool NotNullOrEmpty(string val)
-        {
-            return !string.IsNullOrEmpty(val);
-        }
+        
 
         public static string HostName = "HostName";
         public static string DeviceId = "DeviceId";
@@ -202,6 +199,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             {
                 ParseIotDeviceConnectionString();
                 ParseEdgeDeviceConnectionString();
+            }
+
+            if (!ConnectionString.IsPresent && !DeviceProperties.IsPresent)
+            {
+                throw new Exception(
+                    string.Format(
+                        "Please select one of -'{0}' or -'{1}'", nameof(this.ConnectionString), nameof(this.DeviceProperties)));
+
             }
 
             var iotDeviceSecret = DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(

@@ -12,17 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
     [Cmdlet(VerbsCommon.Get, Constants.Sac, DefaultParameterSetName = ListParameterSet
      ),
@@ -58,7 +56,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         public override void ExecuteCmdlet()
         {
             var results = new List<PSStorageAccountCredential>();
-            if (NotNullOrEmpty(this.Name))
+            if (this.ParameterSetName.Equals(GetByNameParameterSet))
             {
                 results.Add(
                     new PSStorageAccountCredential(
@@ -68,13 +66,13 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                             this.Name,
                             this.ResourceGroupName)));
             }
-            else if (!string.IsNullOrEmpty(this.ResourceGroupName))
+            else
             {
                 var storageAccountCredentials = StorageAccountCredentialsOperationsExtensions.ListByDataBoxEdgeDevice(
                     this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                     this.DeviceName,
                     this.ResourceGroupName);
-                var paginatedResult = new List<StorageAccountCredential>(storageAccountCredentials);
+                var paginatedResult = new List<Management.EdgeGateway.Models.StorageAccountCredential>(storageAccountCredentials);
                 while (NotNullOrEmpty(storageAccountCredentials.NextPageLink))
                 {
                     storageAccountCredentials =
@@ -85,11 +83,6 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 }
 
                 results = paginatedResult.Select(t => new PSStorageAccountCredential(t)).ToList();
-            }
-
-            foreach (var result in results)
-            {
-                WriteVerbose(result.Id);
             }
             WriteObject(results, true);
         }

@@ -12,58 +12,57 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
-    [Cmdlet(VerbsCommon.New, Constants.Sac, DefaultParameterSetName = NewParameterSet),
+    [Cmdlet(VerbsCommon.Set, Constants.Sac, DefaultParameterSetName = SetParameterSet),
      OutputType(typeof(PSStorageAccountCredential))]
-    public class StorageAccountCredentialNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class StorageAccountCredentialSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string NewParameterSet = "NewParameterSet";
+        private const string SetParameterSet = "SetParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string StorageAccountName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string StorageAccountType { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string StorageAccountSSLStatus { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string StorageAccountAccessKey { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string EncryptionKey { get; set; }
@@ -73,14 +72,14 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
             return !string.IsNullOrEmpty(val);
         }
 
-        private StorageAccountCredential initSACObject(
+        private Management.EdgeGateway.Models.StorageAccountCredential initSACObject(
             string name,
             string storageAccountName,
             string accountType,
             string sslStatus,
             AsymmetricEncryptedSecret secret)
         {
-            StorageAccountCredential sac = new StorageAccountCredential(
+            Management.EdgeGateway.Models.StorageAccountCredential sac = new Management.EdgeGateway.Models.StorageAccountCredential(
                 name,
                 sslStatus,
                 accountType,
@@ -99,7 +98,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                     this.StorageAccountAccessKey,
                     this.EncryptionKey
                 );
-            StorageAccountCredential sac = new StorageAccountCredential();
+            Management.EdgeGateway.Models.StorageAccountCredential sac = new Management.EdgeGateway.Models.StorageAccountCredential();
             var results = new List<PSStorageAccountCredential>();
             var user = new PSStorageAccountCredential(
                 StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(

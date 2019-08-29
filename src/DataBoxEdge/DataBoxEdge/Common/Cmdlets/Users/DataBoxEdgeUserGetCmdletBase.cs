@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         public override void ExecuteCmdlet()
         {
             var results = new List<PSDataBoxEdgeUser>();
-            if (NotNullOrEmpty(this.Name))
+            if (this.ParameterSetName.Equals(GetByNameParameterSet))
             {
                 results.Add(
                     new PSDataBoxEdgeUser(
@@ -67,7 +67,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                             this.Name,
                             this.ResourceGroupName)));
             }
-            else if (!string.IsNullOrEmpty(this.ResourceGroupName))
+            else if (this.ParameterSetName.Equals(ListParameterSet))
             {
                 var users = UsersOperationsExtensions.ListByDataBoxEdgeDevice(
                     this.DataBoxEdgeManagementClient.Users,

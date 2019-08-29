@@ -12,17 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.Get, Constants.Share, DefaultParameterSetName = ListParameterSet
      ),
@@ -73,7 +71,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                     this.DataBoxEdgeManagementClient.Shares,
                     this.DeviceName,
                     this.ResourceGroupName);
-                var paginatedResult = new List<Share>(shares);
+                var paginatedResult = new List<Management.EdgeGateway.Models.Share>(shares);
                 while (NotNullOrEmpty(shares.NextPageLink))
                 {
                     shares = SharesOperationsExtensions.ListByDataBoxEdgeDeviceNext(

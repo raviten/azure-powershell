@@ -12,16 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
     [Cmdlet(VerbsCommon.New, Constants.User, DefaultParameterSetName = NewParameterSet
      ),

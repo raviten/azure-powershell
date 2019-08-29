@@ -13,15 +13,15 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.New, Constants.Share, DefaultParameterSetName = NewParameterSet),
      OutputType(typeof(PSDataBoxEdgeShare))]
@@ -121,10 +121,10 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         public string DataFormat { get; set; }
 
 
-        private Share initShareObject(
+        private Management.EdgeGateway.Models.Share initShareObject(
             string accessProtocol)
         {
-            return new Share("Online",
+            return new Management.EdgeGateway.Models.Share("Online",
                 "Enabled",
                 accessProtocol,
                 dataPolicy: "Cloud");
@@ -138,7 +138,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 this.DeviceName,
                 this.SACName,
                 this.ResourceGroupName);
-            Share share = null;
+            Management.EdgeGateway.Models.Share share = null;
             if (SetClient.IsPresent)
             {
                 if (this.AccessProtocol != null && this.AccessProtocol == "SMB")
