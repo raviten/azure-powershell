@@ -5,23 +5,18 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-AzDataBoxEdgeSAC
+# Set-AzDataBoxEdgeStorageAccountCredential
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeSAC -ResourceGroupName <String> [-Name <String>] -DeviceName <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
-```
-
-### GetByNameParameterSet
-```
-Get-AzDataBoxEdgeSAC -ResourceGroupName <String> -Name <String> -DeviceName <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Set-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName <String> -DeviceName <String>
+ -StorageAccountName <String> -Name <String> -StorageAccountType <String> -StorageAccountSSLStatus <String>
+ -StorageAccountAccessKey <String> -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,7 +37,7 @@ PS C:\> {{ Add example code here }}
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -57,7 +52,22 @@ Accept wildcard characters: False
 {{ Fill DeviceName Description }}
 
 ```yaml
-Type: System.String
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EncryptionKey
+{{ Fill EncryptionKey Description }}
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -72,20 +82,8 @@ Accept wildcard characters: False
 {{ Fill Name Description }}
 
 ```yaml
-Type: System.String
-Parameter Sets: ListParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: System.String
-Parameter Sets: GetByNameParameterSet
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -99,7 +97,67 @@ Accept wildcard characters: False
 {{ Fill ResourceGroupName Description }}
 
 ```yaml
-Type: System.String
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountAccessKey
+{{ Fill StorageAccountAccessKey Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountName
+{{ Fill StorageAccountName Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountSSLStatus
+{{ Fill StorageAccountSSLStatus Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountType
+{{ Fill StorageAccountType Description }}
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 

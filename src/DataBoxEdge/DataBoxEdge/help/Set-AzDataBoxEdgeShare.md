@@ -5,16 +5,29 @@ online version:
 schema: 2.0.0
 ---
 
-# New-AzDataBoxEdgeDevice
+# Set-AzDataBoxEdgeShare
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
 
 ## SYNTAX
 
+### SetParameterSet (Default)
 ```
-New-AzDataBoxEdgeDevice -ResourceGroupName <String> -Name <String> -Location <String> -Sku <String>
+Set-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -Name <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### NFSParameterSet
+```
+Set-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -Name <String> -ClientId <String>
+ -ClientAccessRight <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### SMBParameterSet
+```
+Set-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -Name <String> -Username <String>
+ -UserAccessRight <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,6 +44,36 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
+### -ClientAccessRight
+Provide Read/Write Access for clientId
+
+```yaml
+Type: String
+Parameter Sets: NFSParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClientId
+Provide ClientId for the NFS
+
+```yaml
+Type: String
+Parameter Sets: NFSParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
@@ -46,8 +89,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Location
-{{ Fill Location Description }}
+### -DeviceName
+{{ Fill DeviceName Description }}
 
 ```yaml
 Type: String
@@ -62,7 +105,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Get Share with Resource name as Name
 
 ```yaml
 Type: String
@@ -77,7 +120,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Share will be created under this ResourceGroupName
 
 ```yaml
 Type: String
@@ -91,14 +134,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Sku
-{{ Fill Sku Description }}
+### -UserAccessRight
+Provide user access right for the Username
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: SMBParameterSet
 Aliases:
-Accepted values: Edge, Gateway
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Username
+provide an existing Username for SMB Share types
+
+```yaml
+Type: String
+Parameter Sets: SMBParameterSet
+Aliases:
 
 Required: True
 Position: Named
@@ -116,7 +173,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare
 
 ## NOTES
 

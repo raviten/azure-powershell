@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# New-AzDataBoxEdgeDevice
+# New-AzDataBoxEdgeStorageAccountCredential
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,8 +13,10 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-AzDataBoxEdgeDevice -ResourceGroupName <String> -Name <String> -Location <String> -Sku <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+New-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName <String> -DeviceName <String>
+ -StorageAccountName <String> -Name <String> -StorageAccountType <String> -StorageAccountSSLStatus <String>
+ -StorageAccountAccessKey <String> -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,8 +48,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Location
-{{ Fill Location Description }}
+### -DeviceName
+{{ Fill DeviceName Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EncryptionKey
+{{ Fill EncryptionKey Description }}
 
 ```yaml
 Type: String
@@ -91,14 +108,58 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Sku
-{{ Fill Sku Description }}
+### -StorageAccountAccessKey
+{{ Fill StorageAccountAccessKey Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: Edge, Gateway
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountName
+{{ Fill StorageAccountName Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountSSLStatus
+{{ Fill StorageAccountSSLStatus Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountType
+{{ Fill StorageAccountType Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: True
 Position: Named
@@ -116,7 +177,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential
 
 ## NOTES
 

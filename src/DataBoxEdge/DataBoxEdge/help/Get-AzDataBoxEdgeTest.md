@@ -48,7 +48,7 @@ PS C:\> {{ Add example code here }}
 {{ Fill ClientId Description }}
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: NFSParameterSet
 Aliases:
 
@@ -63,7 +63,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 Collect notice log type.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: NFSParameterSet
 Aliases:
 
@@ -93,7 +93,7 @@ Accept wildcard characters: False
 {{ Fill ResourceGroupName Description }}
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -108,7 +108,7 @@ Accept wildcard characters: False
 Collect notice log type.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: SMBParameterSet
 Aliases:
 
@@ -123,7 +123,7 @@ Accept wildcard characters: False
 {{ Fill Username Description }}
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: SMBParameterSet
 Aliases:
 

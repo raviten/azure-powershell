@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# New-AzDataBoxEdgeSAC
+# Remove-AzDataBoxEdgeStorageAccountCredential
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,10 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-AzDataBoxEdgeSAC -ResourceGroupName <String> -DeviceName <String> -StorageAccountName <String>
- -Name <String> -StorageAccountType <String> -StorageAccountSSLStatus <String>
- -StorageAccountAccessKey <String> -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
+Remove-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName <String> -DeviceName <String> -Name <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +35,7 @@ PS C:\> {{ Add example code here }}
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -52,22 +50,7 @@ Accept wildcard characters: False
 {{ Fill DeviceName Description }}
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -EncryptionKey
-{{ Fill EncryptionKey Description }}
-
-```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -82,7 +65,7 @@ Accept wildcard characters: False
 {{ Fill Name Description }}
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -97,67 +80,7 @@ Accept wildcard characters: False
 {{ Fill ResourceGroupName Description }}
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StorageAccountAccessKey
-{{ Fill StorageAccountAccessKey Description }}
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StorageAccountName
-{{ Fill StorageAccountName Description }}
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StorageAccountSSLStatus
-{{ Fill StorageAccountSSLStatus Description }}
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StorageAccountType
-{{ Fill StorageAccountType Description }}
-
-```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 

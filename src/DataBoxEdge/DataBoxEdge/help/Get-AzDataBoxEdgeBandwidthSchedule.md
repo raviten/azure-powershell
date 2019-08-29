@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-AzDataBoxEdgeDevice
+# Get-AzDataBoxEdgeBandwidthSchedule
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -14,19 +14,14 @@ schema: 2.0.0
 
 ### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeDevice [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -DeviceName <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
-Get-AzDataBoxEdgeDevice -ResourceGroupName <String> -Name <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
-```
-
-### GetByResourceGroupNameParameterSet
-```
-Get-AzDataBoxEdgeDevice -ResourceGroupName <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
+Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,7 +42,7 @@ PS C:\> {{ Add example code here }}
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -58,11 +53,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DeviceName
+{{ Fill DeviceName Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
 {{ Fill Name Description }}
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: GetByNameParameterSet
 Aliases:
 
@@ -77,8 +87,8 @@ Accept wildcard characters: False
 {{ Fill ResourceGroupName Description }}
 
 ```yaml
-Type: System.String
-Parameter Sets: GetByNameParameterSet, GetByResourceGroupNameParameterSet
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -97,7 +107,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
 
 ## NOTES
 

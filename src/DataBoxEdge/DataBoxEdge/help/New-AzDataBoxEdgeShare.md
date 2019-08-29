@@ -12,24 +12,10 @@ schema: 2.0.0
 
 ## SYNTAX
 
-### NewParameterSet (Default)
 ```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -SACName <String> -Name <String>
- -DataFormat <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
-```
-
-### NFSParameterSet
-```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -SACName <String> -Name <String> [-NFS]
- -ClientId <String> -ClientAccessRight <String> -DataFormat <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
-```
-
-### SMBParameterSet
-```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -SACName <String> -Name <String> [-SMB]
- -Username <String> -UserAccessRight <String> -DataFormat <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
+New-AzDataBoxEdgeShare -ResourceGroupName <String> -Name <String> -DeviceName <String> -StartTime <String>
+ -StopTime <String> -StartDay <String> -StopDay <String> -Bandwidth <Int32>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,41 +32,11 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -ClientAccessRight
-Provide Read/Write Access for clientId
+### -Bandwidth
+{{ Fill Bandwidth Description }}
 
 ```yaml
-Type: System.String
-Parameter Sets: NFSParameterSet
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ClientId
-Provide ClientId for the NFS
-
-```yaml
-Type: System.String
-Parameter Sets: NFSParameterSet
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DataFormat
-Set Data Format ex: PageBlob, BlobBlob
-
-```yaml
-Type: System.String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -95,7 +51,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -110,7 +66,7 @@ Accept wildcard characters: False
 {{ Fill DeviceName Description }}
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -122,29 +78,14 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Set for NFS Share access types
+Creates a share with Name with Share Access protocol as NFS and
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NFS
-Set Share access type as NFS
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: NFSParameterSet
-Aliases:
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -155,7 +96,7 @@ Accept wildcard characters: False
 Share will be created under this ResourceGroupName
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -166,11 +107,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SACName
-Provide existing StorageAccountCredential's Resource Name
+### -StartDay
+{{ Fill StartDay Description }}
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -181,27 +122,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SMB
-Set Share access type as SMB
+### -StartTime
+{{ Fill StartTime Description }}
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: SMBParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UserAccessRight
-Provide user access right for the Username
-
-```yaml
-Type: System.String
-Parameter Sets: SMBParameterSet
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -211,12 +137,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Username
-provide an existing username for SMB Share types
+### -StopDay
+{{ Fill StopDay Description }}
 
 ```yaml
-Type: System.String
-Parameter Sets: SMBParameterSet
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StopTime
+{{ Fill StopTime Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: True
