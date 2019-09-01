@@ -45,7 +45,7 @@ PS C:\> {{ Add example code here }}
 Use this to Provide Connection Strings
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: ConnectionStringParameterSet
 Aliases:
 
@@ -60,7 +60,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -75,7 +75,7 @@ Accept wildcard characters: False
 {{ Fill DeviceName Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -90,7 +90,7 @@ Accept wildcard characters: False
 Use this to Provide Device Properties
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: IOTParameterSet
 Aliases:
 
@@ -105,7 +105,7 @@ Accept wildcard characters: False
 {{ Fill EncryptionKey Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -120,7 +120,7 @@ Accept wildcard characters: False
 {{ Fill IOTDeviceAccessKey Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: IOTParameterSet
 Aliases:
 
@@ -135,7 +135,7 @@ Accept wildcard characters: False
 {{ Fill IOTDeviceConnectionString Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ConnectionStringParameterSet
 Aliases:
 
@@ -150,7 +150,7 @@ Accept wildcard characters: False
 {{ Fill IOTDeviceId Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: IOTParameterSet
 Aliases:
 
@@ -165,7 +165,7 @@ Accept wildcard characters: False
 {{ Fill IOTEdgeDeviceAccessKey Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: IOTParameterSet
 Aliases:
 
@@ -180,7 +180,7 @@ Accept wildcard characters: False
 {{ Fill IOTEdgeDeviceConnectionString Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ConnectionStringParameterSet
 Aliases:
 
@@ -195,7 +195,7 @@ Accept wildcard characters: False
 {{ Fill IOTEdgeDeviceId Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: IOTParameterSet
 Aliases:
 
@@ -210,7 +210,7 @@ Accept wildcard characters: False
 {{ Fill IOTHostHub Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: IOTParameterSet
 Aliases:
 
@@ -225,7 +225,7 @@ Accept wildcard characters: False
 {{ Fill Name Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -240,7 +240,7 @@ Accept wildcard characters: False
 {{ Fill Platform Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -255,7 +255,7 @@ Accept wildcard characters: False
 {{ Fill ResourceGroupName Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -270,7 +270,7 @@ Accept wildcard characters: False
 {{ Fill RoleStatus Description }}
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 

@@ -5,28 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-AzDataBoxEdgeTest
+# Remove-AzDataBoxEdgeBandwidthSchedule
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### NewParameterSet (Default)
 ```
-Get-AzDataBoxEdgeTest -ResourceGroupName <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
-```
-
-### SMBParameterSet
-```
-Get-AzDataBoxEdgeTest -ResourceGroupName <String> [-SMB] -Username <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
-```
-
-### NFSParameterSet
-```
-Get-AzDataBoxEdgeTest -ResourceGroupName <String> [-NFS] -ClientId <String>
+Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -44,26 +31,11 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -ClientId
-{{ Fill ClientId Description }}
-
-```yaml
-Type: String
-Parameter Sets: NFSParameterSet
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -74,26 +46,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NFS
-Collect notice log type.
+### -DeviceName
+{{ Fill DeviceName Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: NFSParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
-
-```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -104,27 +61,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SMB
-Collect notice log type.
+### -Name
+{{ Fill Name Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: SMBParameterSet
+Type: System.String
+Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Username
-{{ Fill Username Description }}
+### -ResourceGroupName
+{{ Fill ResourceGroupName Description }}
 
 ```yaml
-Type: String
-Parameter Sets: SMBParameterSet
+Type: System.String
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -143,7 +100,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
 
 ## NOTES
 
