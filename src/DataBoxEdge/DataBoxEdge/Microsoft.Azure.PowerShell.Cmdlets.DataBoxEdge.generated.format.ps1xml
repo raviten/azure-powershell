@@ -14,7 +14,15 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>ResourceGroup</Label>
+            <Label>DataBoxEdgeDevice.DataBoxEdgeDeviceStatus</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>DataBoxEdgeDevice.DeviceType</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>DataBoxEdgeDevice.Location</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -22,16 +30,28 @@
             <TableColumnItems>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <ScriptBlock>$_.dataBoxEdgeDevice.Name</ScriptBlock>
+                <PropertyName>Name</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <PropertyName>ResourceGroup</PropertyName>
+                <ScriptBlock>$_.dataBoxEdgeDevice.DataBoxEdgeDeviceStatus</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.dataBoxEdgeDevice.DeviceType</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.dataBoxEdgeDevice.Location</ScriptBlock>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
       </TableControl>
+      <GroupBy>
+        <PropertyName>ResourceGroupName</PropertyName>
+        <Label>ResourceGroupName</Label>
+      </GroupBy>
     </View>
     <View>
       <Name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential</Name>

@@ -10,11 +10,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeJob
     {
-        [Ps1Xml(Label = "DataBoxEdgeDevice.Name", Target = ViewControl.Table, ScriptBlock = "$_.job.Name")]
+        [Ps1Xml(Label = "Job.Name", Target = ViewControl.Table, ScriptBlock = "$_.job.Name")]
         public Job Job;
-
-        [Ps1Xml(Label = "ResourceGroup", Target = ViewControl.Table)]
-        public string ResourceGroup;
 
         public string Id;
         public string Name;
@@ -26,13 +23,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 
         public PSDataBoxEdgeJob(Job job)
         {
-            if (job == null)
-            {
-                throw new ArgumentNullException("job");
-            }
-
-            this.Job = job;
-            this.ResourceGroup = ResourceIdHandler.GetResourceGroupName(job.Id);
+            this.Job = job ?? throw new ArgumentNullException("job");
             this.Name = job.Name;
             this.Id = job.Id;
         }

@@ -35,10 +35,10 @@ If you specify the Name of the Schedule along with the resource group name and D
 ```powershell
 PS C:\>Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupname resource-group-name -DeviceName device-name
 
-BandwidthSchedule.Name                        BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime BandwidthSchedule.Days 
-----------------------                        ---------------------------- --------------------------- ---------------------- ---------------------- 
-Schedule-0fc25d5d-2a14-466b-b80e-aabf2f7850e5 0                            00:00:00                    23:59:00               Tuesday
-Schedule-2c3b06c5-9da6-4e14-b554-80eabd530a8e 50                           00:01:00                    05:00:00               Monday
+Days                                       BandwidthSchedule.Name                        BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
+----                                       ----------------------                        ---------------------------- --------------------------- --------------------------
+Tuesday,Wednesday,Thursday,Friday,Saturday Schedule-0fc25d5d-2a14-466b-b80e-aabf2f7850e5 0                            00:00:00                    23:59:00
+Monday                                     Schedule-2c3b06c5-9da6-4e14-b554-80eabd530a8e 50                           00:01:00                    05:00:00
 ```
 
 ## PARAMETERS
