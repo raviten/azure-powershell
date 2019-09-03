@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeDevice
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the devices with applied filters
 
 ## SYNTAX
 
@@ -30,7 +30,8 @@ Get-AzDataBoxEdgeDevice -ResourceGroupName <String> [-DefaultProfile <IAzureCont
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Get-AzDataBoxEdgeDevice** cmdlet gets information about Devices.
+If you specify the Name of the Device along with the resource group name, this cmdlet gets information about that specific Device
 
 ## EXAMPLES
 

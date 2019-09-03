@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeBandwidthSchedule
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Gets the information about Bandwidth schedules
 
 ## SYNTAX
 
@@ -25,16 +25,21 @@ Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -D
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Get-AzDataBoxEdgeBandwidthSchedule** cmdlet gets information about Bandwidth Schedules.
+If you specify the Name of the Schedule along with the resource group name and Device name, this cmdlet gets information about that specific Bandwidth schedule
+
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
-```
+PS C:\>Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupname resource-group-name -DeviceName device-name
 
-{{ Add example description here }}
+BandwidthSchedule.Name                        BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime BandwidthSchedule.Days 
+----------------------                        ---------------------------- --------------------------- ---------------------- ---------------------- 
+Schedule-0fc25d5d-2a14-466b-b80e-aabf2f7850e5 0                            00:00:00                    23:59:00               Tuesday
+Schedule-2c3b06c5-9da6-4e14-b554-80eabd530a8e 50                           00:01:00                    05:00:00               Monday
+```
 
 ## PARAMETERS
 
@@ -54,7 +59,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+The name of the device
 
 ```yaml
 Type: System.String
@@ -69,7 +74,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the BandwidthSchedule
 
 ```yaml
 Type: System.String
@@ -84,7 +89,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Name and Device belongs to this ResourceGroup
 
 ```yaml
 Type: System.String
