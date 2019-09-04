@@ -74,7 +74,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Name of the BandwidthSchedule
+BandwidthSchedule Name
 
 ```yaml
 Type: System.String
@@ -89,7 +89,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-Name and Device belongs to this ResourceGroup
+BandwidthSchedule ResourceGroupName
 
 ```yaml
 Type: System.String

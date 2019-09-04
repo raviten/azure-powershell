@@ -10,12 +10,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeUser
     {
-        [Ps1Xml(Label = "DataBoxEdgeDevice.Name", Target = ViewControl.Table,
-            ScriptBlock = "$_.dataBoxEdgeDevice.Name")]
+        [Ps1Xml(Label = "User.Name", Target = ViewControl.Table,
+            ScriptBlock = "$_.user.Name")]
         public User User;
 
-        [Ps1Xml(Label = "ResourceGroup", Target = ViewControl.Table)]
-        public string ResourceGroup;
+        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
+        public string ResourceGroupName;
+        
 
         public string Id;
         public string Name;
@@ -27,14 +28,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 
         public PSDataBoxEdgeUser(User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException("user");
-            }
-
-            this.User = user;
+            this.User = user ?? throw new ArgumentNullException("user");
             this.Id = user.Id;
             this.Name = user.Name;
+            this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(user.Id);
+
         }
     }
 }

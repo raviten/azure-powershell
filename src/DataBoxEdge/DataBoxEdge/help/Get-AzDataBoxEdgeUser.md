@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the created users  for this device
 
 ## SYNTAX
 
@@ -25,7 +25,8 @@ Get-AzDataBoxEdgeUser -ResourceGroupName <String> -Name <String> -DeviceName <St
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Get-AzDataBoxEdgeUser** will get the users for a device.
+If Name is provided along with ResourceGroupName and DeviceName, this will get the details by Name
 
 ## EXAMPLES
 

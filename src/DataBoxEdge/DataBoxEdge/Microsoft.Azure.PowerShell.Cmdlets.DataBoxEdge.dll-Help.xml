@@ -1775,7 +1775,7 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>SACName</maml:name>
+          <maml:name>StorageAccountCredentialName</maml:name>
           <maml:Description>
             <maml:para>Provide existing StorageAccessCredential's Resource Name</maml:para>
           </maml:Description>
@@ -1850,7 +1850,7 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>SACName</maml:name>
+          <maml:name>StorageAccountCredentialName</maml:name>
           <maml:Description>
             <maml:para>Provide existing StorageAccessCredential's Resource Name</maml:para>
           </maml:Description>
@@ -1996,7 +1996,7 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>SACName</maml:name>
+        <maml:name>StorageAccountCredentialName</maml:name>
         <maml:Description>
           <maml:para>Provide existing StorageAccessCredential's Resource Name</maml:para>
         </maml:Description>

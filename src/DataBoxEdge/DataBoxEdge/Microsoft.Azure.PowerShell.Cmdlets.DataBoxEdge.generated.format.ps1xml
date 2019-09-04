@@ -22,6 +22,10 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
+            <Label>ResourceGroupName</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
             <Label>DataBoxEdgeDevice.Location</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -42,16 +46,16 @@
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
+                <PropertyName>ResourceGroupName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
                 <ScriptBlock>$_.dataBoxEdgeDevice.Location</ScriptBlock>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
       </TableControl>
-      <GroupBy>
-        <PropertyName>ResourceGroupName</PropertyName>
-        <Label>ResourceGroupName</Label>
-      </GroupBy>
     </View>
     <View>
       <Name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential</Name>
@@ -66,7 +70,15 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>ResourceGroup</Label>
+            <Label>StorageAccountCredential.StorageAccount</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>StorageAccountCredential.SslStatus</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>ResourceGroupName</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -78,7 +90,15 @@
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <PropertyName>ResourceGroup</PropertyName>
+                <ScriptBlock>$_.storageAccountCredential.UserName</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.storageAccountCredential.SslStatus</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <PropertyName>ResourceGroupName</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -94,11 +114,11 @@
         <TableHeaders>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>DataBoxEdgeDevice.Name</Label>
+            <Label>User.Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>ResourceGroup</Label>
+            <Label>ResourceGroupName</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -106,11 +126,11 @@
             <TableColumnItems>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <ScriptBlock>$_.dataBoxEdgeDevice.Name</ScriptBlock>
+                <ScriptBlock>$_.user.Name</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <PropertyName>ResourceGroup</PropertyName>
+                <PropertyName>ResourceGroupName</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -130,7 +150,23 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>ResourceGroup</Label>
+            <Label>Share.Type</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>Share.DataPolicy</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>Share.DataFormat</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>ResourceGroupName</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>StorageAccount.Name</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -142,12 +178,62 @@
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <PropertyName>ResourceGroup</PropertyName>
+                <ScriptBlock>$_.share.AccessProtocol</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.share.DataPolicy</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.share.AzureContainerInfo.DataFormat</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <PropertyName>ResourceGroupName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <PropertyName>StorageAccountName</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
       </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDeviceExtendedInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDeviceExtendedInfo</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Name</PropertyName>
+                <Label>DataBoxEdgeDevice.Name</Label>
+              </ListItem>
+              <ListItem>
+                <PropertyName>ResourceGroupName</PropertyName>
+                <Label>ResourceGroupName</Label>
+              </ListItem>
+              <ListItem>
+                <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKey</ScriptBlock>
+                <Label>DataBoxEdgeDeviceExtendedInfo.EncryptionKey</Label>
+              </ListItem>
+              <ListItem>
+                <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint</ScriptBlock>
+                <Label>DataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint</Label>
+              </ListItem>
+              <ListItem>
+                <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.ResourceKey</ScriptBlock>
+                <Label>DataBoxEdgeDeviceExtendedInfo.ResourceKey</Label>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
     </View>
     <View>
       <Name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule</Name>
@@ -214,11 +300,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>DataBoxEdgeDevice.Name</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Alignment>Left</Alignment>
-            <Label>ResourceGroup</Label>
+            <Label>Job.Name</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -228,9 +310,37 @@
                 <Alignment>Left</Alignment>
                 <ScriptBlock>$_.job.Name</ScriptBlock>
               </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSRole</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSRole</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>Role.Name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>ResourceGroupName</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <PropertyName>ResourceGroup</PropertyName>
+                <ScriptBlock>$_.role.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <PropertyName>ResourceGroupName</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>

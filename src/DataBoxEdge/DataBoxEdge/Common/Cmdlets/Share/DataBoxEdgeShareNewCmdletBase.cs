@@ -61,7 +61,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string SACName { get; set; }
+        public string StorageAccountCredentialName { get; set; }
 
 
         [Parameter(Mandatory = true, HelpMessage = "Creates a share with Name with Share Access protocol as NFS and ",
@@ -136,7 +136,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             var sac = StorageAccountCredentialsOperationsExtensions.Get(
                 this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                 this.DeviceName,
-                this.SACName,
+                this.StorageAccountCredentialName,
                 this.ResourceGroupName);
             Management.EdgeGateway.Models.Share share = null;
             if (SetClient.IsPresent)

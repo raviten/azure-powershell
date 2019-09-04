@@ -14,19 +14,19 @@
 
 using System;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 {
     [Cmdlet(VerbsCommon.Get, Constants.Role, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSStorageAccountCredential))]
+     OutputType(typeof(PSRole))]
     public class RoleGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
@@ -87,10 +87,6 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
                 results = paginatedResult.Select(t => new PSRole(t)).ToList();
             }
 
-            foreach (var result in results)
-            {
-                WriteVerbose(result.Id);
-            }
             WriteObject(results, true);
         }
     }

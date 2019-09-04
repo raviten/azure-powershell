@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeDeviceExtendedInfo
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the extended info for a device
 
 ## SYNTAX
 
@@ -18,16 +18,22 @@ Get-AzDataBoxEdgeDeviceExtendedInfo -ResourceGroupName <String> -Name <String>
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Get-AzDataBoxEdgeDeviceEdtendedInfo** cmdlet gets extended information of a single device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-AzDataBoxEdgeDeviceExtendedInfo -ResourceGroupName rgp-name -Name device-name
+
+DataBoxEdgeDevice.Name                                : device-name
+ResourceGroupName                                     : ranandu-name
+DataBoxEdgeDeviceExtendedInfo.EncryptionKey           : {LONG_ENCRYPTION_KEY}
+DataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint : {THUMBPRINT}
+DataBoxEdgeDeviceExtendedInfo.ResourceKey             : {RESOURCEKEY}
+
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -47,7 +53,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Device Name
 
 ```yaml
 Type: System.String
@@ -62,7 +68,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+ResourceGroup Name
 
 ```yaml
 Type: System.String

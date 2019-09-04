@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeJob
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+List down the active jobs for a device
 
 ## SYNTAX
 
@@ -18,16 +18,15 @@ Get-AzDataBoxEdgeJob -ResourceGroupName <String> -Name <String> -DeviceName <Str
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Get-AzDataBoxEdgeJob** gets the active jobs for a device
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-AzDataBoxEdgeJob -ResourceGroupName resource-group-name -Name job-name -DeviceName device-name
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -47,7 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Name of the device 
 
 ```yaml
 Type: System.String
@@ -62,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the job
 
 ```yaml
 Type: System.String
@@ -77,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource Group Name of the Job
 
 ```yaml
 Type: System.String

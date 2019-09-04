@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.Commands.Common.Attributes;
+﻿using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using StorageAccountCredential = Microsoft.Azure.Management.EdgeGateway.Models.StorageAccountCredential;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
@@ -7,10 +8,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
     {
         [Ps1Xml(Label = "StorageAccountCredential.Name", Target = ViewControl.Table,
             ScriptBlock = "$_.storageAccountCredential.Name")]
+        [Ps1Xml(Label = "StorageAccountCredential.StorageAccount", Target = ViewControl.Table,
+            ScriptBlock = "$_.storageAccountCredential.UserName")]
+        [Ps1Xml(Label = "StorageAccountCredential.SslStatus", Target = ViewControl.Table,
+            ScriptBlock = "$_.storageAccountCredential.SslStatus")]
+        
         public StorageAccountCredential StorageAccountCredential;
 
-        [Ps1Xml(Label = "ResourceGroup", Target = ViewControl.Table)]
-        public string ResourceGroup;
+        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
+        public string ResourceGroupName;
 
         public string Id;
         public string Name;
@@ -24,7 +30,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         {
             this.StorageAccountCredential = storageAccountCredential;
             this.Id = storageAccountCredential.Id;
+            this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(storageAccountCredential.Id);
             this.Name = storageAccountCredential.Name;
+            
         }
     }
 }

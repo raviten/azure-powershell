@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeStorageAccountCredential
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the Storage Account credential corresponding to device and storage account
 
 ## SYNTAX
 
@@ -25,16 +25,20 @@ Get-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName <String> -Name <Str
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Get-AzDataBoxEdgeStirageAccountCredential** will get the StprageAccountCredentail details. 
+If you specify the Name of the StorageAccountCredential along with the resource group name and Device name, this cmdlet gets information about that specific Storage Account Credential
+
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
 PS C:\> {{ Add example code here }}
+StorageAccountCredential.Name    StorageAccountCredential.StorageAccount StorageAccountCredential.SslStatus ResourceGroupName
+-------------------------------- --------------------------------------- ---------------------------------- -----------------
+storage-account-credential-name  storage-account-name                     Disabled                           resource-group-name
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -54,7 +58,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Name of the device
 
 ```yaml
 Type: System.String
@@ -69,7 +73,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the storage account credential
 
 ```yaml
 Type: System.String
@@ -96,7 +100,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource group name
 
 ```yaml
 Type: System.String

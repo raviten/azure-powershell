@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Management.EdgeGateway.Models;
+﻿using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using Role = Microsoft.Azure.Management.EdgeGateway.Models.Role;
 
@@ -10,8 +11,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             ScriptBlock = "$_.role.Name")]
         public Role Role;
 
-        [Ps1Xml(Label = "ResourceGroup", Target = ViewControl.Table)]
-        public string ResourceGroup;
+        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
+        public string ResourceGroupName;
 
         public string Id;
         public string Name;
@@ -25,6 +26,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         {
             this.Role = role;
             this.Id = role.Id;
+            this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(role.Id);
             this.Name = role.Name;
         }
     }

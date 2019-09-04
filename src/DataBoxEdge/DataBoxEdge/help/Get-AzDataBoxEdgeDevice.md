@@ -37,10 +37,13 @@ If you specify the Name of the Device along with the resource group name, this c
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\>Get-AzDataBoxEdgeDevice
+DataBoxEdgeDevice.Name               DataBoxEdgeDevice.DataBoxEdgeDeviceStatus DataBoxEdgeDevice.DeviceType ResourceGroupName               DataBoxEdgeDevice.Location
+----------------------               ----------------------------------------- ---------------------------- -----------------               --------------------------
+Auskan                               ReadyToSetup                              DataBoxEdgeDevice            resource-grp-1                  eastus
+jeep                                 ReadyToSetup                              DataBoxEdgeDevice            resource-grp-2                  East US
+eastus                               ReadyToSetup                              DataBoxEdgeDevice            resource-grp-2                  eastus
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -60,8 +63,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
-
+Device Name
 ```yaml
 Type: System.String
 Parameter Sets: GetByNameParameterSet
@@ -75,8 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
-
+Device Resource Group Name
 ```yaml
 Type: System.String
 Parameter Sets: GetByNameParameterSet, GetByResourceGroupNameParameterSet

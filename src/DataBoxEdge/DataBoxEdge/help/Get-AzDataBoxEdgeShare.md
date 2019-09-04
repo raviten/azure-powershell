@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeShare
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Gets the creted shares for this device
 
 ## SYNTAX
 
@@ -25,16 +25,21 @@ Get-AzDataBoxEdgeShare -ResourceGroupName <String> -Name <String> -DeviceName <S
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Get-AzDataBoxEdgeShare** get the shares for the device. If Name is provided this will get the share by Name.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -DeviceName device-name
+Share.Name Share.Type Share.DataPolicy Share.DataFormat ResourceGroupName     StorageAccount.Name
+---------- ---------- ---------------- ---------------- --------------------- -------------------
+share-1    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
+share-2    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
+share-3    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
+share-4    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -54,7 +59,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Device Name
 
 ```yaml
 Type: System.String
@@ -69,7 +74,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the share
 
 ```yaml
 Type: System.String
@@ -84,7 +89,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource group name
 
 ```yaml
 Type: System.String

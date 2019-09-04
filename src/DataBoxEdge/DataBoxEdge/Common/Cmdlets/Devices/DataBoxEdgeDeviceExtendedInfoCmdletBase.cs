@@ -17,14 +17,13 @@ using System.Management.Automation;
 using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
     [Cmdlet(VerbsCommon.Get, Constants.ExtendedInfo, DefaultParameterSetName = ExtendedInfoParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeDevice))]
+     OutputType(typeof(PSDataBoxEdgeDeviceExtendedInfo))]
     public class DataBoxEdgeDeviceExtendedInfoCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ExtendedInfoParameterSet = "ExtendedInfoParameterSet";
@@ -46,14 +45,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<DataBoxEdgeDeviceExtendedInfo>();
+            var results = new List<PSDataBoxEdgeDeviceExtendedInfo>();
             if (NotNullOrEmpty(this.Name) && NotNullOrEmpty(this.ResourceGroupName))
             {
                 var device = DevicesOperationsExtensions.GetExtendedInformation(
                     this.DataBoxEdgeManagementClient.Devices,
                     this.Name,
                     this.ResourceGroupName);
-                results.Add(device);
+                results.Add(new PSDataBoxEdgeDeviceExtendedInfo(device));
             }
 
             WriteObject(results, true);
