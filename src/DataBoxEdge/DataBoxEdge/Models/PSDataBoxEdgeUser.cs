@@ -16,7 +16,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
         public string ResourceGroupName;
-        
+
 
         public string Id;
         public string Name;
@@ -32,7 +32,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.Id = user.Id;
             this.Name = user.Name;
             this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(user.Id);
-
         }
     }
 }
