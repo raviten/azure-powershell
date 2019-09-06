@@ -7,7 +7,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSRole
     {
-        [Ps1Xml(Label = "Role.Name", Target = ViewControl.Table,
+        [Ps1Xml(Label = "DataBoxEdgeRole.Name", Target = ViewControl.Table,
             ScriptBlock = "$_.role.Name")]
         public Role Role;
 

@@ -1,7 +1,7 @@
 ---
 Module Name: Az.DataBoxEdge
 Module Guid: 39b6b3e6-a15e-48ba-be20-fe0d441d92b4
-Download Help Link: {{ Update Download Link }}
+Download Help Link: : https://docs.microsoft.com/en-us/powershell/module/az.databoxedge
 Help Version: 1.0.0.0
 Locale: en-US
 ---
@@ -14,7 +14,6 @@ Module to create a device and perform operations on DataBoxEdge devices
 ### [Get-AzDataBoxEdgeBandwidthSchedule](Get-AzDataBoxEdgeBandwidthSchedule.md)
 Gets the information about Bandwidth schedules of a device
 
-
 ### [Get-AzDataBoxEdgeDevice](Get-AzDataBoxEdgeDevice.md)
 Gets information about DataBoxEdge devices
 
@@ -22,7 +21,7 @@ Gets information about DataBoxEdge devices
 Gets the extended info of a device
 
 ### [Get-AzDataBoxEdgeJob](Get-AzDataBoxEdgeJob.md)
-Gets the information about jobs of a device
+Gets the information about jobs for a device
 
 ### [Get-AzDataBoxEdgeRole](Get-AzDataBoxEdgeRole.md)
 Get the Roles configured for a device
@@ -40,7 +39,7 @@ Gets the information about the users for a device
 Creates a new Bandwidth schedule for a device
 
 ### [New-AzDataBoxEdgeDevice](New-AzDataBoxEdgeDevice.md)
-Creates a new device 
+Setting up a device 
 
 ### [New-AzDataBoxEdgeRole](New-AzDataBoxEdgeRole.md)
 Creates a new role for the device
@@ -52,10 +51,10 @@ Creates a new share  in a device
 Creates new Storage account credential for a device
 
 ### [New-AzDataBoxEdgeUser](New-AzDataBoxEdgeUser.md)
-Creates  new user for a device
+Creates new user for a device
 
 ### [Remove-AzDataBoxEdgeBandwidthSchedule](Remove-AzDataBoxEdgeBandwidthSchedule.md)
-Deletes a Bandwidth schedule
+Deletes a Bandwidth schedule for a device
 
 ### [Remove-AzDataBoxEdgeRole](Remove-AzDataBoxEdgeRole.md)
 Deletes a role in device
@@ -76,5 +75,5 @@ Updates share in a device
 Updates storage account credential object for a device
 
 ### [Set-AzDataBoxEdgeUser](Set-AzDataBoxEdgeUser.md)
-Updates the user in a device
+Updates the local user in a device
 

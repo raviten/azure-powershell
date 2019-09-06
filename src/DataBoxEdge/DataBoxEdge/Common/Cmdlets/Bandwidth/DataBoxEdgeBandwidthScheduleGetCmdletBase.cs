@@ -21,6 +21,7 @@ using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
@@ -31,6 +32,10 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        
+        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
@@ -53,37 +58,66 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
             return !string.IsNullOrEmpty(val);
         }
 
+        private List<PSDataBoxEdgeBandWidthSchedule> GetForResourceName()
+        {
+            var bwObj = BandwidthSchedulesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+            return new List<PSDataBoxEdgeBandWidthSchedule>(){new PSDataBoxEdgeBandWidthSchedule(bwObj)};
+        }
+
+        private List<PSDataBoxEdgeBandWidthSchedule> GetForDevice()
+        {
+            var bandwidthSchedules = BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDevice(
+                    this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                    this.DeviceName,
+                    this.ResourceGroupName);
+            var paginatedResult = new List<BandwidthSchedule>(bandwidthSchedules);
+            while (NotNullOrEmpty(bandwidthSchedules.NextPageLink))
+            {
+                bandwidthSchedules = BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDeviceNext(
+                    this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                    bandwidthSchedules.NextPageLink
+                );
+                paginatedResult.AddRange(bandwidthSchedules);
+            }
+            return paginatedResult.Select(t => new PSDataBoxEdgeBandWidthSchedule(t)).ToList();
+        }
+
 
         public override void ExecuteCmdlet()
         {
             var results = new List<PSDataBoxEdgeBandWidthSchedule>();
-            if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            if (this.ParameterSetName.Equals(ResourceIdParameterSet))
             {
-                results.Add(
-                    new PSDataBoxEdgeBandWidthSchedule(
-                        BandwidthSchedulesOperationsExtensions.Get(
-                            this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                            this.DeviceName,
-                            this.Name,
-                            this.ResourceGroupName)));
+                var resourceIdentifier = new ResourceIdentifier(this.ResourceId);
+                if (resourceIdentifier.ResourceType.Equals(Constants.DataBoxEdgeDeviceProvider))
+                {
+                    this.DeviceName = resourceIdentifier.ResourceName;
+                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                    results = GetForDevice();
+                }
+                else if(resourceIdentifier.ResourceType.StartsWith(Constants.DataBoxEdgeDeviceProvider)) 
+                {
+                    this.DeviceName = resourceIdentifier.ParentResource.Remove(0, Constants.DevicesPath.Length + 1);
+                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                    this.Name = resourceIdentifier.ResourceName;
+                    results = GetForResourceName();
+                }
+                else
+                {
+                    throw new PSArgumentNullException("Unable to parse ResourceId, please use a valid resourceId");
+                }
+            }
+            else if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            {
+                results = GetForResourceName();
             }
             else if (this.ParameterSetName.Equals(ListParameterSet))
             {
-                var bandwidthSchedules = BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDevice(
-                    this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                    this.DeviceName,
-                    this.ResourceGroupName);
-                var paginatedResult = new List<BandwidthSchedule>(bandwidthSchedules);
-                while (NotNullOrEmpty(bandwidthSchedules.NextPageLink))
-                {
-                    bandwidthSchedules = BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDeviceNext(
-                        this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                        bandwidthSchedules.NextPageLink
-                    );
-                    paginatedResult.AddRange(bandwidthSchedules);
-                }
-
-                results = paginatedResult.Select(t => new PSDataBoxEdgeBandWidthSchedule(t)).ToList();
+                results = GetForDevice();
             }
 
             WriteObject(results, true);

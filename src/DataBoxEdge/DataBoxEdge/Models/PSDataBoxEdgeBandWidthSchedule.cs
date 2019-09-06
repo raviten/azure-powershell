@@ -39,7 +39,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.Id = bandwidthSchedule.Id;
             this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(bandwidthSchedule.Id);
             this.Name = bandwidthSchedule.Name;
-            
 
         }
     }

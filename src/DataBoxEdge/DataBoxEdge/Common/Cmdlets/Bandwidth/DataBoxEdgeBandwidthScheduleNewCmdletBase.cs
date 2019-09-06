@@ -52,11 +52,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string StartDay { get; set; }
-
-        [Parameter(Mandatory = true)]
-        [ValidateNotNullOrEmpty]
-        public string StopDay { get; set; }
+        public string[] Days { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -66,12 +62,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         public override void ExecuteCmdlet()
         {
             var results = new List<PSDataBoxEdgeBandWidthSchedule>();
-            WriteVerbose(StartDay);
-            WriteVerbose(StopDay);
-
-            var days = new List<String>();
-            days.Add(StartDay);
-            days.Add(StopDay);
+            var days = new List<String>(this.Days);
             var scheduler = new BandwidthSchedule(
                 this.StartTime,
                 this.StopTime,
