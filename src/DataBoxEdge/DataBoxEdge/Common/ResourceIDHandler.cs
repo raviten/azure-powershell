@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
@@ -24,22 +23,6 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
             var resourceIdentifier = new ResourceIdentifier(resourceId);
             return resourceIdentifier.ResourceGroupName;
             
-        }
-
-        public static string GetResourceName(string resourceId)
-        {
-            var resourceIdentifier = new ResourceIdentifier(resourceId);
-            return resourceIdentifier.ResourceName;
-        }
-
-        public static string GetDeviceName(string resourceId)
-        {
-            var resourceIdentifier = new ResourceIdentifier(resourceId);
-            if (resourceIdentifier.ResourceType.StartsWith(Constants.DataBoxEdgeDeviceProvider) 
-                && !string.IsNullOrEmpty(resourceIdentifier.ParentResource)) {
-                return resourceIdentifier.ParentResource.Remove(0, Constants.DevicesPath.Length);
-            }
-            return resourceIdentifier.ResourceName;
         }
     }
 }
