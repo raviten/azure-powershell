@@ -21,7 +21,7 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
     [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = RemoveParameterSet),
-     OutputType(typeof(PSStorageAccountCredential))]
+     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class StorageAccountCredentialRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string RemoveParameterSet = "RemoveParameterSet";

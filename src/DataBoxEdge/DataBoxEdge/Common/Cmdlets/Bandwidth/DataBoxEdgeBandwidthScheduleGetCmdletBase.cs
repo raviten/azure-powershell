@@ -22,6 +22,7 @@ using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
+using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
@@ -32,7 +33,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
-        
+
         [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
@@ -65,7 +66,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
-            return new List<PSDataBoxEdgeBandWidthSchedule>(){new PSDataBoxEdgeBandWidthSchedule(bwObj)};
+            return new List<PSDataBoxEdgeBandWidthSchedule>() { new PSDataBoxEdgeBandWidthSchedule(bwObj) };
         }
 
         private List<PSDataBoxEdgeBandWidthSchedule> GetForDevice()
@@ -92,24 +93,22 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
             var results = new List<PSDataBoxEdgeBandWidthSchedule>();
             if (this.ParameterSetName.Equals(ResourceIdParameterSet))
             {
-                var resourceIdentifier = new ResourceIdentifier(this.ResourceId);
-                if (resourceIdentifier.ResourceType.Equals(Constants.DataBoxEdgeDeviceProvider))
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                if (resourceIdentifier.IsDeviceSubType)
                 {
-                    this.DeviceName = resourceIdentifier.ResourceName;
-                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
-                    results = GetForDevice();
-                }
-                else if(resourceIdentifier.ResourceType.StartsWith(Constants.DataBoxEdgeDeviceProvider)) 
-                {
-                    this.DeviceName = resourceIdentifier.ParentResource.Remove(0, Constants.DevicesPath.Length + 1);
+                    this.DeviceName = resourceIdentifier.DeviceName;
                     this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
                     this.Name = resourceIdentifier.ResourceName;
                     results = GetForResourceName();
                 }
-                else
+                else 
                 {
-                    throw new PSArgumentNullException("Unable to parse ResourceId, please use a valid resourceId");
+                    this.DeviceName = resourceIdentifier.ResourceName;
+                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                    results = GetForDevice();
+                    
                 }
+                
             }
             else if (this.ParameterSetName.Equals(GetByNameParameterSet))
             {

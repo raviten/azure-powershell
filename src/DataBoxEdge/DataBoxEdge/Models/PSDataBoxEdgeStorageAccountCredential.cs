@@ -4,7 +4,7 @@ using StorageAccountCredential = Microsoft.Azure.Management.EdgeGateway.Models.S
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
-    public class PSStorageAccountCredential
+    public class PSDataBoxEdgeStorageAccountCredential
     {
         [Ps1Xml(Label = "StorageAccountCredential.Name", Target = ViewControl.Table,
             ScriptBlock = "$_.storageAccountCredential.Name")]
@@ -21,12 +21,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         public string Id;
         public string Name;
 
-        public PSStorageAccountCredential()
+        public PSDataBoxEdgeStorageAccountCredential()
         {
             StorageAccountCredential = new StorageAccountCredential();
         }
 
-        public PSStorageAccountCredential(StorageAccountCredential storageAccountCredential)
+        public PSDataBoxEdgeStorageAccountCredential(StorageAccountCredential storageAccountCredential)
         {
             this.StorageAccountCredential = storageAccountCredential;
             this.Id = storageAccountCredential.Id;

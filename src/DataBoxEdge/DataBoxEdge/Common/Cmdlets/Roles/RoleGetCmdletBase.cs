@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 {
     [Cmdlet(VerbsCommon.Get, Constants.Role, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSRole))]
+     OutputType(typeof(PSDataBoxEdgeRole))]
     public class RoleGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
@@ -57,11 +57,11 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSRole>();
+            var results = new List<PSDataBoxEdgeRole>();
             if (NotNullOrEmpty(this.Name))
             {
                 results.Add(
-                    new PSRole(
+                    new PSDataBoxEdgeRole(
                         RolesOperationsExtensions.Get(
                             this.DataBoxEdgeManagementClient.Roles,
                             this.DeviceName,
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
                     paginatedResult.AddRange(roles);
                 }
 
-                results = paginatedResult.Select(t => new PSRole(t)).ToList();
+                results = paginatedResult.Select(t => new PSDataBoxEdgeRole(t)).ToList();
             }
 
             WriteObject(results, true);

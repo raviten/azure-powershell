@@ -5,7 +5,7 @@ using Role = Microsoft.Azure.Management.EdgeGateway.Models.Role;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
-    public class PSRole
+    public class PSDataBoxEdgeRole
     {
         [Ps1Xml(Label = "DataBoxEdgeRole.Name", Target = ViewControl.Table,
             ScriptBlock = "$_.role.Name")]
@@ -17,12 +17,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         public string Id;
         public string Name;
 
-        public PSRole()
+        public PSDataBoxEdgeRole()
         {
             Role = new Role();
         }
 
-        public PSRole(Role role)
+        public PSDataBoxEdgeRole(Role role)
         {
             this.Role = role;
             this.Id = role.Id;

@@ -27,7 +27,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
 
         //Arm providers
         public const string DataBoxEdgeDeviceProvider = "Microsoft.DataBoxEdge/dataBoxEdgeDevices";
-        public const string DevicesPath = "dataBoxEdgeDevices";
+        public const string DevicesPath = "dataBoxEdgeDevices/";
         
 
     }

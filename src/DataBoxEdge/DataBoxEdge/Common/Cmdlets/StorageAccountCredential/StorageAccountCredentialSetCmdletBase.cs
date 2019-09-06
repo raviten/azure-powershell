@@ -23,7 +23,7 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
     [Cmdlet(VerbsCommon.Set, Constants.Sac, DefaultParameterSetName = SetParameterSet),
-     OutputType(typeof(PSStorageAccountCredential))]
+     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class StorageAccountCredentialSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string SetParameterSet = "SetParameterSet";
@@ -99,8 +99,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     this.EncryptionKey
                 );
             Management.EdgeGateway.Models.StorageAccountCredential sac = new Management.EdgeGateway.Models.StorageAccountCredential();
-            var results = new List<PSStorageAccountCredential>();
-            var user = new PSStorageAccountCredential(
+            var results = new List<PSDataBoxEdgeStorageAccountCredential>();
+            var user = new PSDataBoxEdgeStorageAccountCredential(
                 StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
                     this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                     this.DeviceName,

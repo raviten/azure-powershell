@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 {
     [Cmdlet(VerbsCommon.Remove, Constants.Role, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSStorageAccountCredential))]
+     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class RoleRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSRole>();
+            var results = new List<PSDataBoxEdgeRole>();
             RolesOperationsExtensions.Delete(
                 this.DataBoxEdgeManagementClient.Roles,
                 this.DeviceName,

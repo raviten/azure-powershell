@@ -24,7 +24,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
 {
     [Cmdlet(VerbsCommon.Get, Constants.Sac, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSStorageAccountCredential))]
+     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class StorageAccountCredentialGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
@@ -55,11 +55,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSStorageAccountCredential>();
+            var results = new List<PSDataBoxEdgeStorageAccountCredential>();
             if (this.ParameterSetName.Equals(GetByNameParameterSet))
             {
                 results.Add(
-                    new PSStorageAccountCredential(
+                    new PSDataBoxEdgeStorageAccountCredential(
                         StorageAccountCredentialsOperationsExtensions.Get(
                             this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                             this.DeviceName,
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     paginatedResult.AddRange(storageAccountCredentials);
                 }
 
-                results = paginatedResult.Select(t => new PSStorageAccountCredential(t)).ToList();
+                results = paginatedResult.Select(t => new PSDataBoxEdgeStorageAccountCredential(t)).ToList();
             }
             WriteObject(results, true);
         }

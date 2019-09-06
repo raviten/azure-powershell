@@ -26,7 +26,7 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
     [Cmdlet(VerbsCommon.New, Constants.Role, DefaultParameterSetName = ConnectionStringParameterSet),
-     OutputType(typeof(PSStorageAccountCredential))]
+     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class RoleNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ConnectionStringParameterSet = "ConnectionStringParameterSet";
@@ -223,7 +223,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 this.EncryptionKey
             );
 
-            var results = new List<PSRole>();
+            var results = new List<PSDataBoxEdgeRole>();
             var iotRole = GetIoTRoleObject(
                 this.IOTDeviceId,
                 this.IOTEdgeDeviceId,
@@ -234,7 +234,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 this.RoleStatus
             );
 
-            var psRole = new PSRole(
+            var psRole = new PSDataBoxEdgeRole(
                 DataBoxEdgeManagementClient.Roles.CreateOrUpdate(
                     this.DeviceName, this.Name, iotRole,
                     this.ResourceGroupName)

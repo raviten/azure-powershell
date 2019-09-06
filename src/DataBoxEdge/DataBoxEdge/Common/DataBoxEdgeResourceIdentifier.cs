@@ -14,32 +14,33 @@
 
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
+using System;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
-    public class ResourceIdHandler: ResourceIdentifier
+    public class DataBoxEdgeResourceIdentifier : ResourceIdentifier
     {
-        public static string GetResourceGroupName(string resourceId)
-        {
-            var resourceIdentifier = new ResourceIdentifier(resourceId);
-            return resourceIdentifier.ResourceGroupName;
-            
-        }
+        public bool IsDeviceSubType { get; }
+        public String DeviceName{ get; }
 
-        public static string GetResourceName(string resourceId)
+        public DataBoxEdgeResourceIdentifier(String resourceId) : base(resourceId)
         {
-            var resourceIdentifier = new ResourceIdentifier(resourceId);
-            return resourceIdentifier.ResourceName;
-        }
-
-        public static string GetDeviceName(string resourceId)
-        {
-            var resourceIdentifier = new ResourceIdentifier(resourceId);
-            if (resourceIdentifier.ResourceType.StartsWith(Constants.DataBoxEdgeDeviceProvider) 
-                && !string.IsNullOrEmpty(resourceIdentifier.ParentResource)) {
-                return resourceIdentifier.ParentResource.Remove(0, Constants.DevicesPath.Length);
+            if (!this.ResourceType.StartsWith(Constants.DataBoxEdgeDeviceProvider))
+            {
+                throw new Exception(Resource.InvalidResourceId);
             }
-            return resourceIdentifier.ResourceName;
+            if (!string.IsNullOrEmpty(this.ParentResource))
+            {
+                this.IsDeviceSubType= true;
+                this.DeviceName =  this.ParentResource.Remove(0, Constants.DevicesPath.Length);
+            }
+            else
+            {
+                this.IsDeviceSubType = false;
+                this.DeviceName = this.ResourceName;
+            }
         }
+
     }
 }
