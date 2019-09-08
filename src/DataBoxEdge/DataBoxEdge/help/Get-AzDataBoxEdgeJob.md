@@ -27,7 +27,6 @@ This **Get-AzDataBoxEdgeJob** gets the active jobs for a device
 PS C:\> Get-AzDataBoxEdgeJob -ResourceGroupName resource-group-name -Name job-name -DeviceName device-name
 ```
 
-
 ## PARAMETERS
 
 ### -DefaultProfile

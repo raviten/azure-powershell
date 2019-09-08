@@ -8,18 +8,18 @@ schema: 2.0.0
 # New-AzDataBoxEdgeBandwidthSchedule
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a new Bandwidth schedule on the device
 
 ## SYNTAX
 
 ```
 New-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
- -StartTime <String> -StopTime <String> -StartDay <String> -StopDay <String> -Bandwidth <Int32>
+ -StartTime <String> -StopTime <String> -Days <String[]> [-Bandwidth <Int32>] [-UnlimitedBandwidth]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Bandwidth schedule 
 
 ## EXAMPLES
 
@@ -33,10 +33,25 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Bandwidth
-{{ Fill Bandwidth Description }}
+Bandwidth in Mbps
 
 ```yaml
-Type: System.Int32
+Type: System.Nullable`1[System.Int32]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Days
+Scheduled Days
+
+```yaml
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -63,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Valid name of the device
 
 ```yaml
 Type: System.String
@@ -78,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the Bandwidth schedule
 
 ```yaml
 Type: System.String
@@ -93,22 +108,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StartDay
-{{ Fill StartDay Description }}
+Name of the resource group name
 
 ```yaml
 Type: System.String
@@ -123,22 +123,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartTime
-{{ Fill StartTime Description }}
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StopDay
-{{ Fill StopDay Description }}
+Start time of the bandwidth schedule
 
 ```yaml
 Type: System.String
@@ -153,7 +138,7 @@ Accept wildcard characters: False
 ```
 
 ### -StopTime
-{{ Fill StopTime Description }}
+Stop time of the bandwidth schedule
 
 ```yaml
 Type: System.String
@@ -161,6 +146,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UnlimitedBandwidth
+Set Unlimited Bandwidth
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

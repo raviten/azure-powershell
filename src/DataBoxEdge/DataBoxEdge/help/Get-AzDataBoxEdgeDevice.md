@@ -64,6 +64,8 @@ Accept wildcard characters: False
 
 ### -Name
 Device Name
+
+
 ```yaml
 Type: System.String
 Parameter Sets: GetByNameParameterSet
@@ -78,6 +80,8 @@ Accept wildcard characters: False
 
 ### -ResourceGroupName
 Device Resource Group Name
+
+
 ```yaml
 Type: System.String
 Parameter Sets: GetByNameParameterSet, GetByResourceGroupNameParameterSet

@@ -18,6 +18,11 @@ Get-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### ByResourceIdParameterSet
+```
+Get-AzDataBoxEdgeShare -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
 ### GetByNameParameterSet
 ```
 Get-AzDataBoxEdgeShare -ResourceGroupName <String> -Name <String> -DeviceName <String>
@@ -39,7 +44,6 @@ share-2    SMB        Cloud            PageBlob         resource-group-name   st
 share-3    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
 share-4    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
 ```
-
 
 ## PARAMETERS
 
@@ -63,7 +67,7 @@ Device Name
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
@@ -93,7 +97,22 @@ Resource group name
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+{{ Fill ResourceId Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
 Required: True

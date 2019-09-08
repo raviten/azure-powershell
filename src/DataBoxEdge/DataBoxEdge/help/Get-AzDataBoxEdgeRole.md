@@ -26,6 +26,7 @@ Get-AzDataBoxEdgeRole -ResourceGroupName <String> -Name <String> -DeviceName <St
 
 ## DESCRIPTION
 This **Get-AzDataBoxEdgeRole** fetches the available IOT role by Name or lists the IOT roles available for the  device
+
 ## EXAMPLES
 
 ### Example 1
@@ -35,7 +36,6 @@ PS C:\> Get-AzDataBoxEdgeRole -ResourceGroupName resource-group-name -DeviceName
 Role.Name 
 -----------
 IotRole
-
 ```
 
 ## PARAMETERS

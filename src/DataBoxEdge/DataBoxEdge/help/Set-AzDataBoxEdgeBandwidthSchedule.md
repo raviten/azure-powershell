@@ -12,9 +12,17 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### SetParameterSet (Default)
 ```
-Set-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
- [-StartTime <String>] [-StopTime <String>] [-StartDay <String>] [-StopDay <String>] [-Bandwidth <Int32>]
+Set-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> [-DeviceName <String>]
+ [-StartTime <String>] [-StopTime <String>] [-Days <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth]
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### ByResourceIdParameterSet
+```
+Set-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DeviceName <String>] [-StartTime <String>]
+ [-StopTime <String>] [-Days <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -33,10 +41,25 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Bandwidth
-{{ Fill Bandwidth Description }}
+Bandwidth in Mbps
 
 ```yaml
-Type: System.Int32
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Days
+Scheduled Days
+
+```yaml
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -51,7 +74,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -63,14 +86,14 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Device Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -78,11 +101,11 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Resource Name
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: String
+Parameter Sets: SetParameterSet
 Aliases:
 
 Required: True
@@ -93,11 +116,11 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource Group Name
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: String
+Parameter Sets: SetParameterSet
 Aliases:
 
 Required: True
@@ -107,15 +130,15 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StartDay
-{{ Fill StartDay Description }}
+### -ResourceId
+Azure ResourceId
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: String
+Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -123,25 +146,10 @@ Accept wildcard characters: False
 ```
 
 ### -StartTime
-{{ Fill StartTime Description }}
+Schedule Start Time
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StopDay
-{{ Fill StopDay Description }}
-
-```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -153,10 +161,25 @@ Accept wildcard characters: False
 ```
 
 ### -StopTime
-{{ Fill StopTime Description }}
+Schedule Stop Time
 
 ```yaml
-Type: System.String
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UnlimitedBandwidth
+Set Unlimited Bandwidth
+
+```yaml
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 

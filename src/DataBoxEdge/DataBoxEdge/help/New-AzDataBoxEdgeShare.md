@@ -14,22 +14,22 @@ schema: 2.0.0
 
 ### NewParameterSet (Default)
 ```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String> -Name <String>
- -DataFormat <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String>
+ -Name <String> -DataFormat <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### NFSParameterSet
 ```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String> -Name <String>
- [-SetClient] -ClientId <String> -ClientAccessRight <String> -DataFormat <String>
+New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String>
+ -Name <String> [-SetClient] -ClientId <String> -ClientAccessRight <String> -DataFormat <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### SMBParameterSet
 ```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String> -Name <String>
- [-AccessProtocol <String>] [-SetUser] -Username <String> -UserAccessRight <String> -DataFormat <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String>
+ -Name <String> [-AccessProtocol <String>] [-SetUser] -Username <String> -UserAccessRight <String>
+ -DataFormat <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -166,21 +166,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StorageAccountCredentialName
-Provide existing StorageAccountCredential's Resource Name
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -SetClient
 Add ClientId in case of NFS Access Protocol
 
@@ -205,6 +190,21 @@ Parameter Sets: SMBParameterSet
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountCredentialName
+Provide existing StorageAccountCredential's Resource Name
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

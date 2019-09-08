@@ -31,9 +31,7 @@ ResourceGroupName                                     : ranandu-name
 DataBoxEdgeDeviceExtendedInfo.EncryptionKey           : {LONG_ENCRYPTION_KEY}
 DataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint : {THUMBPRINT}
 DataBoxEdgeDeviceExtendedInfo.ResourceKey             : {RESOURCEKEY}
-
 ```
-
 
 ## PARAMETERS
 

@@ -18,6 +18,12 @@ Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -DeviceName <Stri
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### ByResourceIdParameterSet
+```
+Get-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
 ### GetByNameParameterSet
 ```
 Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
@@ -27,7 +33,6 @@ Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -D
 ## DESCRIPTION
 The **Get-AzDataBoxEdgeBandwidthSchedule** cmdlet gets information about Bandwidth Schedules.
 If you specify the Name of the Schedule along with the resource group name and Device name, this cmdlet gets information about that specific Bandwidth schedule
-
 
 ## EXAMPLES
 
@@ -63,7 +68,7 @@ The name of the device
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
@@ -93,7 +98,22 @@ BandwidthSchedule ResourceGroupName
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+ResourceId of the Azure Resource
+
+```yaml
+Type: System.String
+Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
 Required: True

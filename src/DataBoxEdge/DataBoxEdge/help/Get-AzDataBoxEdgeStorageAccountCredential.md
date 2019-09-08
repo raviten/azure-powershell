@@ -28,7 +28,6 @@ Get-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName <String> -Name <Str
 The **Get-AzDataBoxEdgeStirageAccountCredential** will get the StprageAccountCredentail details. 
 If you specify the Name of the StorageAccountCredential along with the resource group name and Device name, this cmdlet gets information about that specific Storage Account Credential
 
-
 ## EXAMPLES
 
 ### Example 1
@@ -38,7 +37,6 @@ StorageAccountCredential.Name    StorageAccountCredential.StorageAccount Storage
 -------------------------------- --------------------------------------- ---------------------------------- -----------------
 storage-account-credential-name  storage-account-name                     Disabled                           resource-group-name
 ```
-
 
 ## PARAMETERS
 

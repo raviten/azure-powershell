@@ -12,9 +12,16 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### RemoveByNameParameterSet (Default)
 ```
-Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String> [-Force]
+ [-DefaultProfile <IAzureContextContainer>] [-PassThru] [<CommonParameters>]
+```
+
+### ByResourceIdParameterSet
+```
+Remove-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,7 +42,7 @@ PS C:\> {{ Add example code here }}
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -47,14 +54,29 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Device Name
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: String
+Parameter Sets: RemoveByNameParameterSet
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Don't wait'
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: RemoveByNameParameterSet
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -62,11 +84,11 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Resource Name
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: String
+Parameter Sets: RemoveByNameParameterSet
 Aliases:
 
 Required: True
@@ -76,12 +98,42 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+### -PassThru
+returns true if successful
 
 ```yaml
-Type: System.String
-Parameter Sets: (All)
+Type: SwitchParameter
+Parameter Sets: RemoveByNameParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceGroupName
+Resource Group Name
+
+```yaml
+Type: String
+Parameter Sets: RemoveByNameParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+Azure ResourceId
+
+```yaml
+Type: String
+Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
 Required: True
