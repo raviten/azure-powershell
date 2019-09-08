@@ -13,44 +13,101 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.BandwidthSchedule, DefaultParameterSetName = GetByNameParameterSet
+    [Cmdlet(VerbsCommon.Remove, Constants.BandwidthSchedule, DefaultParameterSetName = RemoveByNameParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeBandWidthSchedule))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeBandwidthRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string RemoveByNameParameterSet = "RemoveByNameParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet, HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.ResourceGroupNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.NameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.DeviceNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        public override void ExecuteCmdlet()
+        [Parameter(Mandatory = false, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.ForceHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.PassThruHelpMessage)]
+        public SwitchParameter PassThru;
+
+        private bool Remove()
         {
             BandwidthSchedulesOperationsExtensions.Delete(
                 this.DataBoxEdgeManagementClient.BandwidthSchedules,
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
-            WriteObject(true);
+            return true;
+        }
+
+        private bool ShouldProcess()
+        {
+            var action = string.Format(" ",
+                Resource.Deleting,
+                Constants.ServiceName,
+                typeof(ResourceModel).Name,
+                this.Name,
+                Resource.InResourceGroup,
+                this.ResourceGroupName
+            );
+            return ShouldProcess(this.Name, string.Format(action));
+        }
+
+
+        private bool ShouldContinue()
+        {
+            return ShouldContinue(string.Format(Resource.RemoveWarning + this.Name), "");
+        }
+
+        public override void ExecuteCmdlet()
+        {
+            if (this.ParameterSetName.Equals(ResourceIdParameterSet))
+            {
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                if (resourceIdentifier.ValidateSubResource())
+                {
+                    this.DeviceName = resourceIdentifier.DeviceName;
+                    this.Name = resourceIdentifier.ResourceName;
+                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                }
+            }
+
+            if (ShouldProcess())
+            {
+                if (this.Force || ShouldContinue())
+                {
+                    if (PassThru)
+                    {
+                        WriteObject(Remove());
+                    }
+                    else
+                    {
+                        Remove();
+                    }
+                }
+            }
         }
     }
 }

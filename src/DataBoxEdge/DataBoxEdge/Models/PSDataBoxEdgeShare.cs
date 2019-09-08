@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using Share = Microsoft.Azure.Management.EdgeGateway.Models.Share;
 

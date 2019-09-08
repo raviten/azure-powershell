@@ -14,15 +14,14 @@
 
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge
 {
-    public class ResourceIdHandler: ResourceIdentifier
+    public class ResourceIdHandler : ResourceIdentifier
     {
         public static string GetResourceGroupName(string resourceId)
         {
             var resourceIdentifier = new ResourceIdentifier(resourceId);
             return resourceIdentifier.ResourceGroupName;
-            
         }
     }
 }

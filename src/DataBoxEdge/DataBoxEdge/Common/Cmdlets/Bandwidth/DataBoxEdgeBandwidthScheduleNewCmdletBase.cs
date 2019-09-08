@@ -13,75 +13,91 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
+using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
 {
-    [Cmdlet(VerbsCommon.New, Constants.BandwidthSchedule, DefaultParameterSetName = NewParameterSet
-     ),
-     OutputType(typeof(PSDataBoxEdgeBandWidthSchedule))]
+    using HelpMessageConstants = BandwidthScheduleHelpMessages;
+
+    [Cmdlet(VerbsCommon.New, Constants.BandwidthSchedule, DefaultParameterSetName = NewParameterSet),
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeBandwidthNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = Constants.ResourceGroupNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = Constants.NameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = Constants.DeviceNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = HelpMessageConstants.StartTime)]
         [ValidateNotNullOrEmpty]
         public string StartTime { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = HelpMessageConstants.StopTime)]
         [ValidateNotNullOrEmpty]
         public string StopTime { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, HelpMessage = HelpMessageConstants.Days)]
         [ValidateNotNullOrEmpty]
         public string[] Days { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = false, HelpMessage = HelpMessageConstants.Bandwidth)]
         [ValidateNotNullOrEmpty]
-        public int Bandwidth { get; set; }
+        public int? Bandwidth { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter UnlimitedBandwidth { get; set; }
 
 
-        public override void ExecuteCmdlet()
+        private PSResourceModel CreateResourceModel()
         {
-            var results = new List<PSDataBoxEdgeBandWidthSchedule>();
-            var days = new List<String>(this.Days);
-            var scheduler = new BandwidthSchedule(
+            if (UnlimitedBandwidth.IsPresent)
+            {
+                Bandwidth = 0;
+            }
+
+            if (!Bandwidth.HasValue)
+            {
+                throw new Exception(Resource.InvalidBandwidthInput);
+            }
+
+            var days = new List<string>(this.Days);
+            var resourceModel = new ResourceModel(
                 this.StartTime,
                 this.StopTime,
-                Bandwidth,
+                Bandwidth.Value,
                 days,
                 null,
                 this.Name
             );
+            return new PSResourceModel(
+                BandwidthSchedulesOperationsExtensions.CreateOrUpdate(
+                    this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                    this.DeviceName,
+                    this.Name,
+                    resourceModel,
+                    this.ResourceGroupName));
+        }
 
-
-            results.Add(
-                new PSDataBoxEdgeBandWidthSchedule(
-                    BandwidthSchedulesOperationsExtensions.CreateOrUpdate(
-                        this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                        this.DeviceName,
-                        this.Name,
-                        scheduler,
-                        this.ResourceGroupName)));
-
+        public override void ExecuteCmdlet()
+        {
+            var results = new List<PSResourceModel>();
+            results.Add(CreateResourceModel());
             WriteObject(results, true);
         }
     }

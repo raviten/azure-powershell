@@ -13,18 +13,17 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
 using System;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
 {
     public class DataBoxEdgeResourceIdentifier : ResourceIdentifier
     {
-        public bool IsDeviceSubType { get; }
-        public String DeviceName{ get; }
+        public bool IsSubResource { get; }
+        public string DeviceName{ get; }
 
-        public DataBoxEdgeResourceIdentifier(String resourceId) : base(resourceId)
+        public DataBoxEdgeResourceIdentifier(string resourceId) : base(resourceId)
         {
             if (!this.ResourceType.StartsWith(Constants.DataBoxEdgeDeviceProvider))
             {
@@ -32,15 +31,25 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
             }
             if (!string.IsNullOrEmpty(this.ParentResource))
             {
-                this.IsDeviceSubType= true;
+                this.IsSubResource= true;
                 this.DeviceName =  this.ParentResource.Remove(0, Constants.DevicesPath.Length);
             }
             else
             {
-                this.IsDeviceSubType = false;
+                this.IsSubResource = false;
                 this.DeviceName = this.ResourceName;
             }
         }
+
+        public bool ValidateSubResource()
+        {
+            if (!this.IsSubResource)
+            {
+                throw new Exception(Resource.InvalidSubResource);
+            }
+            return true;
+        }
+
 
     }
 }

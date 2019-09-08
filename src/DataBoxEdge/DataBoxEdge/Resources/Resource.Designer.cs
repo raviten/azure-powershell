@@ -19,7 +19,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource {
@@ -133,25 +133,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Creating Databox job &quot;.
+        ///   Looks up a localized string similar to Creating.
         /// </summary>
-        internal static string CreatingDataboxJob {
+        internal static string Creating {
             get {
-                return ResourceManager.GetString("CreatingDataboxJob", resourceCulture);
+                return ResourceManager.GetString("Creating", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Deletign Databox job &quot;.
+        ///   Looks up a localized string similar to Deleting.
         /// </summary>
-        internal static string DeletingDataboxJob {
+        internal static string Deleting {
             get {
-                return ResourceManager.GetString("DeletingDataboxJob", resourceCulture);
+                return ResourceManager.GetString("Deleting", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;in resource group &quot;.
+        ///   Looks up a localized string similar to in resource group .
         /// </summary>
         internal static string InResourceGroup {
             get {
@@ -169,11 +169,29 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;Please provide Bandwidth in Mbps&quot;.
+        /// </summary>
+        internal static string InvalidBandwidthInput {
+            get {
+                return ResourceManager.GetString("InvalidBandwidthInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;Invalid Resource Id&quot;.
         /// </summary>
         internal static string InvalidResourceId {
             get {
                 return ResourceManager.GetString("InvalidResourceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Please provide valid resource for this operation&quot;.
+        /// </summary>
+        internal static string InvalidSubResource {
+            get {
+                return ResourceManager.GetString("InvalidSubResource", resourceCulture);
             }
         }
         
@@ -205,11 +223,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Removing Databox Job &quot;.
+        ///   Looks up a localized string similar to Removing.
         /// </summary>
-        internal static string RemoveDataboxJobWarning {
+        internal static string RemoveWarning {
             get {
-                return ResourceManager.GetString("RemoveDataboxJobWarning", resourceCulture);
+                return ResourceManager.GetString("RemoveWarning", resourceCulture);
             }
         }
         

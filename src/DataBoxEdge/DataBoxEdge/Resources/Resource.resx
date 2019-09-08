@@ -141,20 +141,26 @@
   <data name="Country" xml:space="preserve">
     <value>"Country: "</value>
   </data>
-  <data name="CreatingDataboxJob" xml:space="preserve">
-    <value>"Creating Databox job "</value>
+  <data name="Creating" xml:space="preserve">
+    <value>Creating</value>
   </data>
-  <data name="DeletingDataboxJob" xml:space="preserve">
-    <value>"Deletign Databox job "</value>
+  <data name="Deleting" xml:space="preserve">
+    <value>Deleting</value>
   </data>
   <data name="InResourceGroup" xml:space="preserve">
-    <value>"in resource group "</value>
+    <value>in resource group </value>
   </data>
   <data name="InvalidAddressMessage" xml:space="preserve">
     <value>"The Shipping Address is not Valid."</value>
   </data>
+  <data name="InvalidBandwidthInput" xml:space="preserve">
+    <value>"Please provide Bandwidth in Mbps"</value>
+  </data>
   <data name="InvalidResourceId" xml:space="preserve">
     <value>"Invalid Resource Id"</value>
+  </data>
+  <data name="InvalidSubResource" xml:space="preserve">
+    <value>"Please provide valid resource for this operation"</value>
   </data>
   <data name="JobCannotBeCancelled" xml:space="preserve">
     <value>"This job cannot be cancelled"</value>
@@ -165,8 +171,8 @@
   <data name="PostalCode" xml:space="preserve">
     <value>"Postal code: "</value>
   </data>
-  <data name="RemoveDataboxJobWarning" xml:space="preserve">
-    <value>"Removing Databox Job "</value>
+  <data name="RemoveWarning" xml:space="preserve">
+    <value>Removing</value>
   </data>
   <data name="StateOrProvince" xml:space="preserve">
     <value>"State/Province: "</value>

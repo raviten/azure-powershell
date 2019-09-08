@@ -12,23 +12,31 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.Rest.Azure;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare;
+
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.Get, Constants.Share, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeUser))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeShareGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+
+        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
@@ -40,48 +48,82 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-
         [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        public bool NotNullOrEmpty(string val)
+        private ResourceModel GetResourceModel()
         {
-            return !string.IsNullOrEmpty(val);
+            return SharesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Shares,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
         }
 
+        private IPage<ResourceModel> ListResourceModel()
+        {
+            return SharesOperationsExtensions.ListByDataBoxEdgeDevice(
+                this.DataBoxEdgeManagementClient.Shares,
+                this.DeviceName,
+                this.ResourceGroupName);
+        }
+
+        private IPage<ResourceModel> ListResourceModel(string nextPageLink)
+        {
+            return SharesOperationsExtensions.ListByDataBoxEdgeDeviceNext(
+                this.DataBoxEdgeManagementClient.Shares,
+                nextPageLink
+            );
+        }
+
+        private List<PSResourceModel> GetByResourceName()
+        {
+            var resourceModel = GetResourceModel();
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
+        }
+
+        private List<PSResourceModel> ListByDevice()
+        {
+            var resourceModel = ListResourceModel();
+            var paginatedResult = new List<ResourceModel>(resourceModel);
+            while (!string.IsNullOrEmpty(resourceModel.NextPageLink))
+            {
+                resourceModel = ListResourceModel(resourceModel.NextPageLink);
+                paginatedResult.AddRange(resourceModel);
+            }
+
+            return paginatedResult.Select(t => new PSResourceModel(t)).ToList();
+        }
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSDataBoxEdgeShare>();
-            if (NotNullOrEmpty(this.Name))
+            var results = new List<PSResourceModel>();
+            if (this.ParameterSetName.Equals(ResourceIdParameterSet))
             {
-                results.Add(
-                    new PSDataBoxEdgeShare(
-                        SharesOperationsExtensions.Get(
-                            this.DataBoxEdgeManagementClient.Shares,
-                            this.DeviceName,
-                            this.Name,
-                            this.ResourceGroupName)));
-            }
-            else if (!string.IsNullOrEmpty(this.ResourceGroupName))
-            {
-                var shares = SharesOperationsExtensions.ListByDataBoxEdgeDevice(
-                    this.DataBoxEdgeManagementClient.Shares,
-                    this.DeviceName,
-                    this.ResourceGroupName);
-                var paginatedResult = new List<Management.EdgeGateway.Models.Share>(shares);
-                while (NotNullOrEmpty(shares.NextPageLink))
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                if (resourceIdentifier.IsSubResource)
                 {
-                    shares = SharesOperationsExtensions.ListByDataBoxEdgeDeviceNext(
-                        this.DataBoxEdgeManagementClient.Shares,
-                        shares.NextPageLink
-                    );
-                    paginatedResult.AddRange(shares);
+                    this.DeviceName = resourceIdentifier.DeviceName;
+                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                    this.Name = resourceIdentifier.ResourceName;
+                    results = GetByResourceName();
                 }
-
-                results = paginatedResult.Select(t => new PSDataBoxEdgeShare(t)).ToList();
+                else
+                {
+                    this.DeviceName = resourceIdentifier.ResourceName;
+                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                    results = ListByDevice();
+                }
+            }
+            else if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            {
+                results = GetByResourceName();
+            }
+            else if (this.ParameterSetName.Equals(ListParameterSet))
+            {
+                results = ListByDevice();
             }
 
             WriteObject(results, true);

@@ -13,22 +13,21 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
-using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
-using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
+using Microsoft.Rest.Azure;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
 {
     [Cmdlet(VerbsCommon.Get, Constants.BandwidthSchedule, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeBandWidthSchedule))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeBandwidthGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
@@ -48,75 +47,82 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-
         [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        public bool NotNullOrEmpty(string val)
+        private ResourceModel GetResourceModel()
         {
-            return !string.IsNullOrEmpty(val);
-        }
-
-        private List<PSDataBoxEdgeBandWidthSchedule> GetForResourceName()
-        {
-            var bwObj = BandwidthSchedulesOperationsExtensions.Get(
+            return BandwidthSchedulesOperationsExtensions.Get(
                 this.DataBoxEdgeManagementClient.BandwidthSchedules,
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
-            return new List<PSDataBoxEdgeBandWidthSchedule>() { new PSDataBoxEdgeBandWidthSchedule(bwObj) };
         }
 
-        private List<PSDataBoxEdgeBandWidthSchedule> GetForDevice()
+        private IPage<ResourceModel> ListResourceModel()
         {
-            var bandwidthSchedules = BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDevice(
-                    this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                    this.DeviceName,
-                    this.ResourceGroupName);
-            var paginatedResult = new List<BandwidthSchedule>(bandwidthSchedules);
-            while (NotNullOrEmpty(bandwidthSchedules.NextPageLink))
-            {
-                bandwidthSchedules = BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDeviceNext(
-                    this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                    bandwidthSchedules.NextPageLink
-                );
-                paginatedResult.AddRange(bandwidthSchedules);
-            }
-            return paginatedResult.Select(t => new PSDataBoxEdgeBandWidthSchedule(t)).ToList();
+            return BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDevice(
+                this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                this.DeviceName,
+                this.ResourceGroupName);
         }
 
+        private IPage<ResourceModel> ListResourceModel(string nextPageLink)
+        {
+            return BandwidthSchedulesOperationsExtensions.ListByDataBoxEdgeDeviceNext(
+                this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                nextPageLink
+            );
+        }
+
+        private List<PSResourceModel> GetByResourceName()
+        {
+            var resourceModel = GetResourceModel();
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
+        }
+
+        private List<PSResourceModel> ListByDevice()
+        {
+            var resourceModel = ListResourceModel();
+            var paginatedResult = new List<ResourceModel>(resourceModel);
+            while (!string.IsNullOrEmpty(resourceModel.NextPageLink))
+            {
+                resourceModel = ListResourceModel(resourceModel.NextPageLink);
+                paginatedResult.AddRange(resourceModel);
+            }
+
+            return paginatedResult.Select(t => new PSResourceModel(t)).ToList();
+        }
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSDataBoxEdgeBandWidthSchedule>();
+            var results = new List<PSResourceModel>();
             if (this.ParameterSetName.Equals(ResourceIdParameterSet))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
-                if (resourceIdentifier.IsDeviceSubType)
+                if (resourceIdentifier.IsSubResource)
                 {
                     this.DeviceName = resourceIdentifier.DeviceName;
                     this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
                     this.Name = resourceIdentifier.ResourceName;
-                    results = GetForResourceName();
+                    results = GetByResourceName();
                 }
-                else 
+                else
                 {
                     this.DeviceName = resourceIdentifier.ResourceName;
                     this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
-                    results = GetForDevice();
-                    
+                    results = ListByDevice();
                 }
-                
             }
             else if (this.ParameterSetName.Equals(GetByNameParameterSet))
             {
-                results = GetForResourceName();
+                results = GetByResourceName();
             }
             else if (this.ParameterSetName.Equals(ListParameterSet))
             {
-                results = GetForDevice();
+                results = ListByDevice();
             }
 
             WriteObject(results, true);

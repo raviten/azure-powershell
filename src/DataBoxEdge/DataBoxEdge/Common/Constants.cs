@@ -7,28 +7,38 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
     static class Constants
     {
         //Device Command List
-        public const string AzurePrefix = "Az";
-        public const string SERVICE_NAME = "DataBoxEdge";
+        internal const string AzurePrefix = "Az";
+        internal const string ServiceName = "DataBoxEdge";
 
 
         //Device Comands
-        public const string Device = AzurePrefix + SERVICE_NAME + "Device";
-        public const string ExtendedInfo = AzurePrefix + SERVICE_NAME + "Device" + "ExtendedInfo";
-        public const string User = AzurePrefix + SERVICE_NAME + "User";
-        public const string Sac = AzurePrefix + SERVICE_NAME + "StorageAccountCredential";
-        public const string Role = AzurePrefix + SERVICE_NAME + "Role";
-        public const string Share = AzurePrefix + SERVICE_NAME + "Share";
-        public const string BandwidthSchedule = AzurePrefix + SERVICE_NAME + "BandwidthSchedule";
-        public const string Test = AzurePrefix + SERVICE_NAME + "Test";
+        internal const string Device = AzurePrefix + ServiceName + "Device";
+        internal const string ExtendedInfo = AzurePrefix + ServiceName + "Device" + "ExtendedInfo";
+        internal const string User = AzurePrefix + ServiceName + "User";
+        internal const string Sac = AzurePrefix + ServiceName + "StorageAccountCredential";
+        internal const string Role = AzurePrefix + ServiceName + "Role";
+        internal const string Share = AzurePrefix + ServiceName + "Share";
+        internal const string BandwidthSchedule = AzurePrefix + ServiceName + "BandwidthSchedule";
+        internal const string Test = AzurePrefix + ServiceName + "Test";
 
 
         //Job Comands
-        public const string Job = AzurePrefix + SERVICE_NAME + "Job";
+        internal const string Job = AzurePrefix + ServiceName + "Job";
 
         //Arm providers
-        public const string DataBoxEdgeDeviceProvider = "Microsoft.DataBoxEdge/dataBoxEdgeDevices";
-        public const string DevicesPath = "dataBoxEdgeDevices/";
+        internal const string DataBoxEdgeDeviceProvider = "Microsoft.DataBoxEdge/dataBoxEdgeDevices";
+        internal const string DevicesPath = "dataBoxEdgeDevices/";
+
+        //HelpMessage
+        internal const string DeviceNameHelpMessage = "Device Name";
+        internal const string ResourceIdHelpMessage = "Azure ResourceId";
+        internal const string ResourceGroupNameHelpMessage = "Resource Group Name";
+        internal const string NameHelpMessage = "Resource Name";
+        internal const string ForceHelpMessage = "Don't wait'";
+        internal const string PassThruHelpMessage = "returns true if successful";
         
+
+
 
     }
 }
