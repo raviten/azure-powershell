@@ -1,4 +1,4 @@
----
+ ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
 online version:
@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-AzDataBoxEdgeBandwidthSchedule
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update a Bandwidth Schedule for the device
 
 ## SYNTAX
 
@@ -27,16 +27,27 @@ Set-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DeviceName <String>] [
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Set-AzDataBoxEdgeBandwidthSchedule** will help in updating Bandwidth schedule's configuration for a device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-AzDataBoxEdgeBandwidthSchedule  -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule -UnlimitedBandwidth
+Days                      BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
+----                      ----------------------   ---------------------------- --------------------------- --------------------------
+Sunday, Tuesday, Saturday bandwidth-schedule       0                            11:00:00                    12:00:00
+
 ```
 
-{{ Add example description here }}
+### Example 2
+```powershell
+PS C:\> New-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule -StopTime 21:00
+Days                      BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
+----                      ----------------------   ---------------------------- --------------------------- --------------------------
+Sunday, Tuesday, Saturday bandwidth-schedule       0                            11:00:00                    21:00:00
+
+```
 
 ## PARAMETERS
 

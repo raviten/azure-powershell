@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-AzDataBoxEdgeBandwidthSchedule
 
 ## SYNOPSIS
-Create a new Bandwidth schedule on the device
+Create a new Bandwidth schedule
 
 ## SYNTAX
 
@@ -19,16 +19,28 @@ New-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -D
 ```
 
 ## DESCRIPTION
-Bandwidth schedule 
+The **New-AzDataBoxEdgeDevice** cmdlet creates a Bandwidth Schedule for the Device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-AzDataBoxEdgeBandwidthSchedule  -Days Sunday, Tuesday, Saturday -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule -StartTime 11:00 -StopTime 12:00 -Bandwidth 30
+Days                      BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
+----                      ----------------------   ---------------------------- --------------------------- --------------------------
+Sunday, Tuesday, Saturday bandwidth-schedule       30                           11:00:00                    12:00:00
+
 ```
 
-{{ Add example description here }}
+### Example 2
+```powershell
+PS C:\> New-AzDataBoxEdgeBandwidthSchedule  -Days Sunday, Tuesday, Saturday -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule-unlimited -StartTime 11:00 -StopTime 12:00 -UnlimitedBandwidth
+Days                      BandwidthSchedule.Name            BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
+----                      ----------------------            ---------------------------- --------------------------- --------------------------
+Sunday, Tuesday, Saturday bandwidth-schedule-unlimited       0                            11:00:00                    12:00:00
+
+```
+
 
 ## PARAMETERS
 

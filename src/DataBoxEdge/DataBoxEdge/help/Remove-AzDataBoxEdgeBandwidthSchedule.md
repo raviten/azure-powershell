@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzDataBoxEdgeBandwidthSchedule
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Removes a Bandwidth Schedule
 
 ## SYNTAX
 
@@ -25,16 +25,15 @@ Remove-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DefaultProfile <IAz
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Remove-AzDataBoxEdgeBandwidthSchedule** will remove the Bandwidth schedule for the device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
