@@ -19,7 +19,7 @@ New-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -D
 ```
 
 ## DESCRIPTION
-The **New-AzDataBoxEdgeDevice** cmdlet creates a Bandwidth Schedule for the Device.
+The **New-AzDataBoxEdgeDevice** cmdlet will create configurations that will help in managing the Bandwidth usage by the device.
 
 ## EXAMPLES
 

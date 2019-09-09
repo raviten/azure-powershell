@@ -31,8 +31,7 @@ Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -D
 ```
 
 ## DESCRIPTION
-The **Get-AzDataBoxEdgeBandwidthSchedule** cmdlet gets information about Bandwidth Schedules.
-If you specify the Name of the Schedule along with the resource group name and Device name, this cmdlet gets information about that specific Bandwidth schedule
+The **Get-AzDataBoxEdgeBandwidthSchedule** cmdlet gets information about Bandwidth Schedules. If you specify the Name of the Schedule along with the resource group name and Device name, this cmdlet gets information about that specific Bandwidth schedule
 
 ## EXAMPLES
 
@@ -40,11 +39,20 @@ If you specify the Name of the Schedule along with the resource group name and D
 ```powershell
 PS C:\>Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupname resource-group-name -DeviceName device-name
 
-Days                                       BandwidthSchedule.Name                        BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
-----                                       ----------------------                        ---------------------------- --------------------------- --------------------------
-Tuesday,Wednesday,Thursday,Friday,Saturday Schedule-0fc25d5d-2a14-466b-b80e-aabf2f7850e5 0                            00:00:00                    23:59:00
-Monday                                     Schedule-2c3b06c5-9da6-4e14-b554-80eabd530a8e 50                           00:01:00                    05:00:00
+Days                                       BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
+----                                       ----------------------   ---------------------------- --------------------------- --------------------------
+Tuesday,Wednesday,Thursday,Friday,Saturday Schedule-1               0                            00:00:00                    23:59:00
+Monday                                     Schedule-2               50                           00:01:00                    05:00:00
 ```
+### Example 2
+```powershell
+PS C:\>Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupname resource-group-name -DeviceName device-name -Name Schedule-1
+
+Days                                       BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
+----                                       ----------------------   ---------------------------- --------------------------- --------------------------
+Tuesday,Wednesday,Thursday,Friday,Saturday Schedule-1               0                            00:00:00                    23:59:00
+```
+
 
 ## PARAMETERS
 
