@@ -35,7 +35,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string ResourceIdHelpMessage = "Azure ResourceId";
         internal const string ResourceGroupNameHelpMessage = "Resource Group Name";
         internal const string NameHelpMessage = "Resource Name";
-        internal const string ForceHelpMessage = "Don't wait'";
         internal const string PassThruHelpMessage = "returns true if successful";
         internal const string AsJobHelpMessage = "Run cmdlet in the background";
 

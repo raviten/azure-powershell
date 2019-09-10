@@ -57,7 +57,7 @@ Create a new Bandwidth schedule
 Removes a Bandwidth Schedule
 
 ### [Remove-AzDataBoxEdgeDevice](Remove-AzDataBoxEdgeDevice.md)
-{{ Fill in the Synopsis }}
+Remove a device
 
 ### [Remove-AzDataBoxEdgeRole](Remove-AzDataBoxEdgeRole.md)
 {{ Fill in the Synopsis }}

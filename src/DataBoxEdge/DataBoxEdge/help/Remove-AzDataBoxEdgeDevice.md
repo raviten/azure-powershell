@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzDataBoxEdgeDevice
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove a device
 
 ## SYNTAX
 
@@ -31,16 +31,14 @@ Remove-AzDataBoxEdgeDevice [-InputObject] <PSDataBoxEdgeDevice> [-AsJob]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Remove-AzDataBoxEdgeDevice** will remove the device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzDataBoxEdgeDevice -ResourceGroupName resource-group-name -Name device-name schedule
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -75,7 +73,7 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-{{ Fill InputObject Description }}
+Powershell object
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
