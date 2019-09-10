@@ -29,52 +29,31 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
      OutputType(typeof(PSDataBoxEdgeBandWidthSchedule))]
     public class DataBoxEdgeBandwidthSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
+        private const string UpdateByResourceIdParameterSet = "UpdateByResourceIdParameterSet";
         private const string UpdateByNameParameterSet = "UpdateByNameParameterSet";
         private const string UpdateByInputObjectParameterSet = "UpdateByInputObjectParameterSet";
-        private const string BandwidthSchedule = "BandwidthSchedule";
-        private const string UnlimitedBandwidthSchedule = "UnlimitedBandwidthSchedule";
 
-        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet,
+        [Parameter(Mandatory = true, ParameterSetName = UpdateByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = UpdateByInputObjectParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         public PSResourceModel PSDataBoxEdgeBandWidthSchedule { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = UpdateByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
             HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = UpdateByNameParameterSet,
             HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = UpdateByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage, Position = 2)]
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule, 
-            HelpMessage = Constants.NameHelpMessage, Position = 2)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
             HelpMessage = Constants.NameHelpMessage, Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -92,25 +71,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         public string[] DaysOfWeek { get; set; }
 
 
-        [Parameter(Mandatory = false, ParameterSetName = ResourceIdParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
-        [Parameter(Mandatory = false, ParameterSetName = UpdateByInputObjectParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
-        [Parameter(Mandatory = false, ParameterSetName = UpdateByNameParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule,
+        [Parameter(Mandatory = false,
             HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [ValidateNotNullOrEmpty]
         public int? Bandwidth { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = ResourceIdParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
-        [Parameter(Mandatory = false, ParameterSetName = UpdateByInputObjectParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
-        [Parameter(Mandatory = false, ParameterSetName = UpdateByNameParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
-            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
+        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter UnlimitedBandwidth { get; set; }
 
