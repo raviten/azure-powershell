@@ -14,7 +14,6 @@
 
 using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
@@ -33,15 +32,21 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [Parameter(Mandatory = true,
             HelpMessage = "Share will be created under this ResourceGroupName",
             ParameterSetName = SetParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName",
+            ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName",
+            ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with Resource name as DeviceName", ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created on the device with Resource name as DeviceName", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = "Share will be created on the device with Resource name as DeviceName",
+            ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = "Share will be created on the device with Resource name as DeviceName",
+            ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
@@ -51,12 +56,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         public string Name { get; set; }
 
 
-        [Parameter(Mandatory = true, HelpMessage = "provide an existing Username for SMB Share types", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "provide an existing Username for SMB Share types",
+            ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Username { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Provide user access right for the Username", ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide user access right for the Username",
+            ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string UserAccessRight { get; set; }
@@ -66,7 +73,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ResourceGroupCompleter]
         public string ClientId { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Provide Read/Write Access for clientId", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = "Provide Read/Write Access for clientId",
+            ParameterSetName = NFSParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ClientAccessRight { get; set; }
@@ -79,7 +87,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
-             
 
 
             if (ClientId != null)
@@ -109,7 +116,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 );
             }
 
-           
 
             results.Add(new PSDataBoxEdgeShare(share));
             WriteObject(results, true);

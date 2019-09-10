@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;

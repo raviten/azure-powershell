@@ -12,10 +12,18 @@ Create a new Bandwidth schedule
 
 ## SYNTAX
 
+### NewParameterSet (Default)
 ```
-New-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
- -StartTime <String> -StopTime <String> -Days <String[]> [-Bandwidth <Int32>] [-UnlimitedBandwidth]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+New-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ -StartTime <String> -StopTime <String> -DaysOfWeek <String[]> -Bandwidth <Int32> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### UnlimitedBandwidthSchedule
+```
+New-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ -StartTime <String> -StopTime <String> -DaysOfWeek <String[]> [-UnlimitedBandwidth] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,29 +34,26 @@ The **New-AzDataBoxEdgeDevice** cmdlet will create configurations that will help
 ### Example 1
 ```powershell
 PS C:\> New-AzDataBoxEdgeBandwidthSchedule  -Days Sunday, Tuesday, Saturday -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule -StartTime 11:00 -StopTime 12:00 -Bandwidth 30
-Days                      BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
-----                      ----------------------   ---------------------------- --------------------------- --------------------------
-Sunday, Tuesday, Saturday bandwidth-schedule       30                           11:00:00                    12:00:00
-
+Name                DaysOfWeek                    RateInMbps StartTime StopTime
+----                ----------                    ---------- --------- --------
+bandwidth-schedule  Sunday, Tuesday, Saturday     0          00:00:00  23:59:00
 ```
 
 ### Example 2
 ```powershell
 PS C:\> New-AzDataBoxEdgeBandwidthSchedule  -Days Sunday, Tuesday, Saturday -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule-unlimited -StartTime 11:00 -StopTime 12:00 -UnlimitedBandwidth
-Days                      BandwidthSchedule.Name            BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
-----                      ----------------------            ---------------------------- --------------------------- --------------------------
-Sunday, Tuesday, Saturday bandwidth-schedule-unlimited       0                            11:00:00                    12:00:00
-
+Name                          DaysOfWeek                RateInMbps  StartTime    StopTime
+----------------              ----------------------    ----------- -----------  --------------------------
+bandwidth-schedule-unlimited  Sunday, Tuesday, Saturday 0	        11:00:00     12:00:00
 ```
-
 
 ## PARAMETERS
 
-### -Bandwidth
-Bandwidth in Mbps
+### -AsJob
+Run cmdlet in the background
 
 ```yaml
-Type: System.Nullable`1[System.Int32]
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -59,8 +64,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Days
-Scheduled Days
+### -Bandwidth
+Bandwidth in Mbps
+
+```yaml
+Type: System.Nullable`1[System.Int32]
+Parameter Sets: NewParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DaysOfWeek
+Scheduled DaysOfWeek
 
 ```yaml
 Type: System.String[]
@@ -98,7 +118,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -113,7 +133,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -128,7 +148,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -169,8 +189,38 @@ Set Unlimited Bandwidth
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: UnlimitedBandwidthSchedule
 Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named

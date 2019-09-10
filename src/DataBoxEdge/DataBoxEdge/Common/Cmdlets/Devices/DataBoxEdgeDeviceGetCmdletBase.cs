@@ -15,77 +15,121 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.Rest.Azure;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.DataBoxEdgeDevice;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
+
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
     [Cmdlet(VerbsCommon.Get, Constants.Device, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeDevice))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeDeviceGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceGroupNameParameterSet = "GetByResourceGroupNameParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByResourceGroupNameParameterSet)]
+
+        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, HelpMessage = Constants.NameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        public override void ExecuteCmdlet()
+        private ResourceModel GetResourceModel()
         {
-            var results = new List<PSDataBoxEdgeDevice>();
-            if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            return DevicesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Devices,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+
+        private IPage<ResourceModel> ListResourceModel()
+        {
+            if (string.IsNullOrEmpty(this.ResourceGroupName))
             {
-                results.Add(
-                    new PSDataBoxEdgeDevice(
-                        DevicesOperationsExtensions.Get(
-                            this.DataBoxEdgeManagementClient.Devices,
-                            this.Name,
-                            this.ResourceGroupName)));
-            }
-            else if (this.ParameterSetName.Equals(GetByResourceGroupNameParameterSet))
-            {
-                var dataBoxEdgeDevices = DevicesOperationsExtensions.ListByResourceGroup(
+                return DevicesOperationsExtensions.ListByResourceGroup(
                     this.DataBoxEdgeManagementClient.Devices,
                     this.ResourceGroupName);
-                var paginatedResult = new List<DataBoxEdgeDevice>(dataBoxEdgeDevices);
-                while (!string.IsNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
-                {
-                    dataBoxEdgeDevices = DevicesOperationsExtensions.ListByResourceGroupNext(
-                        this.DataBoxEdgeManagementClient.Devices,
-                        dataBoxEdgeDevices.NextPageLink
-                    );
-                    paginatedResult.AddRange(dataBoxEdgeDevices);
-                }
-
-                results = paginatedResult.Select(t => new PSDataBoxEdgeDevice(t)).ToList();
             }
-            else
-            {
-                var dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscription(
-                    this.DataBoxEdgeManagementClient.Devices);
-                var paginatedResult = new List<DataBoxEdgeDevice>(dataBoxEdgeDevices);
-                while (!string.IsNullOrEmpty(dataBoxEdgeDevices.NextPageLink))
-                {
-                    dataBoxEdgeDevices = DevicesOperationsExtensions.ListBySubscriptionNext(
-                        this.DataBoxEdgeManagementClient.Devices,
-                        dataBoxEdgeDevices.NextPageLink
-                    );
-                    paginatedResult.AddRange(dataBoxEdgeDevices);
-                }
 
-                results = paginatedResult.Select(t => new PSDataBoxEdgeDevice(t)).ToList();
+            return DevicesOperationsExtensions.ListBySubscription(
+                this.DataBoxEdgeManagementClient.Devices);
+        }
+
+        private IPage<ResourceModel> ListResourceModel(string nextPageLink)
+        {
+            if (string.IsNullOrEmpty(this.ResourceGroupName))
+            {
+                return DevicesOperationsExtensions.ListByResourceGroupNext(
+                    this.DataBoxEdgeManagementClient.Devices,
+                    nextPageLink);
+            }
+
+            return DevicesOperationsExtensions.ListBySubscriptionNext(
+                this.DataBoxEdgeManagementClient.Devices,
+                nextPageLink
+            );
+        }
+
+        private List<PSResourceModel> GetByResourceName()
+        {
+            var resourceModel = GetResourceModel();
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
+        }
+
+        private List<PSResourceModel> ListForEverything()
+        {
+            var resourceModels = ListResourceModel();
+            var paginatedResult = new List<ResourceModel>(resourceModels);
+            while (!string.IsNullOrEmpty(resourceModels.NextPageLink))
+            {
+                resourceModels = ListResourceModel(resourceModels.NextPageLink);
+                paginatedResult.AddRange(resourceModels);
+            }
+
+            return paginatedResult.Select(t => new PSResourceModel(t)).ToList();
+        }
+
+        public override void ExecuteCmdlet()
+        {
+            var results = new List<PSResourceModel>();
+            if (this.ParameterSetName.Equals(ResourceIdParameterSet))
+            {
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.Name = resourceIdentifier.ResourceName;
+                if (string.IsNullOrEmpty(this.Name))
+                {
+                    results = GetByResourceName();
+                }
+                else
+                {
+                    results = ListForEverything();
+                }
+            }else if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            {
+                results = GetByResourceName();
+            }
+            else if (this.ParameterSetName.Equals(ListParameterSet) ||
+                     this.ParameterSetName.Equals(GetByResourceGroupNameParameterSet))
+            {
+                results = ListForEverything();
             }
 
             WriteObject(results, true);

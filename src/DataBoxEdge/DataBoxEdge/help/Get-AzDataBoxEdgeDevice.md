@@ -14,18 +14,18 @@ Get the devices with applied filters
 
 ### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeDevice [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeDevice -ResourceGroupName <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
+### ByResourceIdParameterSet
+```
+Get-AzDataBoxEdgeDevice -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
 Get-AzDataBoxEdgeDevice -ResourceGroupName <String> -Name <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
-```
-
-### GetByResourceGroupNameParameterSet
-```
-Get-AzDataBoxEdgeDevice -ResourceGroupName <String> [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
@@ -84,7 +84,22 @@ Device Resource Group Name
 
 ```yaml
 Type: System.String
-Parameter Sets: GetByNameParameterSet, GetByResourceGroupNameParameterSet
+Parameter Sets: ListParameterSet, GetByNameParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+{{ Fill ResourceId Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
 Required: True

@@ -12,15 +12,23 @@ Removes a Bandwidth Schedule
 
 ## SYNTAX
 
-### RemoveByNameParameterSet (Default)
+### DeleteByNameParameterSet (Default)
 ```
-Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String> [-Force]
- [-DefaultProfile <IAzureContextContainer>] [-PassThru] [<CommonParameters>]
+Remove-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ [-Force] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
-### ByResourceIdParameterSet
+### DeleteByResourceIdParameterSet
 ```
-Remove-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
+Remove-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-Force] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### DeleteByInputObjectParameterSet
+```
+Remove-AzDataBoxEdgeBandwidthSchedule [-PSDataBoxEdgeBandWidthSchedule] <PSDataBoxEdgeBandWidthSchedule>
+ [-Force] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -34,14 +42,28 @@ This **Remove-AzDataBoxEdgeBandwidthSchedule** will remove the Bandwidth schedul
 PS C:\> Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule
 ```
 
-
 ## PARAMETERS
+
+### -AsJob
+Run cmdlet in the background
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -56,12 +78,12 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: String
-Parameter Sets: RemoveByNameParameterSet
+Type: System.String
+Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -71,8 +93,8 @@ Accept wildcard characters: False
 Don't wait'
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: RemoveByNameParameterSet
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -86,12 +108,12 @@ Accept wildcard characters: False
 Resource Name
 
 ```yaml
-Type: String
-Parameter Sets: RemoveByNameParameterSet
+Type: System.String
+Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,8 +123,8 @@ Accept wildcard characters: False
 returns true if successful
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: RemoveByNameParameterSet
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -112,16 +134,31 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PSDataBoxEdgeBandWidthSchedule
+{{ Fill PSDataBoxEdgeBandWidthSchedule Description }}
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
+Parameter Sets: DeleteByInputObjectParameterSet
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 Resource Group Name
 
 ```yaml
-Type: String
-Parameter Sets: RemoveByNameParameterSet
+Type: System.String
+Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -131,11 +168,41 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: String
-Parameter Sets: ByResourceIdParameterSet
+Type: System.String
+Parameter Sets: DeleteByResourceIdParameterSet
 Aliases:
 
 Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

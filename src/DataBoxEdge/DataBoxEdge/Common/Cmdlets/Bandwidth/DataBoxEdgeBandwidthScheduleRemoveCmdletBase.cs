@@ -15,42 +15,62 @@
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.BandwidthSchedule, DefaultParameterSetName = RemoveByNameParameterSet
+    using HelpMessageConstants = BandwidthScheduleHelpMessages;
+
+    [Cmdlet(VerbsCommon.Remove, Constants.BandwidthSchedule, DefaultParameterSetName = DeleteByNameParameterSet,
+         SupportsShouldProcess = true
      ),
-     OutputType(typeof(PSResourceModel))]
+     OutputType(typeof(bool))]
     public class DataBoxEdgeBandwidthRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string RemoveByNameParameterSet = "RemoveByNameParameterSet";
+        private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
+        private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
+        private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet, HelpMessage = Constants.ResourceIdHelpMessage)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByResourceIdParameterSet,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = DeleteByInputObjectParameterSet,
+            Position = 0)]
+        [ValidateNotNull]
+        public PSResourceModel PSDataBoxEdgeBandWidthSchedule { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.NameHelpMessage)]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.DeviceNameHelpMessage)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.ForceHelpMessage)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.NameHelpMessage, Position = 2)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.ForceHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter Force { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = RemoveByNameParameterSet, HelpMessage = Constants.PassThruHelpMessage)]
+        [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]
         public SwitchParameter PassThru;
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
 
         private bool Remove()
         {
@@ -62,9 +82,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             return true;
         }
 
-        private bool ShouldProcess()
+        private string concet()
         {
-            var action = string.Format(" ",
+            var warning = string.Join(" ",
                 Resource.Deleting,
                 Constants.ServiceName,
                 typeof(ResourceModel).Name,
@@ -72,39 +92,36 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 Resource.InResourceGroup,
                 this.ResourceGroupName
             );
-            return ShouldProcess(this.Name, string.Format(action));
-        }
-
-
-        private bool ShouldContinue()
-        {
-            return ShouldContinue(string.Format(Resource.RemoveWarning + this.Name), "");
+            return warning;
         }
 
         public override void ExecuteCmdlet()
         {
-            if (this.ParameterSetName.Equals(ResourceIdParameterSet))
+            if (this.IsParameterBound(c => c.ResourceId))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
-                if (resourceIdentifier.ValidateSubResource())
-                {
-                    this.DeviceName = resourceIdentifier.DeviceName;
-                    this.Name = resourceIdentifier.ResourceName;
-                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
-                }
+                this.DeviceName = resourceIdentifier.DeviceName;
+                this.Name = resourceIdentifier.ResourceName;
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
             }
 
-            if (ShouldProcess())
+            if (this.IsParameterBound(c => c.PSDataBoxEdgeBandWidthSchedule))
             {
-                if (this.Force || ShouldContinue())
+                this.ResourceGroupName = this.PSDataBoxEdgeBandWidthSchedule.ResourceGroupName;
+                this.DeviceName = this.PSDataBoxEdgeBandWidthSchedule.DeviceName;
+                this.Name = this.PSDataBoxEdgeBandWidthSchedule.Name;
+            }
+
+            if (this.ShouldProcess(this.Name,
+                string.Format("Removing a new '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageConstants.ObjectName, this.DeviceName, this.Name)))
+            {
+                if (this.Force || ShouldContinue(string.Join(" ", Resource.RemoveWarning, this.Name), ""))
                 {
-                    if (PassThru)
+                    Remove();
+                    if (PassThru.IsPresent)
                     {
-                        WriteObject(Remove());
-                    }
-                    else
-                    {
-                        Remove();
+                        WriteObject(true);
                     }
                 }
             }

@@ -36,7 +36,7 @@ Get the Storage Account credential corresponding to device and storage account
 Get the created users  for this device
 
 ### [New-AzDataBoxEdgeBandwidthSchedule](New-AzDataBoxEdgeBandwidthSchedule.md)
-{{ Fill in the Synopsis }}
+Create a new Bandwidth schedule
 
 ### [New-AzDataBoxEdgeDevice](New-AzDataBoxEdgeDevice.md)
 {{ Fill in the Synopsis }}
@@ -53,11 +53,17 @@ Get the created users  for this device
 ### [New-AzDataBoxEdgeUser](New-AzDataBoxEdgeUser.md)
 {{ Fill in the Synopsis }}
 
+### [Remove-AzDataBoxEdgeBandwidthSchedule](Remove-AzDataBoxEdgeBandwidthSchedule.md)
+Removes a Bandwidth Schedule
+
 ### [Remove-AzDataBoxEdgeRole](Remove-AzDataBoxEdgeRole.md)
 {{ Fill in the Synopsis }}
 
 ### [Remove-AzDataBoxEdgeStorageAccountCredential](Remove-AzDataBoxEdgeStorageAccountCredential.md)
 {{ Fill in the Synopsis }}
+
+### [Set-AzDataBoxEdgeBandwidthSchedule](Set-AzDataBoxEdgeBandwidthSchedule.md)
+Update a Bandwidth Schedule for the device
 
 ### [Set-AzDataBoxEdgeDevice](Set-AzDataBoxEdgeDevice.md)
 {{ Fill in the Synopsis }}

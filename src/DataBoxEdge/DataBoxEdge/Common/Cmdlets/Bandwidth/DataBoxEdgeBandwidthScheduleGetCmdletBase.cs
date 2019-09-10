@@ -18,6 +18,7 @@ using System.Management.Automation;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Rest.Azure;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
 
@@ -30,25 +31,32 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string GetByDeviceObjectSet = "GetByDeviceObjectSet ";
 
-        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = ResourceIdParameterSet, Position = 0)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
+        [ValidateNotNullOrEmpty]
+        public string DeviceName { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, HelpMessage = Constants.NameHelpMessage,
+            Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string DeviceName { get; set; }
 
         private ResourceModel GetResourceModel()
         {
@@ -57,6 +65,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
+        }
+
+        private List<PSResourceModel> GetByResourceName()
+        {
+            var resourceModel = GetResourceModel();
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
         }
 
         private IPage<ResourceModel> ListResourceModel()
@@ -75,14 +89,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             );
         }
 
-        private List<PSResourceModel> GetByResourceName()
-        {
-            var resourceModel = GetResourceModel();
-            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
-        }
 
-        private List<PSResourceModel> ListByDevice()
+        private List<PSResourceModel> ListPSResourceModels()
         {
+            if (string.IsNullOrEmpty(this.DeviceName))
+            {
+                return GetByResourceName();
+            }
+
             var resourceModel = ListResourceModel();
             var paginatedResult = new List<ResourceModel>(resourceModel);
             while (!string.IsNullOrEmpty(resourceModel.NextPageLink))
@@ -96,33 +110,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSResourceModel>();
-            if (this.ParameterSetName.Equals(ResourceIdParameterSet))
+            if (this.IsParameterBound(c => c.ResourceId))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
-                if (resourceIdentifier.IsSubResource)
-                {
-                    this.DeviceName = resourceIdentifier.DeviceName;
-                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
-                    this.Name = resourceIdentifier.ResourceName;
-                    results = GetByResourceName();
-                }
-                else
-                {
-                    this.DeviceName = resourceIdentifier.ResourceName;
-                    this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
-                    results = ListByDevice();
-                }
-            }
-            else if (this.ParameterSetName.Equals(GetByNameParameterSet))
-            {
-                results = GetByResourceName();
-            }
-            else if (this.ParameterSetName.Equals(ListParameterSet))
-            {
-                results = ListByDevice();
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.DeviceName = resourceIdentifier.DeviceName;
+                this.Name = resourceIdentifier.ResourceName;
             }
 
+            var results = ListPSResourceModels();
             WriteObject(results, true);
         }
     }

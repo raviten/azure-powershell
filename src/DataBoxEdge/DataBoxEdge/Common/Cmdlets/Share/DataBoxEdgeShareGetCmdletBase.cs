@@ -12,11 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Rest.Azure;
@@ -38,18 +36,22 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, HelpMessage = Constants.NameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 

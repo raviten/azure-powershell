@@ -12,16 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
     [Cmdlet(VerbsCommon.Set, Constants.Device, DefaultParameterSetName = SetParameterSet
      ),
@@ -54,12 +52,11 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 
         public override void ExecuteCmdlet()
         {
-            
             var results = new List<PSDataBoxEdgeDevice>();
-            var dbe =  DevicesOperationsExtensions.Get(
-                    this.DataBoxEdgeManagementClient.Devices,
-                    this.Name,
-                    this.ResourceGroupName);
+            var dbe = DevicesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Devices,
+                this.Name,
+                this.ResourceGroupName);
             dbe.Sku = new Sku(this.Sku);
             dbe.Location = this.Location;
             var device = new PSDataBoxEdgeDevice(

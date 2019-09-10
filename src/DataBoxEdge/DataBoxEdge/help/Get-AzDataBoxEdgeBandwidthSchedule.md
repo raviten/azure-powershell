@@ -14,19 +14,19 @@ Gets the information about Bandwidth schedules
 
 ### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -DeviceName <String>
+Get-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### ByResourceIdParameterSet
 ```
-Get-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
+Get-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
-Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName <String> -Name <String> -DeviceName <String>
+Get-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -39,20 +39,21 @@ The **Get-AzDataBoxEdgeBandwidthSchedule** cmdlet gets information about Bandwid
 ```powershell
 PS C:\>Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupname resource-group-name -DeviceName device-name
 
-Days                                       BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
-----                                       ----------------------   ---------------------------- --------------------------- --------------------------
-Tuesday,Wednesday,Thursday,Friday,Saturday Schedule-1               0                            00:00:00                    23:59:00
-Monday                                     Schedule-2               50                           00:01:00                    05:00:00
+Name              DaysOfWeek         RateInMbps StartTime StopTime
+----              ----------         ---------- --------- --------
+schedule-name     Sunday,Saturday    0          13:00:00  14:00:00
+Schedule-1        Tuesday,Friday     0          00:00:00  23:59:00
+Schedule-2        Thursday           50         00:01:00  05:00:00
 ```
+
 ### Example 2
 ```powershell
 PS C:\>Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupname resource-group-name -DeviceName device-name -Name Schedule-1
 
-Days                                       BandwidthSchedule.Name   BandwidthSchedule.RateInMbps BandwidthSchedule.StartTime BandwidthSchedule.StopTime
-----                                       ----------------------   ---------------------------- --------------------------- --------------------------
-Tuesday,Wednesday,Thursday,Friday,Saturday Schedule-1               0                            00:00:00                    23:59:00
+Name              DaysOfWeek      RateInMbps StartTime StopTime
+----              ----------      ---------- --------- --------
+schedule-1        Sunday,Saturday 0          13:00:00  14:00:00
 ```
-
 
 ## PARAMETERS
 
@@ -80,7 +81,7 @@ Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -95,7 +96,7 @@ Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,7 +111,7 @@ Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -125,7 +126,7 @@ Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

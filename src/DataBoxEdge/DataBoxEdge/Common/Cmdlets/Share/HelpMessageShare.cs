@@ -13,14 +13,13 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
-     class BandwidthScheduleHelpMessages
+     class HelpMessageShare
     {
-        internal const string ObjectName = "BandwidthSchedule";
         internal const string StopTime = "Schedule Stop Time";
         internal const string StartTime = "Schedule Start Time";
-        internal const string DaysOfWeek = "Scheduled DaysOfWeek";
+        internal const string Days = "Scheduled DaysOfWeek";
         internal const string Bandwidth = "Bandwidth in Mbps";
         internal const string UnlimitedBandwidth = "Set Unlimited Bandwidth";
     }

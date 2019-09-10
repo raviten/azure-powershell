@@ -24,23 +24,37 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 {
     using HelpMessageConstants = BandwidthScheduleHelpMessages;
 
-    [Cmdlet(VerbsCommon.New, Constants.BandwidthSchedule, DefaultParameterSetName = NewParameterSet),
+    [Cmdlet(VerbsCommon.New,
+         Constants.BandwidthSchedule,
+         DefaultParameterSetName = NewParameterSet,
+         SupportsShouldProcess = true),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeBandwidthNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
+        private const string UnlimitedBandwidthSchedule = "UnlimitedBandwidthSchedule";
 
-        [Parameter(Mandatory = true, HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
+        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = Constants.NameHelpMessage)]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-        [Parameter(Mandatory = true, HelpMessage = Constants.DeviceNameHelpMessage)]
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
+        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
+            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, HelpMessage = Constants.NameHelpMessage,
+            Position = 2)]
+        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
+            HelpMessage = Constants.NameHelpMessage, Position = 2)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageConstants.StartTime)]
         [ValidateNotNullOrEmpty]
@@ -50,18 +64,24 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string StopTime { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = HelpMessageConstants.Days)]
+        [Parameter(Mandatory = true, HelpMessage = HelpMessageConstants.DaysOfWeek)]
         [ValidateNotNullOrEmpty]
-        public string[] Days { get; set; }
+        public string[] DaysOfWeek { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageConstants.Bandwidth)]
+
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet,
+            HelpMessage = HelpMessageConstants.Bandwidth)]
         [ValidateNotNullOrEmpty]
         public int? Bandwidth { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
+        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
+            HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter UnlimitedBandwidth { get; set; }
 
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
 
         private PSResourceModel CreateResourceModel()
         {
@@ -75,7 +95,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 throw new Exception(Resource.InvalidBandwidthInput);
             }
 
-            var days = new List<string>(this.Days);
+            var days = new List<string>(this.DaysOfWeek);
             var resourceModel = new ResourceModel(
                 this.StartTime,
                 this.StopTime,
@@ -95,9 +115,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSResourceModel>();
-            results.Add(CreateResourceModel());
-            WriteObject(results, true);
+            if (this.ShouldProcess(this.Name,
+                string.Format("Creating a new '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageConstants.ObjectName, this.DeviceName, this.Name)))
+            {
+                var result = new List<PSResourceModel>
+                {
+                    CreateResourceModel()
+                };
+                WriteObject(result);
+            }
         }
     }
 }
