@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceId
-{{ Fill ResourceId Description }}
+Azure Resource Id 
 
 ```yaml
 Type: System.String
