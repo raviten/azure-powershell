@@ -16,44 +16,75 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.DataBoxEdgeDeviceExtendedInfo;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDeviceExtendedInfo;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
-    [Cmdlet(VerbsCommon.Get, Constants.ExtendedInfo, DefaultParameterSetName = ExtendedInfoParameterSet
+    [Cmdlet(VerbsCommon.Get, Constants.ExtendedInfo, DefaultParameterSetName = GetByNameParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeDeviceExtendedInfo))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeDeviceExtendedInfoCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string ExtendedInfoParameterSet = "ExtendedInfoParameterSet";
+        private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
+        private const string GetByInputObjectSet = "GetByInputObjectSet";
+        private const string GetByNameParameterSet = "GetByNameParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = ExtendedInfoParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByResourceIdParameterSet, Position = 0,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = GetByInputObjectSet,
+            HelpMessage = Constants.InputObjectHelpMessage,
+            Position = 0)]
+        [ValidateNotNull]
+        public PSResourceModel InputObject { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ExtendedInfoParameterSet)]
+
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, HelpMessage = Constants.NameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-
-        public bool NotNullOrEmpty(string val)
+        private ResourceModel GetResourceModel()
         {
-            return !string.IsNullOrEmpty(val);
+            return DevicesOperationsExtensions.GetExtendedInformation(
+                this.DataBoxEdgeManagementClient.Devices,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+
+        private List<PSResourceModel> GetByResourceName()
+        {
+            var resourceModel = GetResourceModel();
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
         }
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSDataBoxEdgeDeviceExtendedInfo>();
-            if (NotNullOrEmpty(this.Name) && NotNullOrEmpty(this.ResourceGroupName))
+            if (this.IsParameterBound(c => c.ResourceId))
             {
-                var device = DevicesOperationsExtensions.GetExtendedInformation(
-                    this.DataBoxEdgeManagementClient.Devices,
-                    this.Name,
-                    this.ResourceGroupName);
-                results.Add(new PSDataBoxEdgeDeviceExtendedInfo(device));
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.Name = resourceIdentifier.Name;
             }
 
+            if (this.IsParameterBound(c => c.InputObject))
+            {
+                this.ResourceGroupName = this.InputObject.ResourceGroupName;
+                this.Name = this.InputObject.DeviceName;
+            }
+
+            var results = GetByResourceName();
             WriteObject(results, true);
         }
     }

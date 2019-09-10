@@ -21,7 +21,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
     public class DataBoxEdgeResourceIdentifier : ResourceIdentifier
     {
         public bool IsSubResource { get; }
-        public string DeviceName{ get; }
+        public string DeviceName { get; }
+        public string Name { get; }
 
         public DataBoxEdgeResourceIdentifier(string resourceId) : base(resourceId)
         {
@@ -29,17 +30,21 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
             {
                 throw new Exception(Resource.InvalidResourceId);
             }
+
             if (!string.IsNullOrEmpty(this.ParentResource))
             {
-                this.IsSubResource= true;
-                this.DeviceName =  this.ParentResource.Remove(0, Constants.DevicesPath.Length);
+                this.IsSubResource = true;
+                this.DeviceName = this.ParentResource.Remove(0, Constants.DevicesPath.Length);
             }
             else
             {
                 this.IsSubResource = false;
                 this.DeviceName = this.ResourceName;
             }
+
+            this.Name = this.ResourceName;
         }
+
 
         public bool ValidateSubResource()
         {
@@ -47,9 +52,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
             {
                 throw new Exception(Resource.InvalidSubResource);
             }
+
             return true;
         }
-
-
     }
 }

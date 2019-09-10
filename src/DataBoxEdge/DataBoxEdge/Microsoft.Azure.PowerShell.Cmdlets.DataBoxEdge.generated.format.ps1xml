@@ -150,11 +150,11 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>DataBoxEdgeDevice.DataBoxEdgeDeviceStatus</Label>
+            <Label>DataBoxEdgeDeviceStatus</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>DataBoxEdgeDevice.DeviceType</Label>
+            <Label>DeviceType</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
@@ -162,7 +162,7 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>DataBoxEdgeDevice.Location</Label>
+            <Label>Location</Label>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
@@ -268,7 +268,11 @@
             <ListItems>
               <ListItem>
                 <PropertyName>Name</PropertyName>
-                <Label>DataBoxEdgeDevice.Name</Label>
+                <Label>Name</Label>
+              </ListItem>
+              <ListItem>
+                <PropertyName>DeviceName</PropertyName>
+                <Label>DeviceName</Label>
               </ListItem>
               <ListItem>
                 <PropertyName>ResourceGroupName</PropertyName>
@@ -276,15 +280,15 @@
               </ListItem>
               <ListItem>
                 <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKey</ScriptBlock>
-                <Label>DataBoxEdgeDeviceExtendedInfo.EncryptionKey</Label>
+                <Label>EncryptionKey</Label>
               </ListItem>
               <ListItem>
                 <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint</ScriptBlock>
-                <Label>DataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint</Label>
+                <Label>EncryptionKeyThumbprint</Label>
               </ListItem>
               <ListItem>
                 <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.ResourceKey</ScriptBlock>
-                <Label>DataBoxEdgeDeviceExtendedInfo.ResourceKey</Label>
+                <Label>ResourceKey</Label>
               </ListItem>
             </ListItems>
           </ListEntry>

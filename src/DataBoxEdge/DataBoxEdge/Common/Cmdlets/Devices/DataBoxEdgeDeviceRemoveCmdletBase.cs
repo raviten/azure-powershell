@@ -16,17 +16,15 @@ using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
 
-namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
-    using HelpMessageConstants = HelpMessageBandwidthSchedule;
-
-    [Cmdlet(VerbsCommon.Remove, Constants.BandwidthSchedule, DefaultParameterSetName = DeleteByNameParameterSet,
+    [Cmdlet(VerbsCommon.Remove, Constants.Device, DefaultParameterSetName = DeleteByNameParameterSet,
          SupportsShouldProcess = true
      ),
      OutputType(typeof(bool))]
-    public class DataBoxEdgeBandwidthRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgeDeviceRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
         private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
@@ -39,8 +37,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         public string ResourceId { get; set; }
 
         [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = DeleteByInputObjectParameterSet,
-            Position = 0, HelpMessage = Constants.InputObjectHelpMessage
-        )]
+            HelpMessage = Constants.InputObjectHelpMessage,
+            Position = 0)]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
 
@@ -51,12 +49,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
-        [ValidateNotNullOrEmpty]
-        public string DeviceName { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage, Position = 2)]
+            HelpMessage = Constants.NameHelpMessage, Position = 1)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
@@ -68,9 +61,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         private bool Remove()
         {
-            BandwidthSchedulesOperationsExtensions.Delete(
-                this.DataBoxEdgeManagementClient.BandwidthSchedules,
-                this.DeviceName,
+            DevicesOperationsExtensions.Delete(
+                this.DataBoxEdgeManagementClient.Devices,
                 this.Name,
                 this.ResourceGroupName);
             return true;
@@ -81,7 +73,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             if (this.IsParameterBound(c => c.ResourceId))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
-                this.DeviceName = resourceIdentifier.DeviceName;
                 this.Name = resourceIdentifier.ResourceName;
                 this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
             }
@@ -89,13 +80,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             if (this.IsParameterBound(c => c.InputObject))
             {
                 this.ResourceGroupName = this.InputObject.ResourceGroupName;
-                this.DeviceName = this.InputObject.DeviceName;
                 this.Name = this.InputObject.Name;
             }
 
             if (this.ShouldProcess(this.Name,
-                string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
-                    HelpMessageBandwidthSchedule.ObjectName, this.DeviceName, this.Name)))
+                string.Format("Removing '{0}' with name '{1}'.",
+                    HelpMessageDevice.ObjectName, this.Name)))
             {
                 Remove();
                 if (this.PassThru.IsPresent)

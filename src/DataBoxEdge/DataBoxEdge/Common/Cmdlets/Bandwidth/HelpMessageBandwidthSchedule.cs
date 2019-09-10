@@ -15,7 +15,7 @@
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
 {
-     class BandwidthScheduleHelpMessages
+     class HelpMessageBandwidthSchedule
     {
         internal const string ObjectName = "BandwidthSchedule";
         internal const string StopTime = "Schedule Stop Time";

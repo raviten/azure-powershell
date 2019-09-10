@@ -13,15 +13,12 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
-     class DeviceHelpMessages
+    class HelpMessageDevice
     {
-        internal const string ObjectName = "BandwidthSchedule";
-        internal const string StopTime = "Schedule Stop Time";
-        internal const string StartTime = "Schedule Start Time";
-        internal const string DaysOfWeek = "Scheduled DaysOfWeek";
-        internal const string Bandwidth = "Bandwidth in Mbps";
-        internal const string UnlimitedBandwidth = "Set Unlimited Bandwidth";
+        internal const string ObjectName = "Device";
+        internal const string LocationHelpMessage = "Location of the device";
+        internal const string SkuHelpMessage = "Sku of the device";
     }
 }

@@ -12,8 +12,21 @@ Get the extended info for a device
 
 ## SYNTAX
 
+### GetByNameParameterSet (Default)
 ```
-Get-AzDataBoxEdgeDeviceExtendedInfo -ResourceGroupName <String> -Name <String>
+Get-AzDataBoxEdgeDeviceExtendedInfo [-ResourceGroupName] <String> [-Name] <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetByResourceIdParameterSet
+```
+Get-AzDataBoxEdgeDeviceExtendedInfo [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
+### GetByInputObjectSet
+```
+Get-AzDataBoxEdgeDeviceExtendedInfo [-InputObject] <PSDataBoxEdgeDeviceExtendedInfo>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -50,16 +63,31 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -InputObject
+Provide Corresponding Input Object
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDeviceExtendedInfo
+Parameter Sets: GetByInputObjectSet
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -Name
 Device Name
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -70,11 +98,26 @@ ResourceGroup Name
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+Azure ResourceId
+
+```yaml
+Type: System.String
+Parameter Sets: GetByResourceIdParameterSet
+Aliases:
+
+Required: True
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

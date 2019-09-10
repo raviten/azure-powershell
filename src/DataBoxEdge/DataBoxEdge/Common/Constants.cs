@@ -30,6 +30,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string DevicesPath = "dataBoxEdgeDevices/";
 
         //HelpMessage
+        internal const string InputObjectHelpMessage = "Provide Corresponding Input Object";
         internal const string DeviceNameHelpMessage = "Device Name";
         internal const string ResourceIdHelpMessage = "Azure ResourceId";
         internal const string ResourceGroupNameHelpMessage = "Resource Group Name";

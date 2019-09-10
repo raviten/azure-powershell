@@ -36,10 +36,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.DataBoxEdgeDeviceExtendedInfo = dataBoxEdgeDeviceExtendedInfo ??
                                                  throw new ArgumentNullException("dataBoxEdgeDeviceExtendedInfo");
             this.Id = DataBoxEdgeDeviceExtendedInfo.Id;
-            var resourceIdntifier = new DataBoxEdgeResourceIdentifier(dataBoxEdgeDeviceExtendedInfo.Id);
-            this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(DataBoxEdgeDeviceExtendedInfo.Id);
-            this.DeviceName = DataBoxEdgeDeviceExtendedInfo.EncryptionKey;
-            this.Name = DataBoxEdgeDeviceExtendedInfo.Name;
+            var resourceIdentifier = new DataBoxEdgeResourceIdentifier(dataBoxEdgeDeviceExtendedInfo.Id);
+            this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+            this.DeviceName = resourceIdentifier.DeviceName;
+            this.Name = resourceIdentifier.DeviceName;
         }
     }
 }

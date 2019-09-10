@@ -28,23 +28,23 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
     {
         private const string NewParameterSet = "NewParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, Position = 0, HelpMessage = Constants.ResourceGroupNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, Position = 1, HelpMessage = Constants.NameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, HelpMessage = HelpMessageDevice.LocationHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string Location { get; set; }
 
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, HelpMessage=HelpMessageDevice.SkuHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         [ValidateSet("Edge", "Gateway")]
@@ -63,7 +63,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
                     dbe,
                     this.ResourceGroupName));
             results.Add(device);
-
             WriteObject(results, true);
         }
     }

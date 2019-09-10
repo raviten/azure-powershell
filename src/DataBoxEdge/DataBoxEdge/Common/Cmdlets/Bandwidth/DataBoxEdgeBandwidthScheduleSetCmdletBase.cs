@@ -21,7 +21,6 @@ using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSch
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
 {
-    using HelpMessageConstants = BandwidthScheduleHelpMessages;
     using PSResourceModel = PSDataBoxEdgeBandWidthSchedule;
 
     [Cmdlet(VerbsCommon.Set, Constants.BandwidthSchedule, DefaultParameterSetName = UpdateByNameParameterSet,
@@ -80,38 +79,38 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageConstants.StartTime)]
+        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.StartTime)]
         [ValidateNotNullOrEmpty]
         public string StartTime { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageConstants.StopTime)]
+        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.StopTime)]
         [ValidateNotNullOrEmpty]
         public string StopTime { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageConstants.DaysOfWeek)]
+        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.DaysOfWeek)]
         [ValidateNotNullOrEmpty]
         public string[] DaysOfWeek { get; set; }
 
 
         [Parameter(Mandatory = false, ParameterSetName = ResourceIdParameterSet,
-            HelpMessage = HelpMessageConstants.Bandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [Parameter(Mandatory = false, ParameterSetName = UpdateByInputObjectParameterSet,
-            HelpMessage = HelpMessageConstants.Bandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [Parameter(Mandatory = false, ParameterSetName = UpdateByNameParameterSet,
-            HelpMessage = HelpMessageConstants.Bandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule,
-            HelpMessage = HelpMessageConstants.Bandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [ValidateNotNullOrEmpty]
         public int? Bandwidth { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = ResourceIdParameterSet,
-            HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
         [Parameter(Mandatory = false, ParameterSetName = UpdateByInputObjectParameterSet,
-            HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
         [Parameter(Mandatory = false, ParameterSetName = UpdateByNameParameterSet,
-            HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
-            HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter UnlimitedBandwidth { get; set; }
 
@@ -183,7 +182,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
             if (this.ShouldProcess(this.Name,
                 string.Format("Updating '{0}' in device '{1}' with name '{2}'.",
-                    HelpMessageConstants.ObjectName, this.DeviceName, this.Name)))
+                    HelpMessageBandwidthSchedule.ObjectName, this.DeviceName, this.Name)))
             {
                 var result = UpdateResourceModel();
                 WriteObject(result);

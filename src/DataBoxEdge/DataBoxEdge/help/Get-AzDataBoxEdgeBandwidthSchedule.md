@@ -18,7 +18,7 @@ Get-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
-### ByResourceIdParameterSet
+### GetByResourceIdParameterSet
 ```
 Get-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
@@ -122,7 +122,7 @@ ResourceId of the Azure Resource
 
 ```yaml
 Type: System.String
-Parameter Sets: ByResourceIdParameterSet
+Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True
