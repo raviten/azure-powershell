@@ -41,7 +41,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [Parameter(Mandatory = true, ParameterSetName = UpdateByInputObjectParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
-        public PSResourceModel PSDataBoxEdgeBandWidthSchedule { get; set; }
+        public PSResourceModel InputObject { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = UpdateByNameParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
@@ -139,11 +139,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 this.Name = resourceIdentifier.ResourceName;
             }
 
-            if (this.IsParameterBound(c => c.PSDataBoxEdgeBandWidthSchedule))
+            if (this.IsParameterBound(c => c.InputObject))
             {
-                this.ResourceGroupName = this.PSDataBoxEdgeBandWidthSchedule.ResourceGroupName;
-                this.DeviceName = this.PSDataBoxEdgeBandWidthSchedule.DeviceName;
-                this.Name = this.PSDataBoxEdgeBandWidthSchedule.Name;
+                this.ResourceGroupName = this.InputObject.ResourceGroupName;
+                this.DeviceName = this.InputObject.DeviceName;
+                this.Name = this.InputObject.Name;
             }
 
             if (this.ShouldProcess(this.Name,

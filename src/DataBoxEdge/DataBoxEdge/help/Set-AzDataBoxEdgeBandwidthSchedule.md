@@ -28,9 +28,9 @@ Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-StartTime <String>] 
 
 ### UpdateByInputObjectParameterSet
 ```
-Set-AzDataBoxEdgeBandwidthSchedule [-PSDataBoxEdgeBandWidthSchedule] <PSDataBoxEdgeBandWidthSchedule>
- [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth]
- [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-AzDataBoxEdgeBandwidthSchedule [-InputObject] <PSDataBoxEdgeBandWidthSchedule> [-StartTime <String>]
+ [-StopTime <String>] [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -131,6 +131,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -InputObject
+Azure ResourceId
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
+Parameter Sets: UpdateByInputObjectParameterSet
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
 Resource Name
 
@@ -141,21 +156,6 @@ Aliases:
 
 Required: True
 Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PSDataBoxEdgeBandWidthSchedule
-Azure Powershell Model object
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
-Parameter Sets: UpdateByInputObjectParameterSet
-Aliases:
-
-Required: True
-Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
