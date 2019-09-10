@@ -16,7 +16,7 @@ using Microsoft.Azure.ServiceManagement.Common.Models;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Xunit;
 
-namespace Microsoft.Azure.Commands.DataBox.Test
+namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 {
     public class DataBoxEdgeTests : DataBoxScenarioTestBase
     {

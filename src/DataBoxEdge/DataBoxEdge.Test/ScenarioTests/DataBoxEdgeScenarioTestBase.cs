@@ -13,21 +13,21 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using Microsoft.Azure.Commands.Common.Authentication;
-using Microsoft.Azure.Management.DataBox;
-using Microsoft.Azure.Test.HttpRecorder;
-using Microsoft.WindowsAzure.Commands.ScenarioTest;
-using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Microsoft.Azure.Commands.Common.Authentication;
+using Microsoft.Azure.Management.DataBox;
+using Microsoft.Azure.ServiceManagement.Common.Models;
+using Microsoft.Azure.Test.HttpRecorder;
 using Microsoft.Rest.ClientRuntime.Azure.TestFramework;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
+using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using TestEnvironmentFactory = Microsoft.Rest.ClientRuntime.Azure.TestFramework.TestEnvironmentFactory;
 using ResourceManagementClient = Microsoft.Azure.Management.Internal.Resources.ResourceManagementClient;
 using StorageManagementClient = Microsoft.Azure.Management.Storage.Version2017_10_01.StorageManagementClient;
-using Microsoft.Azure.ServiceManagement.Common.Models;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
+namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 {
     public abstract class DataBoxScenarioTestBase : RMTestBase
     {
