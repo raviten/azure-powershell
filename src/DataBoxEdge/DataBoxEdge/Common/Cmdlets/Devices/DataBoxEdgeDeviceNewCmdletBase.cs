@@ -47,7 +47,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, HelpMessage=HelpMessageDevice.SkuHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        [ValidateSet("Edge", "Gateway")]
+        [PSArgumentCompleter("Edge", "Gateway")]
         public string Sku { get; set; }
 
         public override void ExecuteCmdlet()

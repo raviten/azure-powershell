@@ -98,7 +98,6 @@ Accept wildcard characters: False
 Type: System.String
 Parameter Sets: (All)
 Aliases:
-Accepted values: Edge, Gateway
 
 Required: True
 Position: Named

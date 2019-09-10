@@ -12,14 +12,7 @@ Create a new Bandwidth schedule
 
 ## SYNTAX
 
-### NewParameterSet (Default)
-```
-New-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -StartTime <String> -StopTime <String> -DaysOfWeek <String[]> [-Bandwidth <Int32>] [-UnlimitedBandwidth]
- [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
-### BandwidthParameterSet
+### BandwidthParameterSet (Default)
 ```
 New-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  -StartTime <String> -StopTime <String> -DaysOfWeek <String[]> -Bandwidth <Int32> [-AsJob]
@@ -73,18 +66,6 @@ Accept wildcard characters: False
 
 ### -Bandwidth
 Bandwidth in Mbps
-
-```yaml
-Type: System.Nullable`1[System.Int32]
-Parameter Sets: NewParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ```yaml
 Type: System.Nullable`1[System.Int32]
@@ -205,18 +186,6 @@ Accept wildcard characters: False
 
 ### -UnlimitedBandwidth
 Set Unlimited Bandwidth
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: NewParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

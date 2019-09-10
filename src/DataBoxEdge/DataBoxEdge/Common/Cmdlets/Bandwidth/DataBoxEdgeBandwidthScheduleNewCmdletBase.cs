@@ -24,18 +24,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 {
     [Cmdlet(VerbsCommon.New,
          Constants.BandwidthSchedule,
-         DefaultParameterSetName = NewParameterSet,
+         DefaultParameterSetName = BandwidthParameterSet,
          SupportsShouldProcess = true),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeBandwidthNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string NewParameterSet = "NewParameterSet";
         private const string BandwidthParameterSet = "BandwidthParameterSet";
         private const string UnlimitedBandwidthParameterSet = "UnlimitedBandwidthParameterSet";
 
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
@@ -43,8 +40,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, 
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
+  
         [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
             HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
@@ -52,8 +48,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet, 
-            HelpMessage = Constants.NameHelpMessage, Position = 2)]
+   
         [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
             HelpMessage = Constants.NameHelpMessage, Position = 2)]
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
@@ -73,15 +68,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string[] DaysOfWeek { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = NewParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
             HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [ValidateNotNullOrEmpty]
         public int? Bandwidth { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = NewParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
             HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
         [ValidateNotNullOrEmpty]
