@@ -36,7 +36,7 @@ The **New-AzDataBoxEdgeDevice** cmdlet will create configurations that will help
 PS C:\> New-AzDataBoxEdgeBandwidthSchedule  -Days Sunday, Tuesday, Saturday -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule -StartTime 11:00 -StopTime 12:00 -Bandwidth 30
 Name                DaysOfWeek                    RateInMbps StartTime StopTime
 ----                ----------                    ---------- --------- --------
-bandwidth-schedule  Sunday, Tuesday, Saturday     0          00:00:00  23:59:00
+bandwidth-schedule  Sunday, Tuesday, Saturday     30         11:00:00  12:00:00
 ```
 
 ### Example 2

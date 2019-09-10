@@ -58,7 +58,7 @@ This **Set-AzDataBoxEdgeBandwidthSchedule** will help in updating Bandwidth sche
 PS C:\> New-AzDataBoxEdgeBandwidthSchedule  -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule -UnlimitedBandwidth
 Name                DaysOfWeek                    RateInMbps StartTime StopTime
 ----                ----------                    ---------- --------- --------
-bandwidth-schedule  Sunday, Tuesday, Saturday     0          00:00:00  23:59:00
+bandwidth-schedule  Sunday, Tuesday, Saturday     0          11:00:00  12:00:00
 ```
 
 ### Example 2
@@ -66,7 +66,7 @@ bandwidth-schedule  Sunday, Tuesday, Saturday     0          00:00:00  23:59:00
 PS C:\> New-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule -StopTime 21:00
 Name                DaysOfWeek                    RateInMbps StartTime StopTime
 ----                ----------                    ---------- --------- --------
-bandwidth-schedule  Sunday, Tuesday, Saturday     0          00:00:00  21:00:00
+bandwidth-schedule  Sunday, Tuesday, Saturday     0          11:00:00  21:00:00
 ```
 
 ## PARAMETERS
