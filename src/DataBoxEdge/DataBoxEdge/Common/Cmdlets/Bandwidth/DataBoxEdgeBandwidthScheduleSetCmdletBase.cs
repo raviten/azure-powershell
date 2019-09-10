@@ -99,7 +99,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             HelpMessage = HelpMessageConstants.Bandwidth)]
         [Parameter(Mandatory = false, ParameterSetName = UpdateByNameParameterSet,
             HelpMessage = HelpMessageConstants.Bandwidth)]
-        [Parameter(Mandatory = false, ParameterSetName = BandwidthSchedule,
+        [Parameter(Mandatory = true, ParameterSetName = BandwidthSchedule,
             HelpMessage = HelpMessageConstants.Bandwidth)]
         [ValidateNotNullOrEmpty]
         public int? Bandwidth { get; set; }
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
         [Parameter(Mandatory = false, ParameterSetName = UpdateByNameParameterSet,
             HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
-        [Parameter(Mandatory = false, ParameterSetName = UnlimitedBandwidthSchedule,
+        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthSchedule,
             HelpMessage = HelpMessageConstants.UnlimitedBandwidth)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter UnlimitedBandwidth { get; set; }

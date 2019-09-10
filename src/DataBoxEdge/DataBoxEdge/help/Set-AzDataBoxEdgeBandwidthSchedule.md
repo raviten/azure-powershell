@@ -31,7 +31,7 @@ Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-StartTime <String>] 
 Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String>
  [-PSDataBoxEdgeBandWidthSchedule] <PSDataBoxEdgeBandWidthSchedule> [-ResourceGroupName] <String>
  [-DeviceName] <String> [-Name] <String> [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>]
- [-Bandwidth <Int32>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ -Bandwidth <Int32> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -94,10 +94,22 @@ Bandwidth in Mbps
 
 ```yaml
 Type: System.Nullable`1[System.Int32]
-Parameter Sets: UpdateByNameParameterSet, ByResourceIdParameterSet, BandwidthSchedule, UpdateByInputObjectParameterSet
+Parameter Sets: UpdateByNameParameterSet, ByResourceIdParameterSet, UpdateByInputObjectParameterSet
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: System.Nullable`1[System.Int32]
+Parameter Sets: BandwidthSchedule
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -244,10 +256,22 @@ Set Unlimited Bandwidth
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: UpdateByNameParameterSet, ByResourceIdParameterSet, UnlimitedBandwidthSchedule, UpdateByInputObjectParameterSet
+Parameter Sets: UpdateByNameParameterSet, ByResourceIdParameterSet, UpdateByInputObjectParameterSet
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: UnlimitedBandwidthSchedule
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
