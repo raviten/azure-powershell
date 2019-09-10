@@ -95,7 +95,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             }
 
             if (this.ShouldProcess(this.Name,
-                string.Format("Removing a new '{0}' in device '{1}' with name '{2}'.",
+                string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageConstants.ObjectName, this.DeviceName, this.Name)))
             {
                 Remove();
