@@ -39,11 +39,11 @@ The **Get-AzDataBoxEdgeDeviceEdtendedInfo** cmdlet gets extended information of 
 ```powershell
 PS C:\> Get-AzDataBoxEdgeDeviceExtendedInfo -ResourceGroupName rgp-name -Name device-name
 
-DataBoxEdgeDevice.Name                                : device-name
-ResourceGroupName                                     : ranandu-name
-DataBoxEdgeDeviceExtendedInfo.EncryptionKey           : {LONG_ENCRYPTION_KEY}
-DataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint : {THUMBPRINT}
-DataBoxEdgeDeviceExtendedInfo.ResourceKey             : {RESOURCEKEY}
+Name                    : device-name
+ResourceGroupName       : resource-group-name
+EncryptionKey           : {LONG_ENCRYPTION_KEY}
+EncryptionKeyThumbprint : {THUMBPRINT}
+ResourceKey             : {RESOURCEKEY}
 ```
 
 ## PARAMETERS
