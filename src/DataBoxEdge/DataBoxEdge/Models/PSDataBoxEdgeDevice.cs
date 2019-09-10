@@ -8,8 +8,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeDevice
     {
-        [Ps1Xml(Label = "DataBoxEdgeDeviceStatus", Target = ViewControl.Table,
-            ScriptBlock = "$_.dataBoxEdgeDevice.DataBoxEdgeDeviceStatus", Position = 1)]
         [Ps1Xml(Label = "DeviceType", Target = ViewControl.Table,
             ScriptBlock = "$_.dataBoxEdgeDevice.DeviceType", Position = 2)]
         [Ps1Xml(Label = "Location", Target = ViewControl.Table,
@@ -19,7 +17,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table, Position = 3, GroupByThis = false)]
         public string ResourceGroupName { get; set; }
 
-        [Ps1Xml(Label = "DataBoxEdgeDevice.Name", Target = ViewControl.Table, Position = 0)]
+        [Ps1Xml(Label = "Name", Target = ViewControl.Table, Position = 0)]
         public string Name;
 
         public string Id;
@@ -41,6 +39,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             var dataBoxEdgeResourceIdentifier = new DataBoxEdgeResourceIdentifier(dataBoxEdgeDevice.Id);
             this.ResourceGroupName = dataBoxEdgeResourceIdentifier.ResourceGroupName;
             this.Name = dataBoxEdgeResourceIdentifier.Name;
+
         }
     }
 }

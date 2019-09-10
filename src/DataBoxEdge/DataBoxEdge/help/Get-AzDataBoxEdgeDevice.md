@@ -38,11 +38,11 @@ If you specify the Name of the Device along with the resource group name, this c
 ### Example 1
 ```powershell
 PS C:\>Get-AzDataBoxEdgeDevice
-DataBoxEdgeDevice.Name               DataBoxEdgeDevice.DataBoxEdgeDeviceStatus DataBoxEdgeDevice.DeviceType ResourceGroupName               DataBoxEdgeDevice.Location
-----------------------               ----------------------------------------- ---------------------------- -----------------               --------------------------
-Auskan                               ReadyToSetup                              DataBoxEdgeDevice            resource-grp-1                  eastus
-jeep                                 ReadyToSetup                              DataBoxEdgeDevice            resource-grp-2                  East US
-eastus                               ReadyToSetup                              DataBoxEdgeDevice            resource-grp-2                  eastus
+Name               ResourceGroupName DeviceType        Location
+----               ----------------- ----------        --------
+device-name-1      DataBoxEdgeDevice resource-grp-1    eastus
+device-name-2      DataBoxEdgeDevice resource-grp-2    westus
+device-name-3      DataBoxEdgeDevice resource-grp-     eastus
 ```
 
 ## PARAMETERS

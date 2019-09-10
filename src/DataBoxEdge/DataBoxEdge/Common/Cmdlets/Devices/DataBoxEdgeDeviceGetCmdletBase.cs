@@ -64,7 +64,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         private IPage<ResourceModel> ListResourceModel()
         {
-            if (string.IsNullOrEmpty(this.ResourceGroupName))
+            if (!string.IsNullOrEmpty(this.ResourceGroupName))
             {
                 return DevicesOperationsExtensions.ListByResourceGroup(
                     this.DataBoxEdgeManagementClient.Devices,
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         private IPage<ResourceModel> ListResourceModel(string nextPageLink)
         {
-            if (string.IsNullOrEmpty(this.ResourceGroupName))
+            if (!string.IsNullOrEmpty(this.ResourceGroupName))
             {
                 return DevicesOperationsExtensions.ListByResourceGroupNext(
                     this.DataBoxEdgeManagementClient.Devices,

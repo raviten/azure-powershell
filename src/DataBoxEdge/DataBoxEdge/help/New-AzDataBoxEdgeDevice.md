@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-AzDataBoxEdgeDevice
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Configures a new device
 
 ## SYNTAX
 
@@ -18,16 +18,18 @@ New-AzDataBoxEdgeDevice [-ResourceGroupName] <String> [-Name] <String> -Location
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **New-AzDataBoxEdgeDevice** will configure a device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-AzDataBoxEdgeDevice -ResourceGroupName resource-goup-name -Name device-name -Location eastus -Sku Edge
+Name        ResourceGroupName DeviceType        Location
+----        ----------------- ----------        --------
+device-name ranandu-rgp       DataBoxEdgeDevice eastus
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
