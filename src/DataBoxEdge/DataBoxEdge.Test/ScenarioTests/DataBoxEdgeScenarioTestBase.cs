@@ -27,7 +27,7 @@ using ResourceManagementClient = Microsoft.Azure.Management.Internal.Resources.R
 using StorageManagementClient = Microsoft.Azure.Management.Storage.Version2017_10_01.StorageManagementClient;
 using Microsoft.Azure.ServiceManagement.Common.Models;
 
-namespace Microsoft.Azure.Commands.DataBox.Test
+namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
 {
     public abstract class DataBoxScenarioTestBase : RMTestBase
     {
