@@ -135,7 +135,7 @@ Accept wildcard characters: False
 ```
 
 ### -PSDataBoxEdgeBandWidthSchedule
-{{ Fill PSDataBoxEdgeBandWidthSchedule Description }}
+Azure Powershell Model object
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule

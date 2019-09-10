@@ -52,7 +52,7 @@ PS C:\>Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupname resource-group-name
 
 Name              DaysOfWeek      RateInMbps StartTime StopTime
 ----              ----------      ---------- --------- --------
-schedule-1        Sunday,Saturday 0          13:00:00  14:00:00
+Schedule-1        Sunday,Saturday 0          13:00:00  14:00:00
 ```
 
 ## PARAMETERS
