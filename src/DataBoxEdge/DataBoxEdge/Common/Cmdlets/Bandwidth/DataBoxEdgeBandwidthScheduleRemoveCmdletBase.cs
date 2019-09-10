@@ -43,7 +43,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = DeleteByInputObjectParameterSet,
             Position = 0)]
         [ValidateNotNull]
-        public PSResourceModel PSDataBoxEdgeBandWidthSchedule { get; set; }
+        public PSResourceModel InputObject { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
@@ -61,11 +61,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-
-        [Parameter(Mandatory = false, HelpMessage = Constants.ForceHelpMessage)]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter Force { get; set; }
-
         [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]
         public SwitchParameter PassThru;
 
@@ -82,19 +77,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             return true;
         }
 
-        private string concet()
-        {
-            var warning = string.Join(" ",
-                Resource.Deleting,
-                Constants.ServiceName,
-                typeof(ResourceModel).Name,
-                this.Name,
-                Resource.InResourceGroup,
-                this.ResourceGroupName
-            );
-            return warning;
-        }
-
         public override void ExecuteCmdlet()
         {
             if (this.IsParameterBound(c => c.ResourceId))
@@ -105,24 +87,21 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
             }
 
-            if (this.IsParameterBound(c => c.PSDataBoxEdgeBandWidthSchedule))
+            if (this.IsParameterBound(c => c.InputObject))
             {
-                this.ResourceGroupName = this.PSDataBoxEdgeBandWidthSchedule.ResourceGroupName;
-                this.DeviceName = this.PSDataBoxEdgeBandWidthSchedule.DeviceName;
-                this.Name = this.PSDataBoxEdgeBandWidthSchedule.Name;
+                this.ResourceGroupName = this.InputObject.ResourceGroupName;
+                this.DeviceName = this.InputObject.DeviceName;
+                this.Name = this.InputObject.Name;
             }
 
             if (this.ShouldProcess(this.Name,
                 string.Format("Removing a new '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageConstants.ObjectName, this.DeviceName, this.Name)))
             {
-                if (this.Force || ShouldContinue(string.Join(" ", Resource.RemoveWarning, this.Name), ""))
+                Remove();
+                if (this.PassThru.IsPresent)
                 {
-                    Remove();
-                    if (PassThru.IsPresent)
-                    {
-                        WriteObject(true);
-                    }
+                    WriteObject(true);
                 }
             }
         }

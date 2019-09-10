@@ -15,14 +15,15 @@ Update a Bandwidth Schedule for the device
 ### UpdateByNameParameterSet (Default)
 ```
 Set-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth]
+ [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByResourceIdParameterSet
 ```
 Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-StartTime <String>] [-StopTime <String>]
- [-DaysOfWeek <String[]>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### BandwidthSchedule
@@ -30,7 +31,8 @@ Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-StartTime <String>] 
 Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String>
  [-PSDataBoxEdgeBandWidthSchedule] <PSDataBoxEdgeBandWidthSchedule> [-ResourceGroupName] <String>
  [-DeviceName] <String> [-Name] <String> [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>]
- [-Bandwidth <Int32>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-Bandwidth <Int32>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### UnlimitedBandwidthSchedule
@@ -38,14 +40,15 @@ Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String>
 Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String>
  [-PSDataBoxEdgeBandWidthSchedule] <PSDataBoxEdgeBandWidthSchedule> [-ResourceGroupName] <String>
  [-DeviceName] <String> [-Name] <String> [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>]
- [-UnlimitedBandwidth] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-UnlimitedBandwidth] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectParameterSet
 ```
 Set-AzDataBoxEdgeBandwidthSchedule [-PSDataBoxEdgeBandWidthSchedule] <PSDataBoxEdgeBandWidthSchedule>
- [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth]
+ [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -91,7 +94,7 @@ Bandwidth in Mbps
 
 ```yaml
 Type: System.Nullable`1[System.Int32]
-Parameter Sets: BandwidthSchedule
+Parameter Sets: UpdateByNameParameterSet, ByResourceIdParameterSet, BandwidthSchedule, UpdateByInputObjectParameterSet
 Aliases:
 
 Required: False
@@ -241,8 +244,38 @@ Set Unlimited Bandwidth
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: UnlimitedBandwidthSchedule
+Parameter Sets: UpdateByNameParameterSet, ByResourceIdParameterSet, UnlimitedBandwidthSchedule, UpdateByInputObjectParameterSet
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named

@@ -15,21 +15,19 @@ Removes a Bandwidth Schedule
 ### DeleteByNameParameterSet (Default)
 ```
 Remove-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-Force] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### DeleteByResourceIdParameterSet
 ```
-Remove-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-Force] [-AsJob]
+Remove-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### DeleteByInputObjectParameterSet
 ```
-Remove-AzDataBoxEdgeBandwidthSchedule [-PSDataBoxEdgeBandWidthSchedule] <PSDataBoxEdgeBandWidthSchedule>
- [-Force] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Remove-AzDataBoxEdgeBandwidthSchedule [-InputObject] <PSDataBoxEdgeBandWidthSchedule> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -89,18 +87,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Force
-Don't wait'
+### -InputObject
+{{ Fill InputObject Description }}
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
+Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -131,21 +129,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PSDataBoxEdgeBandWidthSchedule
-Azure Powershell Model object
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
-Parameter Sets: DeleteByInputObjectParameterSet
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
