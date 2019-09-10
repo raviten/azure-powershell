@@ -42,7 +42,7 @@ Name               ResourceGroupName DeviceType        Location
 ----               ----------------- ----------        --------
 device-name-1      DataBoxEdgeDevice resource-grp-1    eastus
 device-name-2      DataBoxEdgeDevice resource-grp-2    westus
-device-name-3      DataBoxEdgeDevice resource-grp-     eastus
+device-name-3      DataBoxEdgeDevice resource-grp-3    eastus
 ```
 
 ## PARAMETERS
