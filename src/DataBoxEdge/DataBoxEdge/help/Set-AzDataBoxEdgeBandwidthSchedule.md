@@ -15,15 +15,15 @@ Update a Bandwidth Schedule for the device
 ### UpdateByNameParameterSet (Default)
 ```
 Set-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth]
- [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-StartTime <String>] [-StopTime <String>] [-DaysOfWeek <String[]>] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdParameterSet
 ```
 Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-StartTime <String>] [-StopTime <String>]
- [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DaysOfWeek <String[]>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdParameterUnlimitedBandwidthSet
@@ -43,8 +43,8 @@ Set-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-StartTime <String>] 
 ### UpdateByInputObjectParameterSet
 ```
 Set-AzDataBoxEdgeBandwidthSchedule [-InputObject] <PSDataBoxEdgeBandWidthSchedule> [-StartTime <String>]
- [-StopTime <String>] [-DaysOfWeek <String[]>] [-Bandwidth <Int32>] [-UnlimitedBandwidth] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-StopTime <String>] [-DaysOfWeek <String[]>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectParameterUnlimitedBandwidthSet
@@ -115,18 +115,6 @@ Accept wildcard characters: False
 
 ### -Bandwidth
 Bandwidth in Mbps
-
-```yaml
-Type: System.Nullable`1[System.Int32]
-Parameter Sets: UpdateByNameParameterSet, UpdateByResourceIdParameterSet, UpdateByInputObjectParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ```yaml
 Type: System.Nullable`1[System.Int32]
@@ -277,18 +265,6 @@ Accept wildcard characters: False
 
 ### -UnlimitedBandwidth
 Set Unlimited Bandwidth
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: UpdateByNameParameterSet, UpdateByResourceIdParameterSet, UpdateByInputObjectParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

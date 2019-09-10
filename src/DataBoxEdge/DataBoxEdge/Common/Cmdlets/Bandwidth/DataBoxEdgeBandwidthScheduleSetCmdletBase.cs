@@ -107,31 +107,19 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         public string[] DaysOfWeek { get; set; }
 
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.Bandwidth,
-            ParameterSetName = UpdateByResourceIdParameterSet)]
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.Bandwidth,
             ParameterSetName = UpdateByResourceIdParameterBandwidthSet)]
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.Bandwidth,
-            ParameterSetName = UpdateByInputObjectParameterSet)]
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.Bandwidth,
             ParameterSetName = UpdateByInputObjectParameterBandwidthSet)]
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.Bandwidth,
-            ParameterSetName = UpdateByNameParameterSet)]
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.Bandwidth,
             ParameterSetName = UpdateByNameParameterBandwidthSet)]
         [ValidateNotNullOrEmpty]
         public int? Bandwidth { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
-            ParameterSetName = UpdateByResourceIdParameterSet)]
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
             ParameterSetName = UpdateByResourceIdParameterUnlimitedBandwidthSet)]
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
-            ParameterSetName = UpdateByInputObjectParameterSet)]
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
             ParameterSetName = UpdateByInputObjectParameterUnlimitedBandwidthSet)]
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
-            ParameterSetName = UpdateByNameParameterSet)]
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
             ParameterSetName = UpdateByNameParameterUnlimitedBandwidthSet)]
         [ValidateNotNullOrEmpty]
