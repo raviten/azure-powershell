@@ -18,11 +18,11 @@ using Xunit;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 {
-    public class DataBoxEdgeTests : DataBoxScenarioTestBase
+    public class DataBoxEdgeEdgeTests : DataBoxEdgeScenarioTestBase
     {
         public XunitTracingInterceptor _logger;
 
-        public DataBoxEdgeTests(Xunit.Abstractions.ITestOutputHelper output)
+        public DataBoxEdgeEdgeTests(Xunit.Abstractions.ITestOutputHelper output)
         {
             _logger = new XunitTracingInterceptor(output);
             XunitTracingInterceptor.AddToContext(_logger);

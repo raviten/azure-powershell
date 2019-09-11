@@ -12,29 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using Microsoft.Azure.Commands.Common.Authentication;
-using Microsoft.Azure.Management.DataBox;
+using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.ServiceManagement.Common.Models;
 using Microsoft.Azure.Test.HttpRecorder;
 using Microsoft.Rest.ClientRuntime.Azure.TestFramework;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
-using TestEnvironmentFactory = Microsoft.Rest.ClientRuntime.Azure.TestFramework.TestEnvironmentFactory;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using ResourceManagementClient = Microsoft.Azure.Management.Internal.Resources.ResourceManagementClient;
 using StorageManagementClient = Microsoft.Azure.Management.Storage.Version2017_10_01.StorageManagementClient;
+using TestEnvironmentFactory = Microsoft.Rest.ClientRuntime.Azure.TestFramework.TestEnvironmentFactory;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 {
-    public abstract class DataBoxScenarioTestBase : RMTestBase
+    public abstract class DataBoxEdgeScenarioTestBase : RMTestBase
     {
         private readonly EnvironmentSetupHelper _helper;
 
-        protected DataBoxScenarioTestBase()
-        { 
+        protected DataBoxEdgeScenarioTestBase()
+        {
             _helper = new EnvironmentSetupHelper();
         }
 
@@ -83,13 +83,15 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 
                 _helper.RunPowerShellTest(scripts);
             }
+
+
         }
 
-        protected DataBoxManagementClient GetDataPipelineManagementClient(MockContext context)
+        protected DataBoxEdgeManagementClient GetDataPipelineManagementClient(MockContext context)
         {
             var testEnv = TestEnvironmentFactory.GetTestEnvironment();
-            //testEnv.SubscriptionId = "05b5dd1c-793d-41de-be9f-6f9ed142f695";
-            return context.GetServiceClient<DataBoxManagementClient>(testEnv);
+            testEnv.SubscriptionId = "05b5dd1c-793d-41de-be9f-6f9ed142f695";
+            return context.GetServiceClient<DataBoxEdgeManagementClient>(testEnv);
         }
 
         protected ResourceManagementClient GetResourceManagementClient(MockContext context)
