@@ -142,7 +142,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         {
             var resourceModel = GetResourceModel();
 
-            if (this.DaysOfWeek.Length != 0)
+            if (this.DaysOfWeek != null && this.DaysOfWeek.Length != 0)
             {
                 var days = new List<string>(this.DaysOfWeek);
                 resourceModel.Days = days;

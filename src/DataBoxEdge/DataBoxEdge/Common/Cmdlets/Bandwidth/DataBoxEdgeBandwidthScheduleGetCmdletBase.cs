@@ -94,7 +94,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         private List<PSResourceModel> ListPSResourceModels()
         {
-            if (string.IsNullOrEmpty(this.Name))
+            if (!string.IsNullOrEmpty(this.Name))
             {
                 return GetByResourceName();
             }

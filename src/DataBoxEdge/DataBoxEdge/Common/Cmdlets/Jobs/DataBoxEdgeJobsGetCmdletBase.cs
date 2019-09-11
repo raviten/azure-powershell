@@ -17,9 +17,9 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Common
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
 {
     [Cmdlet(VerbsCommon.Get,
          Constants.Job,
@@ -29,30 +29,39 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
     public class DataBoxEdgeJobsGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string GetByResourceIdObject = "GetByResourceIdObject";
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, Position = 0,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, Position = 1,
+            HelpMessage = HelpMessageJobs.DeviceName)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
+        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, Position = 2,
+            HelpMessage = HelpMessageJobs.Name)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+
+        [Parameter(Mandatory = true, ParameterSetName = GetByResourceIdObject, Position = 0,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
 
         public override void ExecuteCmdlet()
         {
-            if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            if (this.IsParameterBound(c => this.ResourceId))
             {
-                this.ResourceGroupName = ResourceGroupName;
-                this.DeviceName = DeviceName;
-                this.Name = Name;
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.ResourceGroupName = this.ResourceGroupName;
+                this.DeviceName = this.DeviceName;
+                this.Name = this.Name;
             }
 
             List<PSDataBoxEdgeJob> results = new List<PSDataBoxEdgeJob>();

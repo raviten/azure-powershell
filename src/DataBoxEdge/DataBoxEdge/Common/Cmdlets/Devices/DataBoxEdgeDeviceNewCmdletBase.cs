@@ -21,8 +21,8 @@ using Microsoft.Azure.Management.EdgeGateway;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
-    [Cmdlet(VerbsCommon.New, 
-         Constants.Device, 
+    [Cmdlet(VerbsCommon.New,
+         Constants.Device,
          DefaultParameterSetName = CreateByNewParameterSet,
          SupportsShouldProcess = true
      ),
@@ -53,6 +53,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         [ValidateNotNullOrEmpty]
         [PSArgumentCompleter("Edge", "Gateway")]
         public string Sku { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
 
         public override void ExecuteCmdlet()
         {

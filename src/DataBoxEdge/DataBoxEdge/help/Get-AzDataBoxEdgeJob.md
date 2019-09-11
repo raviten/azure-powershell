@@ -12,9 +12,15 @@ List down the active jobs for a device
 
 ## SYNTAX
 
+### GetByNameParameterSet (Default)
 ```
-Get-AzDataBoxEdgeJob -ResourceGroupName <String> -Name <String> -DeviceName <String>
+Get-AzDataBoxEdgeJob [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetByResourceIdObject
+```
+Get-AzDataBoxEdgeJob [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,11 +55,11 @@ Name of the device
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,11 +70,11 @@ Name of the job
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -79,11 +85,26 @@ Resource Group Name of the Job
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+Azure ResourceId
+
+```yaml
+Type: System.String
+Parameter Sets: GetByResourceIdObject
+Aliases:
+
+Required: True
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

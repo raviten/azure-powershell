@@ -38,6 +38,9 @@ Get the created users  for this device
 ### [New-AzDataBoxEdgeBandwidthSchedule](New-AzDataBoxEdgeBandwidthSchedule.md)
 Create a new Bandwidth schedule
 
+### [New-AzDataBoxEdgeDevice](New-AzDataBoxEdgeDevice.md)
+Configures a new device
+
 ### [New-AzDataBoxEdgeRole](New-AzDataBoxEdgeRole.md)
 {{ Fill in the Synopsis }}
 
