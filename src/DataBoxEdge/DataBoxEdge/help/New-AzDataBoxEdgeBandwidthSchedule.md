@@ -22,7 +22,7 @@ New-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <
 ### UnlimitedBandwidthParameterSet
 ```
 New-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -StartTime <String> -StopTime <String> -DaysOfWeek <String[]> -UnlimitedBandwidth [-AsJob]
+ -StartTime <String> -StopTime <String> -DaysOfWeek <String[]> [-UnlimitedBandwidth] [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
