@@ -29,35 +29,9 @@ function Test-GetNonExistingBandwidthSchedule
 	
     
     # Test
-	Assert-ThrowsContains { Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName $rgname -DeviceName $dfname -Name $bwname } "not found"    
+	Assert-ThrowsContains { Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName $rgname -DeviceName $dfname -Name $bwname } "not find"    
 
 }
 
 
-<#
-.SYNOPSIS
-Negative test. Get resources from an non-existing empty group.
-#>
-function Test-CreateBandwidthSchedule
-{	
-    $rgname = Get-DeviceResourceGroupName
-    $dfname = Get-DeviceName
-	$bwname = Get-BandwidthScheduleName
-	$bwRateInMbps = 45
-	$bwStartTime = 11:00:00
-	$bwEndTime = 13:00:00
-	$bwDaysOfWeek = Sunday,Saturday
 
-    # Test
-	try
-    {
-        $expected = New-AzDataBoxEdgeBandwidthSchedule $rgname $dfname $bwname -DaysOfWeek $bwDaysOfWeek -StartTime $bwStartTime -StopTime $bwStopTime -Bandwidth $bwRateInMbps
-		Assert-AreEqual $expected.Name $bwname
-    }
-    finally
-    {
-		Remove-AzDataBoxEdgeBandwidthSchedule $rgname $dfname $bwname
-    }  
-    
-	Assert-ThrowsContains { Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName $rgname -DeviceName $dfname -Name $bwname } "not found"    
-}

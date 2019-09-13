@@ -19,11 +19,11 @@ using Xunit;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
 {
-    public class DataBoxEdgeBandwidthScheuleTests : DataBoxEdgeScenarioTestBase
+    public class DataBoxEdgeBandwidthScheduleTests : DataBoxEdgeScenarioTestBase
     {
         private ServiceManagement.Common.Models.XunitTracingInterceptor _logger;
 
-        public DataBoxEdgeBandwidthScheuleTests(Xunit.Abstractions.ITestOutputHelper output)
+        public DataBoxEdgeBandwidthScheduleTests(Xunit.Abstractions.ITestOutputHelper output)
         {
             _logger = new ServiceManagement.Common.Models.XunitTracingInterceptor(output);
             ServiceManagement.Common.Models.XunitTracingInterceptor.AddToContext(_logger);
@@ -36,13 +36,6 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-GetNonExistingBandwidthSchedule");
         }
 
-        [Fact]
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestCreateBandwidthSchedule()
-        {
-            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateBandwidthSchedule");
-        }
-        
     }
 
 
