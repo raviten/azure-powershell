@@ -14,7 +14,6 @@
 
 using Microsoft.Azure.Commands.Common.Authentication;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.ServiceManagement.Common.Models;
 using Microsoft.Azure.Test.HttpRecorder;
 using Microsoft.Rest.ClientRuntime.Azure.TestFramework;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
@@ -23,13 +22,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using ResourceManagementClient = Microsoft.Azure.Management.Internal.Resources.ResourceManagementClient;
 using StorageManagementClient = Microsoft.Azure.Management.Storage.Version2017_10_01.StorageManagementClient;
 using TestEnvironmentFactory = Microsoft.Rest.ClientRuntime.Azure.TestFramework.TestEnvironmentFactory;
 
-namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
+namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
 {
-    public abstract class DataBoxEdgeScenarioTestBase : RMTestBase
+    public class DataBoxEdgeScenarioTestBase : RMTestBase
     {
         private readonly EnvironmentSetupHelper _helper;
 
@@ -38,35 +38,65 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
             _helper = new EnvironmentSetupHelper();
         }
 
+        public ResourceManagementClient ResourceManagementClient { get; private set; }
+
+        public DataBoxEdgeManagementClient DataBoxEdgeManagementClient { get; private set; }
+
+        public StorageManagementClient StorageManagementClient { get; private set; }
+        public static DataBoxEdgeScenarioTestBase NewInstance => new DataBoxEdgeScenarioTestBase();
+
+
         protected void SetupManagementClients(MockContext context)
         {
-            var dataPipelineManagementClient = GetDataPipelineManagementClient(context);
+            var dataBoxEdgeManagementClient = GetDataBoxEdgeManagementClient(context);
             var resourceManagementClient = GetResourceManagementClient(context);
             var storageManagementClient = GetStorageManagementClient(context);
 
-            _helper.SetupManagementClients(dataPipelineManagementClient, resourceManagementClient, storageManagementClient);
+            _helper.SetupManagementClients(
+                dataBoxEdgeManagementClient, 
+                resourceManagementClient, 
+                storageManagementClient);
         }
-
-        protected void RunPowerShellTest(XunitTracingInterceptor logger, params string[] scripts)
+        /// <summary>
+        /// Methods for invoking PowerShell scripts
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="scripts"></param>
+        public void RunPowerShellTest(ServiceManagement.Common.Models.XunitTracingInterceptor logger, params string[] scripts)
         {
             var sf = new StackTrace().GetFrame(1);
             var callingClassType = sf.GetMethod().ReflectedType?.ToString();
             var mockName = sf.GetMethod().Name;
 
             _helper.TracingInterceptor = logger;
+            RunPsTestWorkflow(
+                () => scripts,
+                // no custom cleanup
+                null,
+                callingClassType,
+                mockName);
+        }
+
+        private void RunPsTestWorkflow(
+            Func<string[]> scriptBuilder,
+            Action cleanup,
+            string callingClassType,
+            string mockName)
+        {
 
             var d = new Dictionary<string, string>
             {
                 {"Microsoft.Resources", null},
-                {"Microsoft.Storage", null },
                 {"Microsoft.Features", null},
-                {"Microsoft.Authorization", null}
+                {"Microsoft.Authorization", null},
+                {"Microsoft.Compute", null}
             };
             var providersToIgnore = new Dictionary<string, string>
             {
                 {"Microsoft.Azure.Management.Resources.ResourceManagementClient", "2016-02-01"}
             };
             HttpMockServer.Matcher = new PermissiveRecordMatcherWithApiExclusion(true, d, providersToIgnore);
+
             HttpMockServer.RecordsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SessionRecords");
 
             using (var context = MockContext.Start(callingClassType, mockName))
@@ -74,24 +104,33 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
                 SetupManagementClients(context);
 
                 _helper.SetupEnvironment(AzureModule.AzureResourceManager);
+                var azDBPath = _helper.GetRMModulePath("Az.DataBoxEdge.psd1");
+                var callingClassName = callingClassType.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).Last();
                 _helper.SetupModules(AzureModule.AzureResourceManager,
                     "ScenarioTests\\Common.ps1",
-                    "ScenarioTests\\" + GetType().Name + ".ps1",
+                    "ScenarioTests\\" + callingClassName + ".ps1",
                     _helper.RMProfileModule,
-                    _helper.GetRMModulePath("Az.DataBox.psd1"),
-                    "AzureRM.Resources.ps1", "AzureRM.Storage.ps1");
-
-                _helper.RunPowerShellTest(scripts);
+                    azDBPath,
+                    "AzureRM.Resources.ps1",
+                    "AzureRM.Storage.ps1");
+                try
+                {
+                    var psScripts = scriptBuilder?.Invoke();
+                    if (psScripts != null)
+                    {
+                        _helper.RunPowerShellTest(psScripts);
+                    }
+                }
+                finally
+                {
+                    cleanup?.Invoke();
+                }
             }
-
-
         }
 
-        protected DataBoxEdgeManagementClient GetDataPipelineManagementClient(MockContext context)
+        protected DataBoxEdgeManagementClient GetDataBoxEdgeManagementClient(MockContext context)
         {
-            var testEnv = TestEnvironmentFactory.GetTestEnvironment();
-            testEnv.SubscriptionId = "05b5dd1c-793d-41de-be9f-6f9ed142f695";
-            return context.GetServiceClient<DataBoxEdgeManagementClient>(testEnv);
+            return context.GetServiceClient<DataBoxEdgeManagementClient>(TestEnvironmentFactory.GetTestEnvironment());
         }
 
         protected ResourceManagementClient GetResourceManagementClient(MockContext context)

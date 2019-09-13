@@ -14,8 +14,4 @@
     <PackageReference Include="Microsoft.Azure.Management.EdgeGateway" Version="0.8.1-preview" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SessionRecords\" />
-  </ItemGroup>
-
 </Project>

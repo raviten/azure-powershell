@@ -16,18 +16,18 @@
 .SYNOPSIS
 Gets valid resource group name
 #>
-function Get-ResourceGroupName
+function Get-DeviceResourceGroupName
 {
-    return getAssetName
+    return "psrgpfortest"
 }
 
 <#
 .SYNOPSIS
 Gets valid resource name
 #>
-function Get-DataBoxJobName
+function Get-DeviceName
 {
-    return getAssetName
+    return "psdataboxedgedevice"
 }
 
 <#
@@ -38,48 +38,6 @@ function Get-StorageAccountName
 {
     return getAssetName
 }
-
-<#
-.SYNOPSIS
-Gets the default location for a provider
-#>
-function Get-ProviderLocation($provider)
-{
-    if ([Microsoft.Azure.Test.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Test.HttpRecorder.HttpRecorderMode]::Playback)
-    {
-        $namespace = $provider.Split("/")[0]  
-        if($provider.Contains("/"))  
-        {  
-            $type = $provider.Substring($namespace.Length + 1)  
-            $location = Get-AzResourceProvider -ProviderNamespace $namespace | where {$_.ResourceTypes[0].ResourceTypeName -eq $type}  
-  
-            if ($location -eq $null) 
-            {  
-                return "West US"  
-            } else 
-            {  
-                return $location.Locations[0]  
-            }  
-        }
-        
-        return "West US"
-    }
-
-    return "WestUS"
-}
-
-<#
-.SYNOPSIS
-Creates a resource group to use in tests
-#>
-function TestSetup-CreateResourceGroup
-{
-    $resourceGroupName = getAssetName
-    $rglocation = Get-ProviderLocation "North Europe"
-    $resourceGroup = New-AzResourceGroup -Name $resourceGroupName -location $rglocation -Force
-    return $resourceGroup
-}
-
 
 
 <#
@@ -102,34 +60,6 @@ function Assert-Tags($tags1, $tags2)
     }
 }
 
-<#
-.SYNOPSIS
-Asserts if two compression types are equal
-#>
-function Assert-CompressionTypes($types1, $types2)
-{
-    if($types1.Count -ne $types1.Count)
-    {
-        throw "Array size not equal. Types1: $types1.count Types2: $types2.count"
-    }
-
-    foreach($value1 in $types1)
-    {
-        $found = $false
-        foreach($value2 in $types2)
-        {
-            if($value1.CompareTo($value2) -eq 0)
-            {
-                $found = $true
-                break
-            }
-        }
-        if(-Not($found))
-        {
-            throw "Compression content not equal. " + $value1 + " cannot be found in second array"
-        }
-    }
-}
 
 <#
 .SYNOPSIS

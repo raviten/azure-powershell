@@ -40,7 +40,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-  
+
         [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
             HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-   
+
         [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
             HelpMessage = Constants.NameHelpMessage, Position = 2)]
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
