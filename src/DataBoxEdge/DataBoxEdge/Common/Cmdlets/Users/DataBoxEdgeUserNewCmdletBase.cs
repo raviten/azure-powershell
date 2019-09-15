@@ -14,11 +14,13 @@
 
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Security;
 using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Common;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
@@ -47,7 +49,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string Password { get; set; }
+        public SecureString Password { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
         [ValidateNotNullOrEmpty]
@@ -66,7 +68,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
-                    this.Password,
+                    SecureStringExtensions.ConvertToString(this.Password),
                     this.EncryptedKey
                 );
                 var results = new List<PSDataBoxEdgeUser>();

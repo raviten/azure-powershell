@@ -52,31 +52,26 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         [Parameter(Mandatory = true, HelpMessage = "Get Share with Resource name as Name")]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string Name { get; set; }
 
 
         [Parameter(Mandatory = true, HelpMessage = "provide an existing Username for SMB Share types",
             ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string Username { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = "Provide user access right for the Username",
             ParameterSetName = SMBParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string UserAccessRight { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = "Provide ClientId for the NFS", ParameterSetName = NFSParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string ClientId { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = "Provide Read/Write Access for clientId",
             ParameterSetName = NFSParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string ClientAccessRight { get; set; }
 
         public override void ExecuteCmdlet()

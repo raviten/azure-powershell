@@ -19,6 +19,7 @@ using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.StorageAccountCredential;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
@@ -67,14 +68,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         [ResourceGroupCompleter]
         public string EncryptionKey { get; set; }
         
-        private Management.EdgeGateway.Models.StorageAccountCredential initSACObject(
+        private static ResourceModel InitSACObject(
             string name,
             string storageAccountName,
             string accountType,
             string sslStatus,
             AsymmetricEncryptedSecret secret)
         {
-            Management.EdgeGateway.Models.StorageAccountCredential sac = new Management.EdgeGateway.Models.StorageAccountCredential(
+            ResourceModel sac = new ResourceModel(
                 name,
                 sslStatus,
                 accountType,
@@ -93,14 +94,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     this.StorageAccountAccessKey,
                     this.EncryptionKey
                 );
-            Management.EdgeGateway.Models.StorageAccountCredential sac = new Management.EdgeGateway.Models.StorageAccountCredential();
+            var sac = new ResourceModel();
             var results = new List<PSDataBoxEdgeStorageAccountCredential>();
             var user = new PSDataBoxEdgeStorageAccountCredential(
                 StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
                     this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                     this.DeviceName,
                     this.Name,
-                    this.initSACObject(
+                    InitSACObject(
                         name: this.Name,
                         storageAccountName: this.StorageAccountName,
                         accountType: this.StorageAccountType,

@@ -75,7 +75,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         [Parameter(Mandatory = false, HelpMessage = "will use this AccessProtocol in the case of creating Share",
             ParameterSetName = SMBParameterSet)]
-        public String AccessProtocol { get; set; }
+        public string AccessProtocol { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Attach user in case of SMB Access Protocol",
             ParameterSetName = SMBParameterSet)]
