@@ -36,6 +36,30 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-GetNonExistingBandwidthSchedule");
         }
 
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestCreateBandwidthSchedule()
+        {
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateBandwidthSchedule");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestUpdateBandwidthSchedule()
+        {
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-UpdateBandwidthSchedule");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestCreateUnlimitedBandwidthSchedule()
+        {
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateUnlimitedBandwidthSchedule");
+        }
+
+
+
+
     }
 
 

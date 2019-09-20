@@ -15,15 +15,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 
 
         [Ps1Xml(Label = "DaysOfWeek", Target = ViewControl.Table)]
-        public string Days
-        {
-            get { return string.Join(",", this.BandwidthSchedule.Days); }
-        }
+        public string Days => string.Join(",", this.BandwidthSchedule.Days);
 
         public string Id;
         public string ResourceGroupName { get; set; }
         public string Name { get; set; }
         public string DeviceName { get; set; }
+
 
         public PSDataBoxEdgeBandWidthSchedule()
         {

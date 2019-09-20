@@ -31,7 +31,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
-        private const string GetByDeviceObjectSet = "GetByDeviceObjectSet ";
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
 
         [Parameter(Mandatory = true, ParameterSetName = GetByResourceIdParameterSet, Position = 0,

@@ -163,8 +163,18 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 resourceModel.RateInMbps = Bandwidth.Value;
             }
 
-            resourceModel.Start = this.StartTime;
-            resourceModel.Stop = this.StopTime;
+            if (!string.IsNullOrEmpty(this.StartTime))
+            {
+                resourceModel.Start = this.StartTime;
+
+            }
+
+            if (!string.IsNullOrEmpty(this.StartTime))
+            {
+                resourceModel.Stop = this.StopTime;
+
+            }
+
             return new PSResourceModel(
                 BandwidthSchedulesOperationsExtensions.CreateOrUpdate(
                     this.DataBoxEdgeManagementClient.BandwidthSchedules,
