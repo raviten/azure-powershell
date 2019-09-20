@@ -13,50 +13,99 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Role, DefaultParameterSetName = ListParameterSet
+    [Cmdlet(VerbsCommon.Remove, Constants.Role, DefaultParameterSetName = DeleteByNameParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
+     OutputType(typeof(PSDataBoxEdgeRole))]
     public class RoleRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string ListParameterSet = "ListParameterSet";
-        private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
+        private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
+        private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByResourceIdParameterSet,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = DeleteByInputObjectParameterSet,
+            Position = 0, HelpMessage = Constants.InputObjectHelpMessage
+        )]
+        [ValidateNotNull]
+        public PSResourceModel InputObject { get; set; }
+
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        public override void ExecuteCmdlet()
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.NameHelpMessage, Position = 2)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]
+        public SwitchParameter PassThru;
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
+
+        private bool Remove()
         {
-            var results = new List<PSDataBoxEdgeRole>();
             RolesOperationsExtensions.Delete(
                 this.DataBoxEdgeManagementClient.Roles,
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
-            WriteObject(true);
+
+            return true;
+        }
+
+        public override void ExecuteCmdlet()
+        {
+            if (this.IsParameterBound(c => c.ResourceId))
+            {
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.DeviceName = resourceIdentifier.DeviceName;
+                this.Name = resourceIdentifier.ResourceName;
+            }
+
+            if (this.IsParameterBound(c => c.InputObject))
+            {
+                this.ResourceGroupName = this.InputObject.ResourceGroupName;
+                this.DeviceName = this.InputObject.DeviceName;
+                this.Name = this.InputObject.Name;
+            }
+
+            if (this.ShouldProcess(this.Name,
+                string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageRoles.ObjectName, this.DeviceName, this.Name)))
+            {
+                Remove();
+                if (this.PassThru.IsPresent)
+                {
+                    WriteObject(true);
+                }
+            }
         }
     }
+
+    
 }

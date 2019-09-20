@@ -14,7 +14,6 @@
 
 using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
@@ -51,12 +50,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
-        public string EncryptedKey { get; set; }
+        public string EncryptionKey { get; set; }
 
-        public bool NotNullOrEmpty(string val)
-        {
-            return !string.IsNullOrEmpty(val);
-        }
 
 
         public override void ExecuteCmdlet()
@@ -66,7 +61,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     this.DeviceName,
                     this.ResourceGroupName,
                     this.Password,
-                    this.EncryptedKey
+                    this.EncryptionKey
                 );
                 WriteVerbose(encryptedSecret.Value);
                 var results = new List<PSDataBoxEdgeUser>();

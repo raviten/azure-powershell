@@ -1,5 +1,7 @@
-﻿using Microsoft.Azure.Commands.DataBoxEdge.Common;
+﻿using System;
+using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using Role = Microsoft.Azure.Management.EdgeGateway.Models.Role;
 
@@ -13,6 +15,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
         public string ResourceGroupName;
+        public string DeviceName { get; set; }
 
         public string Id;
         public string Name;
@@ -24,10 +27,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 
         public PSDataBoxEdgeRole(Role role)
         {
-            this.Role = role;
+            this.Role = role ?? throw new ArgumentNullException("role");
             this.Id = role.Id;
-            this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(role.Id);
-            this.Name = role.Name;
+            var resourceIdentifier = new DataBoxEdgeResourceIdentifier(role.Id);
+            this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+            this.DeviceName = resourceIdentifier.DeviceName;
+            this.Name = resourceIdentifier.ResourceName;
         }
     }
 }

@@ -46,14 +46,5 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         }
 
 
-        public bool ValidateSubResource()
-        {
-            if (!this.IsSubResource)
-            {
-                throw new Exception(Resource.InvalidSubResource);
-            }
-
-            return true;
-        }
     }
 }

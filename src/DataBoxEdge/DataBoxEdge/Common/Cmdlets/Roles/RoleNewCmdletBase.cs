@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.DataBoxEdge.Common;
@@ -165,12 +166,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 
             var keys = new List<string> {HostName, DeviceId, SharedAccessKey};
 
-            foreach (var key in keys)
+            foreach (var key in keys.Where(key => !deviceProperties.Properties.ContainsKey(key)))
             {
-                if (!deviceProperties.Properties.ContainsKey(key))
-                {
-                    ThrowInvalidConnection("Missing property " + key + " in connection string");
-                }
+                ThrowInvalidConnection("Missing property " + key + " in connection string");
             }
 
             return deviceProperties;

@@ -2120,9 +2120,9 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>EncryptedKey</maml:name>
+          <maml:name>EncryptionKey</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill EncryptedKey Description }}</maml:para>
+            <maml:para>{{ Fill EncryptionKey Description }}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
           <dev:type>
@@ -2195,9 +2195,9 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>EncryptedKey</maml:name>
+        <maml:name>EncryptionKey</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill EncryptedKey Description }}</maml:para>
+          <maml:para>{{ Fill EncryptionKey Description }}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
         <dev:type>
@@ -2498,9 +2498,9 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>EncryptedKey</maml:name>
+          <maml:name>EncryptionKey</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill EncryptedKey Description }}</maml:para>
+            <maml:para>{{ Fill EncryptionKey Description }}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
           <dev:type>
@@ -2573,9 +2573,9 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>EncryptedKey</maml:name>
+        <maml:name>EncryptionKey</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill EncryptedKey Description }}</maml:para>
+          <maml:para>{{ Fill EncryptionKey Description }}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
         <dev:type>

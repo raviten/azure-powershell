@@ -68,7 +68,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         [ResourceGroupCompleter]
         public string EncryptionKey { get; set; }
         
-        private static ResourceModel InitSACObject(
+        private static ResourceModel InitStorageAccountCredentialObject(
             string name,
             string storageAccountName,
             string accountType,
@@ -101,7 +101,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                     this.DeviceName,
                     this.Name,
-                    InitSACObject(
+                    InitStorageAccountCredentialObject(
                         name: this.Name,
                         storageAccountName: this.StorageAccountName,
                         accountType: this.StorageAccountType,
