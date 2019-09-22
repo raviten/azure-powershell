@@ -185,7 +185,8 @@ Accept wildcard characters: False
 ```
 
 ### -UnlimitedBandwidth
-Set Unlimited Bandwidth
+Set Unlimited Bandwidth.
+If set to false will set default value as 20 Mbps
 
 ```yaml
 Type: System.Boolean
