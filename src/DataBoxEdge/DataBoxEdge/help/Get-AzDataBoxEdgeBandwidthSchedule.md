@@ -20,7 +20,7 @@ Get-AzDataBoxEdgeBandwidthSchedule [-ResourceGroupName] <String> [-DeviceName] <
 
 ### GetByResourceIdParameterSet
 ```
-Get-AzDataBoxEdgeBandwidthSchedule [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>]
+Get-AzDataBoxEdgeBandwidthSchedule -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
@@ -126,7 +126,7 @@ Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

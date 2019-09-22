@@ -23,5 +23,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         internal const string DaysOfWeek = "Scheduled DaysOfWeek";
         internal const string Bandwidth = "Bandwidth in Mbps";
         internal const string UnlimitedBandwidth = "Will Set Unlimited Bandwidth";
+        internal const string NewUnlimitedBandwidth = "Will Set Unlimited Bandwidth, if set to false will set default value as 20 Mbps";
+
     }
 }

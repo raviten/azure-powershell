@@ -12,16 +12,22 @@ schema: 2.0.0
 
 ## SYNTAX
 
-### ListParameterSet (Default)
+### DeleteByNameParameterSet (Default)
 ```
-Remove-AzDataBoxEdgeRole -ResourceGroupName <String> [-Name <String>] -DeviceName <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Remove-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-PassThru] [<CommonParameters>]
 ```
 
-### GetByNameParameterSet
+### DeleteByResourceIdParameterSet
 ```
-Remove-AzDataBoxEdgeRole -ResourceGroupName <String> -Name <String> -DeviceName <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Remove-AzDataBoxEdgeRole [-ResourceId] <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru]
+ [<CommonParameters>]
+```
+
+### DeleteByInputObjectParameterSet
+```
+Remove-AzDataBoxEdgeRole [-InputObject] <PSDataBoxEdgeRole> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,6 +43,21 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
+
+### -AsJob
+Run cmdlet in the background
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
@@ -58,13 +79,28 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InputObject
+Input Object
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole
+Parameter Sets: DeleteByInputObjectParameterSet
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -73,22 +109,25 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ListParameterSet
+Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PassThru
+returns true if successful
+
 ```yaml
-Type: System.String
-Parameter Sets: GetByNameParameterSet
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -100,13 +139,28 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+Azure ResourceId
+
+```yaml
+Type: System.String
+Parameter Sets: DeleteByResourceIdParameterSet
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

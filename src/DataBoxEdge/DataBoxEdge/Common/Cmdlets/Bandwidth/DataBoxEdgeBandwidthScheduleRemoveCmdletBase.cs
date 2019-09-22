@@ -32,31 +32,40 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
         private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = DeleteByResourceIdParameterSet,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = DeleteByResourceIdParameterSet,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = DeleteByInputObjectParameterSet,
-            Position = 0, HelpMessage = Constants.InputObjectHelpMessage
+        [Parameter(Mandatory = true, 
+            ParameterSetName = DeleteByInputObjectParameterSet,
+            ValueFromPipeline = true,
+            HelpMessage = Constants.InputObjectHelpMessage
         )]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, 
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage, Position = 2)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.NameHelpMessage, 
+            Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 

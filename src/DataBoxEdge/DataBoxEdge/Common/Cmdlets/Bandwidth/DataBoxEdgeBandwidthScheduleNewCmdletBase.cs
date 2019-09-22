@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
 using Resource = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Resources.Resource;
@@ -71,12 +72,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
             HelpMessage = HelpMessageBandwidthSchedule.Bandwidth)]
         [ValidateNotNullOrEmpty]
-        public int? Bandwidth { get; set; }
+        public int Bandwidth { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
-            HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth)]
+            HelpMessage = HelpMessageBandwidthSchedule.NewUnlimitedBandwidth)]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter UnlimitedBandwidth { get; set; }
+        public Boolean UnlimitedBandwidth { get; set; }
 
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
@@ -84,21 +85,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         private PSResourceModel CreateResourceModel()
         {
-            if (UnlimitedBandwidth.IsPresent)
+            if (this.IsParameterBound(c => c.UnlimitedBandwidth))
             {
-                Bandwidth = 0;
+                Bandwidth = UnlimitedBandwidth ? 0 : 20;
             }
-
-            if (!Bandwidth.HasValue)
-            {
-                throw new Exception(Resource.InvalidBandwidthInput);
-            }
+            
 
             var days = new List<string>(this.DaysOfWeek);
             var resourceModel = new ResourceModel(
                 this.StartTime,
                 this.StopTime,
-                Bandwidth.Value,
+                Bandwidth,
                 days,
                 null,
                 this.Name

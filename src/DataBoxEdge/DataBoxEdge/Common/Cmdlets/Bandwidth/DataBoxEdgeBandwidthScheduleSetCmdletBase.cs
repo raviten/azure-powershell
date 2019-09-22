@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -26,7 +27,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
     [Cmdlet(VerbsCommon.Set, Constants.BandwidthSchedule, DefaultParameterSetName = UpdateByNameParameterSet,
          SupportsShouldProcess = true
      ),
-     OutputType(typeof(PSDataBoxEdgeBandWidthSchedule))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeBandwidthSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string UpdateByResourceIdParameterSet = "UpdateByResourceIdParameterSet";
@@ -50,20 +51,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
 
         [Parameter(Mandatory = true, ParameterSetName = UpdateByResourceIdParameterSet,
-            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true, ParameterSetName = UpdateByResourceIdParameterUnlimitedBandwidthSet,
-            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true, ParameterSetName = UpdateByResourceIdParameterBandwidthSet,
-            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = UpdateByInputObjectParameterSet,
-            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true, ParameterSetName = UpdateByInputObjectParameterUnlimitedBandwidthSet,
-            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true, ParameterSetName = UpdateByInputObjectParameterBandwidthSet,
-            HelpMessage = Constants.ResourceIdHelpMessage, Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public PSResourceModel InputObject { get; set; }
 
@@ -114,7 +115,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.Bandwidth,
             ParameterSetName = UpdateByNameParameterBandwidthSet)]
         [ValidateNotNullOrEmpty]
-        public int? Bandwidth { get; set; }
+        public int Bandwidth { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
             ParameterSetName = UpdateByResourceIdParameterUnlimitedBandwidthSet)]
@@ -123,10 +124,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [Parameter(Mandatory = true, HelpMessage = HelpMessageBandwidthSchedule.UnlimitedBandwidth,
             ParameterSetName = UpdateByNameParameterUnlimitedBandwidthSet)]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter UnlimitedBandwidth { get; set; }
+        public Boolean UnlimitedBandwidth { get; set; }
 
 
-        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        [Parameter(Mandatory = true, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
         private ResourceModel GetResourceModel()
@@ -148,20 +149,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 resourceModel.Days = days;
             }
 
-            if (this.Bandwidth.HasValue)
+            if (this.Bandwidth > 0)
             {
-                resourceModel.RateInMbps = Bandwidth.Value;
+                resourceModel.RateInMbps = Bandwidth;
             }
 
-            if (UnlimitedBandwidth.IsPresent)
+            if (UnlimitedBandwidth)
             {
                 resourceModel.RateInMbps = 0;
             }
 
-            if (this.Bandwidth.HasValue)
-            {
-                resourceModel.RateInMbps = Bandwidth.Value;
-            }
 
             if (!string.IsNullOrEmpty(this.StartTime))
             {

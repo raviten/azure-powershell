@@ -14,7 +14,7 @@ schema: 2.0.0
 
 ```
 Set-AzDataBoxEdgeUser -ResourceGroupName <String> -DeviceName <String> -Username <String> -Password <String>
- -EncryptedKey <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -61,8 +61,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EncryptedKey
-{{ Fill EncryptedKey Description }}
+### -EncryptionKey
+{{ Fill EncryptionKey Description }}
 
 ```yaml
 Type: System.String

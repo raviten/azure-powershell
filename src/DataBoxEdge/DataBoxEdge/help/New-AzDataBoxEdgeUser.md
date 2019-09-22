@@ -13,8 +13,9 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-AzDataBoxEdgeUser -ResourceGroupName <String> -DeviceName <String> -Username <String> -Password <String>
- -EncryptedKey <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+New-AzDataBoxEdgeUser -ResourceGroupName <String> -DeviceName <String> -Username <String>
+ -Password <SecureString> -EncryptedKey <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -80,7 +81,7 @@ Accept wildcard characters: False
 {{ Fill Password Description }}
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: (All)
 Aliases:
 
