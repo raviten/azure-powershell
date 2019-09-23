@@ -20,7 +20,7 @@ Get-AzDataBoxEdgeJob [-ResourceGroupName] <String> [-DeviceName] <String> [-Name
 
 ### GetByResourceIdObject
 ```
-Get-AzDataBoxEdgeJob [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeJob -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -104,7 +104,7 @@ Parameter Sets: GetByResourceIdObject
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

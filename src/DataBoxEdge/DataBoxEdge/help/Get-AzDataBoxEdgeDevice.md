@@ -20,7 +20,7 @@ Get-AzDataBoxEdgeDevice [[-ResourceGroupName] <String>] [-DefaultProfile <IAzure
 
 ### GetByResourceIdParameterSet
 ```
-Get-AzDataBoxEdgeDevice [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeDevice -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
@@ -115,7 +115,7 @@ Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

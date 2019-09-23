@@ -20,13 +20,13 @@ Remove-AzDataBoxEdgeDevice [-ResourceGroupName] <String> [-Name] <String> [-AsJo
 
 ### DeleteByResourceIdParameterSet
 ```
-Remove-AzDataBoxEdgeDevice [-ResourceId] <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
- [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-AzDataBoxEdgeDevice -ResourceId <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### DeleteByInputObjectParameterSet
 ```
-Remove-AzDataBoxEdgeDevice [-InputObject] <PSDataBoxEdgeDevice> [-AsJob]
+Remove-AzDataBoxEdgeDevice -InputObject <PSDataBoxEdgeDevice> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -81,7 +81,7 @@ Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
@@ -141,7 +141,7 @@ Parameter Sets: DeleteByResourceIdParameterSet
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False

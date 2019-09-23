@@ -20,13 +20,13 @@ Get-AzDataBoxEdgeDeviceExtendedInfo [-ResourceGroupName] <String> [-Name] <Strin
 
 ### GetByResourceIdParameterSet
 ```
-Get-AzDataBoxEdgeDeviceExtendedInfo [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>]
+Get-AzDataBoxEdgeDeviceExtendedInfo -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
 ### GetByInputObjectSet
 ```
-Get-AzDataBoxEdgeDeviceExtendedInfo [-InputObject] <PSDataBoxEdgeDeviceExtendedInfo>
+Get-AzDataBoxEdgeDeviceExtendedInfo -InputObject <PSDataBoxEdgeDeviceExtendedInfo>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -72,7 +72,7 @@ Parameter Sets: GetByInputObjectSet
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
@@ -117,7 +117,7 @@ Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

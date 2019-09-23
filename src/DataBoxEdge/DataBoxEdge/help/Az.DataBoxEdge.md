@@ -41,8 +41,8 @@ Create a new Bandwidth schedule
 ### [New-AzDataBoxEdgeDevice](New-AzDataBoxEdgeDevice.md)
 Configures a new device
 
-### [New-AzDataBoxEdgeRole](New-AzDataBoxEdgeRole.md)
-{{ Fill in the Synopsis }}
+### [New-AzDataBoxEdgeDevice](New-AzDataBoxEdgeDevice.md)
+Configures a new device
 
 ### [New-AzDataBoxEdgeShare](New-AzDataBoxEdgeShare.md)
 {{ Fill in the Synopsis }}
