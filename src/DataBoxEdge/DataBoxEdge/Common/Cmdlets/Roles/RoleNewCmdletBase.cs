@@ -32,7 +32,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         private const string ConnectionStringParameterSet = "ConnectionStringParameterSet";
         private const string IOTParameterSet = "IOTParameterSet";
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, 
+            HelpMessage = "",
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
@@ -43,25 +45,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string Name { get; set; }
 
         [Parameter(Mandatory = false,
             HelpMessage = "Use this to Provide Connection Strings",
             ParameterSetName = ConnectionStringParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public SwitchParameter ConnectionString { get; set; }
-
 
         [Parameter(Mandatory = true, ParameterSetName = ConnectionStringParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string IOTDeviceConnectionString { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = ConnectionStringParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string IOTEdgeDeviceConnectionString { get; set; }
 
         [Parameter(
@@ -69,54 +66,43 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             HelpMessage = "Use this to Provide Device Properties",
             ParameterSetName = IOTParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public SwitchParameter DeviceProperties { get; set; }
 
-
-        [Parameter(Mandatory = true, ParameterSetName = IOTParameterSet)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = IOTParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string IOTDeviceId { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = IOTParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string IOTDeviceAccessKey { get; set; }
 
 
         [Parameter(Mandatory = true, ParameterSetName = IOTParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string IOTEdgeDeviceId { get; set; }
 
 
         [Parameter(Mandatory = true, ParameterSetName = IOTParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string IOTEdgeDeviceAccessKey { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = IOTParameterSet)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string IOTHostHub { get; set; }
-
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string EncryptionKey { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string Platform { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string RoleStatus { get; set; }
         
-
         public static string HostName = "HostName";
         public static string DeviceId = "DeviceId";
         public static string SharedAccessKey = "SharedAccessKey";

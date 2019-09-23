@@ -31,25 +31,31 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         private const string ActionByInputObjectSet = "ActionByInputObjectSet";
         private const string ActionByNameParameterSet = "ActionByNameParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = ActionByResourceIdParameterSet, Position = 0,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = ActionByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = ActionByInputObjectSet,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = ActionByInputObjectSet,
             HelpMessage = Constants.InputObjectHelpMessage,
-            Position = 0)]
+            ValueFromPipeline = true)]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ActionByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = ActionByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
 
-        [Parameter(Mandatory = true, ParameterSetName = ActionByNameParameterSet, HelpMessage = Constants.NameHelpMessage,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = ActionByNameParameterSet, 
+            HelpMessage = Constants.NameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }

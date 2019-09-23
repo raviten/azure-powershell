@@ -115,11 +115,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 string.Format("Creating a new '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageBandwidthSchedule.ObjectName, this.DeviceName, this.Name)))
             {
-                var result = new List<PSResourceModel>
+                var results = new List<PSResourceModel>
                 {
                     CreateResourceModel()
                 };
-                WriteObject(result);
+                WriteObject(results, true);
             }
         }
     }

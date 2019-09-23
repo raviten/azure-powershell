@@ -31,25 +31,30 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         private const string GetByInputObjectSet = "GetByInputObjectSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByResourceIdParameterSet, Position = 0,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = GetByInputObjectSet,
-            HelpMessage = Constants.InputObjectHelpMessage,
-            Position = 0)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByInputObjectSet,
+            ValueFromPipeline = true,
+            HelpMessage = Constants.InputObjectHelpMessage)]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, HelpMessage = Constants.NameHelpMessage,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet, 
+            HelpMessage = Constants.NameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -61,7 +66,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
                 this.Name,
                 this.ResourceGroupName);
         }
-
 
         private List<PSResourceModel> GetByResourceName()
         {

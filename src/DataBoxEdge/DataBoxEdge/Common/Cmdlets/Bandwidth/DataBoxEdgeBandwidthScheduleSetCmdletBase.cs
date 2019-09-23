@@ -127,7 +127,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         public Boolean UnlimitedBandwidth { get; set; }
 
 
-        [Parameter(Mandatory = true, HelpMessage = Constants.AsJobHelpMessage)]
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
         private ResourceModel GetResourceModel()

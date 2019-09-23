@@ -33,31 +33,41 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByResourceIdParameterSet, Position = 0,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            Position = 0)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, 
+            Position = 1)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, 
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, HelpMessage = Constants.NameHelpMessage,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet, 
+            HelpMessage = Constants.NameHelpMessage,
             Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
-
 
         private ResourceModel GetResourceModel()
         {
@@ -67,7 +77,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 this.Name,
                 this.ResourceGroupName);
         }
-
         private List<PSResourceModel> GetByResourceName()
         {
             var resourceModel = GetResourceModel();

@@ -18,6 +18,8 @@ using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
+
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
@@ -26,29 +28,33 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
          DefaultParameterSetName = CreateByNewParameterSet,
          SupportsShouldProcess = true
      ),
-     OutputType(typeof(PSDataBoxEdgeDevice))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeDeviceNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string CreateByNewParameterSet = "CreateByNewParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = CreateByNewParameterSet, Position = 0,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = CreateByNewParameterSet, 
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = CreateByNewParameterSet, Position = 1,
-            HelpMessage = Constants.NameHelpMessage)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = CreateByNewParameterSet,
+            HelpMessage = Constants.NameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-
-        [Parameter(Mandatory = true, ParameterSetName = CreateByNewParameterSet,
+        [Parameter(Mandatory = true, 
+            ParameterSetName = CreateByNewParameterSet,
             HelpMessage = HelpMessageDevice.LocationHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
-
-
-        [Parameter(Mandatory = true, ParameterSetName = CreateByNewParameterSet,
+        
+        [Parameter(Mandatory = true, 
+            ParameterSetName = CreateByNewParameterSet,
             HelpMessage = HelpMessageDevice.SkuHelpMessage)]
         [ValidateNotNullOrEmpty]
         [PSArgumentCompleter("Edge", "Gateway")]
@@ -57,23 +63,32 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
-        public override void ExecuteCmdlet()
+        private PSResourceModel CreateResourceModel()
         {
             DataBoxEdgeDevice dbe = new DataBoxEdgeDevice();
             dbe.Sku = new Sku(this.Sku);
             dbe.Location = this.Location;
-            var results = new List<PSDataBoxEdgeDevice>();
+
+            var device = new PSResourceModel(
+                DevicesOperationsExtensions.CreateOrUpdate(
+                    this.DataBoxEdgeManagementClient.Devices,
+                    this.Name,
+                    dbe,
+                    this.ResourceGroupName));
+            return device;
+        }
+
+        public override void ExecuteCmdlet()
+        {
             if (this.ShouldProcess(this.Name,
                 string.Format("Creating '{0}' with name '{1}'.",
                     HelpMessageDevice.ObjectName, this.Name)))
             {
-                var device = new PSDataBoxEdgeDevice(
-                    DevicesOperationsExtensions.CreateOrUpdate(
-                        this.DataBoxEdgeManagementClient.Devices,
-                        this.Name,
-                        dbe,
-                        this.ResourceGroupName));
-                results.Add(device);
+
+                var results = new List<PSResourceModel>
+                {
+                    CreateResourceModel()
+                };
                 WriteObject(results, true);
             }
         }

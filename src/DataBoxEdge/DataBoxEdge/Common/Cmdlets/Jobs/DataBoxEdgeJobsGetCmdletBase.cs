@@ -31,28 +31,33 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceIdObject = "GetByResourceIdObject";
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, Position = 0,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
-        [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string ResourceGroupName { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, Position = 1,
-            HelpMessage = HelpMessageJobs.DeviceName)]
-        [ValidateNotNullOrEmpty]
-        public string DeviceName { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, Position = 2,
-            HelpMessage = HelpMessageJobs.Name)]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-
-        [Parameter(Mandatory = true, ParameterSetName = GetByResourceIdObject, Position = 0,
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByResourceIdObject,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet, 
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
+        [ValidateNotNullOrEmpty]
+        [ResourceGroupCompleter]
+        public string ResourceGroupName { get; set; }
+
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = HelpMessageJobs.DeviceName, 
+            Position = 1)]
+        [ValidateNotNullOrEmpty]
+        public string DeviceName { get; set; }
+
+        [Parameter(Mandatory = true, 
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = HelpMessageJobs.Name, 
+            Position = 2)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
 
         public override void ExecuteCmdlet()
         {

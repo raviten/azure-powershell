@@ -104,7 +104,7 @@ function Test-CreateUnlimitedBandwidthSchedule
     # Test
 	try
     {
-        $expected  = New-AzDataBoxEdgeBandwidthSchedule $rgname $dfname $bwname -DaysOfWeek $bwDaysOfWeek -StartTime $bwStartTime -StopTime $bwStopTime -UnlimitedBandwidth
+        $expected  = New-AzDataBoxEdgeBandwidthSchedule $rgname $dfname $bwname -DaysOfWeek $bwDaysOfWeek -StartTime $bwStartTime -StopTime $bwStopTime -UnlimitedBandwidth $true
 		Assert-AreEqual $expected.BandwidthSchedule.RateInMbps $bwUnlimitedRateInMbps
     }
     finally
