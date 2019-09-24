@@ -37,10 +37,10 @@ If Name is provided along with ResourceGroupName and DeviceName, this will get t
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
-Name   ResourceGroupName
------ -----------------
-ravi   psrgpfortest
+PS C:\>  Get-AzDataBoxEdgeUser -ResourceGroupName resource-group-name -DeviceName device-name
+Name      ResourceGroupName
+-------- -----------------
+usename   resource-group-name
 ```
 
 
