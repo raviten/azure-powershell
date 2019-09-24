@@ -38,7 +38,7 @@ This **Get-AzDataBoxEdgeRole** fetches the available IOT role by Name or lists t
 ```powershell
 PS C:\> Get-AzDataBoxEdgeRole -ResourceGroupName resource-group-name -DeviceName device-name
 
-Role.Name 
+Name 
 -----------
 IotRole
 ```
