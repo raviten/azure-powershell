@@ -37,8 +37,11 @@ This **Remove-AzDataBoxEdgeDevice** will remove the device.
 
 ### Example 1
 ```powershell
-PS C:\> Remove-AzDataBoxEdgeDevice -ResourceGroupName resource-group-name -Name device-name
+PS C:\> Remove-AzDataBoxEdgeDevice ResourceGroupName resource-group-name -Name device-name
+true
 ```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -46,7 +49,7 @@ PS C:\> Remove-AzDataBoxEdgeDevice -ResourceGroupName resource-group-name -Name 
 Run cmdlet in the background
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -61,7 +64,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -73,10 +76,10 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-Powershell object
+Input Object
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Type: PSDataBoxEdgeDevice
 Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 
@@ -91,7 +94,7 @@ Accept wildcard characters: False
 Resource Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -106,7 +109,7 @@ Accept wildcard characters: False
 returns true if successful
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -121,7 +124,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -136,7 +139,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByResourceIdParameterSet
 Aliases:
 
@@ -151,7 +154,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -167,7 +170,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

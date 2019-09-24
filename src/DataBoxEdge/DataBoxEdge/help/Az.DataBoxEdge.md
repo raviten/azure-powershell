@@ -15,13 +15,13 @@ Module to create a device and perform operations on DataBoxEdge devices
 Gets the information about Bandwidth schedules
 
 ### [Get-AzDataBoxEdgeDevice](Get-AzDataBoxEdgeDevice.md)
-Get the devices with applied filters
+Get the available devices
 
 ### [Get-AzDataBoxEdgeDeviceExtendedInfo](Get-AzDataBoxEdgeDeviceExtendedInfo.md)
 Get the extended info for a device
 
 ### [Get-AzDataBoxEdgeJob](Get-AzDataBoxEdgeJob.md)
-List down the active jobs for a device
+Get job by Name
 
 ### [Get-AzDataBoxEdgeRole](Get-AzDataBoxEdgeRole.md)
 Fetch the available roles for a device
@@ -51,18 +51,6 @@ Configures a new device
 {{ Fill in the Synopsis }}
 
 ### [New-AzDataBoxEdgeUser](New-AzDataBoxEdgeUser.md)
-{{ Fill in the Synopsis }}
-
-### [Remove-AzDataBoxEdgeBandwidthSchedule](Remove-AzDataBoxEdgeBandwidthSchedule.md)
-Removes a Bandwidth Schedule
-
-### [Remove-AzDataBoxEdgeDevice](Remove-AzDataBoxEdgeDevice.md)
-Remove a device
-
-### [Remove-AzDataBoxEdgeRole](Remove-AzDataBoxEdgeRole.md)
-{{ Fill in the Synopsis }}
-
-### [Remove-AzDataBoxEdgeStorageAccountCredential](Remove-AzDataBoxEdgeStorageAccountCredential.md)
 {{ Fill in the Synopsis }}
 
 ### [Set-AzDataBoxEdgeBandwidthSchedule](Set-AzDataBoxEdgeBandwidthSchedule.md)

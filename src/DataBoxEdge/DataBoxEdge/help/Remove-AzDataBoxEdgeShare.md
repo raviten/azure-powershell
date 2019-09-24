@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzDataBoxEdgeShare
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Remove the share for the device
 
 ## SYNTAX
 
@@ -31,16 +31,14 @@ Remove-AzDataBoxEdgeShare [-InputObject] <PSDataBoxEdgeShare> [-AsJob]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Remove-AzDataBoxEdgeBandwidthShare** will remove the Share for the device.
 
 ## EXAMPLES
 
-### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzDataBoxEdgeShare ResourceGroupName resource-group-name -DeviceName device-name -Name share-name
+true
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 

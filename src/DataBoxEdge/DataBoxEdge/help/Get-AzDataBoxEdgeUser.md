@@ -43,7 +43,6 @@ Name      ResourceGroupName
 usename   resource-group-name
 ```
 
-
 ## PARAMETERS
 
 ### -DefaultProfile

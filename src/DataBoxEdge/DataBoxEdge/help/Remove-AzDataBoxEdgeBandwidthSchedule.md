@@ -38,6 +38,7 @@ This **Remove-AzDataBoxEdgeBandwidthSchedule** will remove the Bandwidth schedul
 ### Example 1
 ```powershell
 PS C:\> Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName resource-group-name -DeviceName device-name -Name bandwidth-schedule
+true
 ```
 
 ## PARAMETERS
@@ -46,7 +47,7 @@ PS C:\> Remove-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName resource-group-
 Run cmdlet in the background
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -61,7 +62,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -76,7 +77,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -88,10 +89,10 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-Powershell object 
+Input Object
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
+Type: PSDataBoxEdgeBandWidthSchedule
 Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 
@@ -106,7 +107,7 @@ Accept wildcard characters: False
 Resource Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -121,7 +122,7 @@ Accept wildcard characters: False
 returns true if successful
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -136,7 +137,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -151,7 +152,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByResourceIdParameterSet
 Aliases:
 
@@ -166,7 +167,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -178,10 +179,11 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 
@@ -197,11 +199,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule
+### System.Boolean
 
 ## NOTES
 

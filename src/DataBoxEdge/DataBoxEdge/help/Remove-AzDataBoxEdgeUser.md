@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzDataBoxEdgeUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Removes the user
 
 ## SYNTAX
 
@@ -31,16 +31,15 @@ Remove-AzDataBoxEdgeUser [-InputObject] <PSDataBoxEdgeUser> [-AsJob] [-DefaultPr
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Remove-AzDataBoxEdgeUser** will remove the User for the device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzDataBoxEdgeUser ResourceGroupName resource-group-name -DeviceName device-name -Name username
+true
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 

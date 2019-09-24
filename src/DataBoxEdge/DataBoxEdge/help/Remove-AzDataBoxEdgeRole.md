@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzDataBoxEdgeRole
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Removes the assosciated Role for the device
 
 ## SYNTAX
 
@@ -31,16 +31,15 @@ Remove-AzDataBoxEdgeRole [-InputObject] <PSDataBoxEdgeRole> [-AsJob] [-DefaultPr
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Remove-AzDataBoxEdgeEdgeRole** will remove the assosciated Role for the device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzDataBoxEdgeRole ResourceGroupName resource-group-name -DeviceName device-name -Name role-name
+true
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -48,7 +47,7 @@ PS C:\> {{ Add example code here }}
 Run cmdlet in the background
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -63,7 +62,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -75,10 +74,10 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Device Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -93,7 +92,7 @@ Accept wildcard characters: False
 Input Object
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole
+Type: PSDataBoxEdgeRole
 Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 
@@ -105,10 +104,10 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Resource Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -123,7 +122,7 @@ Accept wildcard characters: False
 returns true if successful
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -135,10 +134,10 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource Group Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -153,7 +152,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByResourceIdParameterSet
 Aliases:
 
@@ -169,11 +168,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole
 
 ## NOTES
 
