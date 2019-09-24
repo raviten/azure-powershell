@@ -41,8 +41,8 @@ Create a new Bandwidth schedule
 ### [New-AzDataBoxEdgeDevice](New-AzDataBoxEdgeDevice.md)
 Configures a new device
 
-### [New-AzDataBoxEdgeDevice](New-AzDataBoxEdgeDevice.md)
-Configures a new device
+### [New-AzDataBoxEdgeRole](New-AzDataBoxEdgeRole.md)
+{{ Fill in the Synopsis }}
 
 ### [New-AzDataBoxEdgeShare](New-AzDataBoxEdgeShare.md)
 {{ Fill in the Synopsis }}
@@ -52,6 +52,24 @@ Configures a new device
 
 ### [New-AzDataBoxEdgeUser](New-AzDataBoxEdgeUser.md)
 {{ Fill in the Synopsis }}
+
+### [Remove-AzDataBoxEdgeBandwidthSchedule](Remove-AzDataBoxEdgeBandwidthSchedule.md)
+Removes a Bandwidth Schedule
+
+### [Remove-AzDataBoxEdgeDevice](Remove-AzDataBoxEdgeDevice.md)
+Remove a device
+
+### [Remove-AzDataBoxEdgeRole](Remove-AzDataBoxEdgeRole.md)
+Removes the assosciated Role for the device
+
+### [Remove-AzDataBoxEdgeRole](Remove-AzDataBoxEdgeRole.md)
+Removes the assosciated Role for the device
+
+### [Remove-AzDataBoxEdgeStorageAccountCredential](Remove-AzDataBoxEdgeStorageAccountCredential.md)
+Removes a storage account credentail object for the device
+
+### [Remove-AzDataBoxEdgeUser](Remove-AzDataBoxEdgeUser.md)
+Removes the user
 
 ### [Set-AzDataBoxEdgeBandwidthSchedule](Set-AzDataBoxEdgeBandwidthSchedule.md)
 Update a Bandwidth Schedule for the device

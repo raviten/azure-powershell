@@ -15,21 +15,21 @@ schema: 2.0.0
 ### NewParameterSet (Default)
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -DataFormat <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
+ [-StorageAccountCredentialName] <String> -DataFormat <String> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### SmbParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  [-StorageAccountCredentialName] <String> -AccessProtocol <String> -SetUserAccessRights <Hashtable>
- -DataFormat <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -DataFormat <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### NfsParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -SetClientAccessRights <Hashtable> -DataFormat <String>
+ [-StorageAccountCredentialName] <String> -SetClientAccessRights <Hashtable> -DataFormat <String> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -56,6 +56,21 @@ Parameter Sets: SmbParameterSet
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AsJob
+Run cmdlet in the background
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

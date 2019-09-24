@@ -77,7 +77,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
             HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string EncryptionKey { get; set; }
-        
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
+
         private static ResourceModel InitStorageAccountCredentialObject(
             string name,
             string storageAccountName,

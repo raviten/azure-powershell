@@ -5,38 +5,39 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-AzDataBoxEdgeShare
+# Remove-AzDataBoxEdgeRole
 
 ## SYNOPSIS
-Remove the share for the device
+Removes the assosciated Role for the device
 
 ## SYNTAX
 
 ### DeleteByNameParameterSet (Default)
 ```
-Remove-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-AsJob]
+Remove-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-PassThru] [<CommonParameters>]
 ```
 
 ### DeleteByResourceIdParameterSet
 ```
-Remove-AzDataBoxEdgeShare [-ResourceId] <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
- [-PassThru] [<CommonParameters>]
+Remove-AzDataBoxEdgeRole [-ResourceId] <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ### DeleteByInputObjectParameterSet
 ```
-Remove-AzDataBoxEdgeShare [-InputObject] <PSDataBoxEdgeShare> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-PassThru] [<CommonParameters>]
+Remove-AzDataBoxEdgeRole [-InputObject] <PSDataBoxEdgeRole> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This **Remove-AzDataBoxEdgeBandwidthShare** will remove the Share for the device.
+This **Remove-AzDataBoxEdgeEdgeRole** will remove the assosciated Role for the device.
 
 ## EXAMPLES
 
+### Example 1
 ```powershell
-PS C:\> Remove-AzDataBoxEdgeShare ResourceGroupName resource-group-name -DeviceName device-name -Name share-name
+PS C:\> Remove-AzDataBoxEdgeRole ResourceGroupName resource-group-name -DeviceName device-name -Name role-name
 true
 ```
 
@@ -46,7 +47,7 @@ true
 Run cmdlet in the background
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -61,7 +62,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -76,7 +77,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -91,7 +92,7 @@ Accept wildcard characters: False
 Input Object
 
 ```yaml
-Type: PSDataBoxEdgeShare
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole
 Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 
@@ -106,7 +107,7 @@ Accept wildcard characters: False
 Resource Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -121,7 +122,7 @@ Accept wildcard characters: False
 returns true if successful
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -136,7 +137,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -151,7 +152,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: DeleteByResourceIdParameterSet
 Aliases:
 
@@ -169,11 +170,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole
 
 ## NOTES
 

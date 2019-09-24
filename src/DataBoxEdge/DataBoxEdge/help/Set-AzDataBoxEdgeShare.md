@@ -15,37 +15,37 @@ schema: 2.0.0
 ### SmbParameterSet (Default)
 ```
 Set-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -SetUserAccessRights <Hashtable> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -SetUserAccessRights <Hashtable> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdSmbParameterSet
 ```
-Set-AzDataBoxEdgeShare -ResourceId <String> -SetUserAccessRights <Hashtable>
+Set-AzDataBoxEdgeShare -ResourceId <String> -SetUserAccessRights <Hashtable> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdNfsParameterSet
 ```
-Set-AzDataBoxEdgeShare -ResourceId <String> -SetClientAccessRights <Hashtable>
+Set-AzDataBoxEdgeShare -ResourceId <String> -SetClientAccessRights <Hashtable> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectSmbParameterSet
 ```
-Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetUserAccessRights <Hashtable>
+Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetUserAccessRights <Hashtable> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectNfsParameterSet
 ```
-Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetClientAccessRights <Hashtable>
+Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetClientAccessRights <Hashtable> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### NfsParameterSet
 ```
 Set-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -SetClientAccessRights <Hashtable> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -SetClientAccessRights <Hashtable> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -61,6 +61,21 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
+
+### -AsJob
+Run cmdlet in the background
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.

@@ -115,7 +115,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         [Parameter(Mandatory = true, HelpMessage = HelpMessageRoles.RoleStatusHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string RoleStatus { get; set; }
-        
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
+
         public static string HostName = "HostName";
         public static string DeviceId = "DeviceId";
         public static string SharedAccessKey = "SharedAccessKey";

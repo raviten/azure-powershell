@@ -5,30 +5,40 @@ online version:
 schema: 2.0.0
 ---
 
-# New-AzDataBoxEdgeDevice
+# New-AzDataBoxEdgeRole
 
 ## SYNOPSIS
-Configures a new device
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
+### ConnectionStringParameterSet (Default)
 ```
-New-AzDataBoxEdgeDevice [-ResourceGroupName] <String> [-Name] <String> -Location <String> -Sku <String>
- [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-ConnectionString]
+ -IotDeviceConnectionString <String> -IotEdgeDeviceConnectionString <String> -EncryptionKey <String>
+ -Platform <String> -RoleStatus <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
+### IotParameterSet
+```
+New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-DeviceProperties]
+ -IotDeviceId <String> -IotDeviceAccessKey <String> -IotEdgeDeviceId <String> -IotEdgeDeviceAccessKey <String>
+ -IotHostHub <String> -EncryptionKey <String> -Platform <String> -RoleStatus <String> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This **New-AzDataBoxEdgeDevice** will configure a device.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> New-AzDataBoxEdgeDevice -ResourceGroupName resource-goup-name -Name device-name -Location eastus -Sku Edge
-Name        ResourceGroupName DeviceType        Location
-----        ----------------- ----------        --------
-device-name ranandu-rgp       DataBoxEdgeDevice eastus
+PS C:\> {{ Add example code here }}
 ```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -38,6 +48,21 @@ Run cmdlet in the background
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConnectionString
+To Provide Connection Strings
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: ConnectionStringParameterSet
 Aliases:
 
 Required: False
@@ -62,12 +87,147 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Location
-Location of the device
+### -DeviceName
+Device Name
 
 ```yaml
 Type: System.String
 Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DeviceProperties
+To Provide Device Properties
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: IotParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EncryptionKey
+Encryption key of the Edge device
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IotDeviceAccessKey
+Iot Device Access Key
+
+```yaml
+Type: System.String
+Parameter Sets: IotParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IotDeviceConnectionString
+Please provide connection string of IOT Device
+
+```yaml
+Type: System.String
+Parameter Sets: ConnectionStringParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IotDeviceId
+Device Id of the Iot Device
+
+```yaml
+Type: System.String
+Parameter Sets: IotParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IotEdgeDeviceAccessKey
+Access key of the Iot Edge device
+
+```yaml
+Type: System.String
+Parameter Sets: IotParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IotEdgeDeviceConnectionString
+Please provide connection string of Edge Device
+
+```yaml
+Type: System.String
+Parameter Sets: ConnectionStringParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IotEdgeDeviceId
+Id of the Iot Edge Device
+
+```yaml
+Type: System.String
+Parameter Sets: IotParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IotHostHub
+Hosthub address
+
+```yaml
+Type: System.String
+Parameter Sets: IotParameterSet
 Aliases:
 
 Required: True
@@ -86,7 +246,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Platform
+Provide the Platform, for ex: windows
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -107,8 +282,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Sku
-Sku of the device
+### -RoleStatus
+Provide the status enable/disable
 
 ```yaml
 Type: System.String
@@ -116,37 +291,6 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -162,7 +306,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccountCredential
 
 ## NOTES
 

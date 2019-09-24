@@ -79,6 +79,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public string DataFormat { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
+
 
         private Management.EdgeGateway.Models.Share initShareObject(
             string accessProtocol)

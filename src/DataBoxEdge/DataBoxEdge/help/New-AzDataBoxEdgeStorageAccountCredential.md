@@ -15,7 +15,7 @@ schema: 2.0.0
 ```
 New-AzDataBoxEdgeStorageAccountCredential [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  [-StorageAccountName] <String> -StorageAccountType <String> -StorageAccountSslStatus <String>
- -StorageAccountAccessKey <String> -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>]
+ -StorageAccountAccessKey <String> -EncryptionKey <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
@@ -32,6 +32,21 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
+
+### -AsJob
+Run cmdlet in the background
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.

@@ -126,6 +126,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public Hashtable SetClientAccessRights { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
 
         private string GetUserId(string username)
         {
