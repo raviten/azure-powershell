@@ -41,8 +41,6 @@ PS C:\> Remove-AzDataBoxEdgeDevice ResourceGroupName resource-group-name -Name d
 true
 ```
 
-{{ Add example description here }}
-
 ## PARAMETERS
 
 ### -AsJob
