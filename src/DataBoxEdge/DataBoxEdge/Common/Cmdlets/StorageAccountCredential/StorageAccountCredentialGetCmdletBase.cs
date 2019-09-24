@@ -15,76 +15,121 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.Rest.Azure;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.StorageAccountCredential;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccountCredential;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
     [Cmdlet(VerbsCommon.Get, Constants.Sac, DefaultParameterSetName = ListParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
+     OutputType(typeof(PSResourceModel))]
     public class StorageAccountCredentialGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByResourceIdParameterSet,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        public bool NotNullOrEmpty(string val)
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.NameHelpMessage,
+            Position = 2)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+        private ResourceModel GetResourceModel()
         {
-            return !string.IsNullOrEmpty(val);
+            return StorageAccountCredentialsOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+        private List<PSResourceModel> GetByResourceName()
+        {
+            var resourceModel = GetResourceModel();
+            return new List<PSResourceModel>() { new PSResourceModel(resourceModel) };
         }
 
+        private IPage<ResourceModel> ListResourceModel()
+        {
+            return StorageAccountCredentialsOperationsExtensions.ListByDataBoxEdgeDevice(
+                this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                this.DeviceName,
+                this.ResourceGroupName);
+        }
+
+        private IPage<ResourceModel> ListResourceModel(string nextPageLink)
+        {
+            return StorageAccountCredentialsOperationsExtensions.ListByDataBoxEdgeDeviceNext(
+                this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                nextPageLink
+            );
+        }
+
+        private List<PSResourceModel> ListPSResourceModels()
+        {
+            if (!string.IsNullOrEmpty(this.Name))
+            {
+                return GetByResourceName();
+            }
+
+            var resourceModel = ListResourceModel();
+            var paginatedResult = new List<ResourceModel>(resourceModel);
+            while (!string.IsNullOrEmpty(resourceModel.NextPageLink))
+            {
+                resourceModel = ListResourceModel(resourceModel.NextPageLink);
+                paginatedResult.AddRange(resourceModel);
+            }
+
+            return paginatedResult.Select(t => new PSResourceModel(t)).ToList();
+        }
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSDataBoxEdgeStorageAccountCredential>();
-            if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            if (this.IsParameterBound(c => c.ResourceId))
             {
-                results.Add(
-                    new PSDataBoxEdgeStorageAccountCredential(
-                        StorageAccountCredentialsOperationsExtensions.Get(
-                            this.DataBoxEdgeManagementClient.StorageAccountCredentials,
-                            this.DeviceName,
-                            this.Name,
-                            this.ResourceGroupName)));
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.DeviceName = resourceIdentifier.DeviceName;
+                this.Name = resourceIdentifier.ResourceName;
             }
-            else
-            {
-                var storageAccountCredentials = StorageAccountCredentialsOperationsExtensions.ListByDataBoxEdgeDevice(
-                    this.DataBoxEdgeManagementClient.StorageAccountCredentials,
-                    this.DeviceName,
-                    this.ResourceGroupName);
-                var paginatedResult = new List<Management.EdgeGateway.Models.StorageAccountCredential>(storageAccountCredentials);
-                while (NotNullOrEmpty(storageAccountCredentials.NextPageLink))
-                {
-                    storageAccountCredentials =
-                        StorageAccountCredentialsOperationsExtensions.ListByDataBoxEdgeDeviceNext(
-                            this.DataBoxEdgeManagementClient.StorageAccountCredentials,
-                            storageAccountCredentials.NextPageLink);
-                    paginatedResult.AddRange(storageAccountCredentials);
-                }
 
-                results = paginatedResult.Select(t => new PSDataBoxEdgeStorageAccountCredential(t)).ToList();
-            }
+            var results = ListPSResourceModels();
             WriteObject(results, true);
         }
     }
+
 }

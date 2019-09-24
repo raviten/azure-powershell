@@ -14,62 +14,83 @@
 
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Security;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Common;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.User;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
-    [Cmdlet(VerbsCommon.Set, Constants.User, DefaultParameterSetName = SetParameterSet),
-     OutputType(typeof(PSDataBoxEdgeDevice))]
+    [Cmdlet(VerbsCommon.Set, Constants.User, DefaultParameterSetName = SetByNameParameterSet),
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeUserSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string SetParameterSet = "SetParameterSet";
+        private const string SetByNameParameterSet = "SetByNameParameterSet ";
+        private const string SetByResourceIdParameterSet = "SetByResourceIdParameterSet ";
+        private const string SetByInputObjectParameterSet = "SetByInputObjectParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = SetByResourceIdParameterSet,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = SetByInputObjectParameterSet,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public PSResourceModel InputObject { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = SetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = SetByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-
-        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = SetByNameParameterSet,
+            HelpMessage = HelpMessageUsers.NameHelpMessage,
+            Position = 2)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string Username { get; set; }
+        public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = HelpMessageUsers.PasswordHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string Password { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = SetParameterSet)]
+        public SecureString Password { get; set; }
+
+        [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string EncryptionKey { get; set; }
 
 
 
         public override void ExecuteCmdlet()
         {
-            AsymmetricEncryptedSecret encryptedSecret =
+            var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
-                    this.Password,
+                    SecureStringExtensions.ConvertToString(this.Password),
                     this.EncryptionKey
                 );
-                WriteVerbose(encryptedSecret.Value);
-                var results = new List<PSDataBoxEdgeUser>();
-            var user = new PSDataBoxEdgeUser(
+            var results = new List<PSResourceModel>();
+            var user = new PSResourceModel(
                 UsersOperationsExtensions.CreateOrUpdate(
                     this.DataBoxEdgeManagementClient.Users,
                     this.DeviceName,
-                    this.Username,
+                    this.Name,
                     this.ResourceGroupName,
                     encryptedSecret
                 ));

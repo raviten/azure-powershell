@@ -1493,9 +1493,9 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>StorageAccountSSLStatus</maml:name>
+          <maml:name>StorageAccountSslStatus</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill StorageAccountSSLStatus Description }}</maml:para>
+            <maml:para>{{ Fill StorageAccountSslStatus Description }}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
           <dev:type>
@@ -1604,9 +1604,9 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>StorageAccountSSLStatus</maml:name>
+        <maml:name>StorageAccountSslStatus</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill StorageAccountSSLStatus Description }}</maml:para>
+          <maml:para>{{ Fill StorageAccountSslStatus Description }}</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
         <dev:type>

@@ -12,50 +12,67 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare;
 
-namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Device, DefaultParameterSetName = DeleteByNameParameterSet,
-         SupportsShouldProcess = true
-     ),
-     OutputType(typeof(bool))]
-    public class DataBoxEdgeDeviceRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
+    [Cmdlet(VerbsCommon.Remove, Constants.Share, DefaultParameterSetName = DeleteByNameParameterSet),
+     OutputType(typeof(PSResourceModel))]
+    public class DataBoxEdgebandWidthRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
         private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
         private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, 
+        [Parameter(
+            Mandatory = true,
             ParameterSetName = DeleteByResourceIdParameterSet,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage,
-            ValueFromPipelineByPropertyName = true)]
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(
+            Mandatory = true,
+            ValueFromPipeline = true,
             ParameterSetName = DeleteByInputObjectParameterSet,
             HelpMessage = Constants.InputObjectHelpMessage,
-            ValueFromPipeline = true)]
+            Position = 0
+        )]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
 
-        [Parameter(Mandatory = true, 
+
+        [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage, 
+            HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
+        [ValidateNotNullOrEmpty]
+        public string DeviceName { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.NameHelpMessage,
+            Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
@@ -67,10 +84,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         private bool Remove()
         {
-            DevicesOperationsExtensions.Delete(
-                this.DataBoxEdgeManagementClient.Devices,
+            SharesOperationsExtensions.Delete(
+                this.DataBoxEdgeManagementClient.Shares,
+                this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
+
             return true;
         }
 
@@ -79,19 +98,21 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             if (this.IsParameterBound(c => c.ResourceId))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
-                this.Name = resourceIdentifier.ResourceName;
                 this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.DeviceName = resourceIdentifier.DeviceName;
+                this.Name = resourceIdentifier.ResourceName;
             }
 
             if (this.IsParameterBound(c => c.InputObject))
             {
                 this.ResourceGroupName = this.InputObject.ResourceGroupName;
+                this.DeviceName = this.InputObject.DeviceName;
                 this.Name = this.InputObject.Name;
             }
 
             if (this.ShouldProcess(this.Name,
-                string.Format("Removing '{0}' with name '{1}'.",
-                    HelpMessageDevice.ObjectName, this.Name)))
+                string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageShare.ObjectName, this.DeviceName, this.Name)))
             {
                 var removed = Remove();
                 if (this.PassThru.IsPresent)
@@ -99,6 +120,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
                     WriteObject(removed);
                 }
             }
+
         }
     }
 }

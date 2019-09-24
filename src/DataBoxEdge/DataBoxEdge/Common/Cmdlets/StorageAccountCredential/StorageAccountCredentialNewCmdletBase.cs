@@ -28,44 +28,54 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
     public class StorageAccountCredentialNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
-
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.NameHelpMessage,
+            Position = 2)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string StorageAccountName { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
-        [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = HelpMessageStorageAccountCredential.StorageAccountNameHelpMessage,
+            Position = 3)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
+        public string StorageAccountName { get; set; }
+
+        [Parameter(Mandatory = true, 
+            ParameterSetName = NewParameterSet,
+            HelpMessage = HelpMessageStorageAccountCredential.StorageAccountTypeHelpMessage)]
+        [ValidateNotNullOrEmpty]
         public string StorageAccountType { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = NewParameterSet,
+            HelpMessage = HelpMessageStorageAccountCredential.SslStatusHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string StorageAccountSSLStatus { get; set; }
+        [PSArgumentCompleter("Enabled", "Disabled")]
+        public string StorageAccountSslStatus { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = NewParameterSet,
+            HelpMessage = HelpMessageStorageAccountCredential.StorageAccountAccessKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string StorageAccountAccessKey { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = NewParameterSet, 
+            HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string EncryptionKey { get; set; }
         
         private static ResourceModel InitStorageAccountCredentialObject(
@@ -75,26 +85,24 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
             string sslStatus,
             AsymmetricEncryptedSecret secret)
         {
-            ResourceModel sac = new ResourceModel(
+            var storageAccountCredential = new ResourceModel(
                 name,
                 sslStatus,
                 accountType,
                 userName: storageAccountName,
                 accountKey: secret);
-            return sac;
+            return storageAccountCredential;
         }
-
 
         public override void ExecuteCmdlet()
         {
-            AsymmetricEncryptedSecret encryptedSecret =
+            var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
                     this.StorageAccountAccessKey,
                     this.EncryptionKey
                 );
-            var sac = new ResourceModel();
             var results = new List<PSDataBoxEdgeStorageAccountCredential>();
             var user = new PSDataBoxEdgeStorageAccountCredential(
                 StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
@@ -105,7 +113,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                         name: this.Name,
                         storageAccountName: this.StorageAccountName,
                         accountType: this.StorageAccountType,
-                        sslStatus: this.StorageAccountSSLStatus,
+                        sslStatus: this.StorageAccountSslStatus,
                         secret: encryptedSecret
                     ),
                     this.ResourceGroupName

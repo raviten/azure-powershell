@@ -31,52 +31,49 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
     {
         private const string NewParameterSet = "NewParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = HelpMessageUsers.NameHelpMessage,
+            Position = 2)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string Username { get; set; }
+        public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = HelpMessageUsers.PasswordHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
+        
         public SecureString Password { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string EncryptedKey { get; set; }
-
-        public bool NotNullOrEmpty(string val)
-        {
-            return !string.IsNullOrEmpty(val);
-        }
-
+        public string EncryptionKey { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            AsymmetricEncryptedSecret encryptedSecret =
+            var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
                     SecureStringExtensions.ConvertToString(this.Password),
-                    this.EncryptedKey
+                    this.EncryptionKey
                 );
-                var results = new List<PSDataBoxEdgeUser>();
+            var results = new List<PSDataBoxEdgeUser>();
             var user = new PSDataBoxEdgeUser(
                 UsersOperationsExtensions.CreateOrUpdate(
                     this.DataBoxEdgeManagementClient.Users,
                     this.DeviceName,
-                    this.Username,
+                    this.Name,
                     this.ResourceGroupName,
                     encryptedSecret
                 ));

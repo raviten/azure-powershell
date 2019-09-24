@@ -17,40 +17,105 @@ using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccountCredential;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = RemoveParameterSet),
+    [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = DeleteByNameParameterSet),
      OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class StorageAccountCredentialRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string RemoveParameterSet = "RemoveParameterSet";
+        private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
+        private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
+        private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = RemoveParameterSet)]
+        [Parameter(
+            Mandatory = true,
+            ParameterSetName = DeleteByResourceIdParameterSet,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = Constants.ResourceIdHelpMessage,
+            Position = 0)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(
+            Mandatory = true,
+            ValueFromPipeline = true,
+            ParameterSetName = DeleteByInputObjectParameterSet,
+            HelpMessage = Constants.InputObjectHelpMessage,
+            Position = 0
+        )]
+        [ValidateNotNull]
+        public PSResourceModel InputObject { get; set; }
+
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = RemoveParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-
-        [Parameter(Mandatory = true, ParameterSetName = RemoveParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.NameHelpMessage,
+            Position = 2)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string Name { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]
+        public SwitchParameter PassThru;
 
-        public override void ExecuteCmdlet()
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
+
+        private bool Remove()
         {
             StorageAccountCredentialsOperationsExtensions.Delete(
                 this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                 this.DeviceName,
                 this.Name,
-                this.ResourceGroupName
-            );
-            WriteObject(true);
+                this.ResourceGroupName);
+            return true;
+        }
+
+        public override void ExecuteCmdlet()
+        {
+            if (this.IsParameterBound(c => c.ResourceId))
+            {
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.DeviceName = resourceIdentifier.DeviceName;
+                this.Name = resourceIdentifier.ResourceName;
+            }
+
+            if (this.IsParameterBound(c => c.InputObject))
+            {
+                this.ResourceGroupName = this.InputObject.ResourceGroupName;
+                this.DeviceName = this.InputObject.DeviceName;
+                this.Name = this.InputObject.Name;
+            }
+
+            if (this.ShouldProcess(this.Name,
+                string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageStorageAccountCredential.ObjectName, this.DeviceName, this.Name)))
+            {
+                var removed = Remove();
+                if (this.PassThru.IsPresent)
+                {
+                    WriteObject(removed);
+                }
+            }
+
         }
     }
 }

@@ -71,9 +71,6 @@ Update a Bandwidth Schedule for the device
 ### [Set-AzDataBoxEdgeShare](Set-AzDataBoxEdgeShare.md)
 {{ Fill in the Synopsis }}
 
-### [Set-AzDataBoxEdgeStorageAccountCredential](Set-AzDataBoxEdgeStorageAccountCredential.md)
-{{ Fill in the Synopsis }}
-
 ### [Set-AzDataBoxEdgeUser](Set-AzDataBoxEdgeUser.md)
 {{ Fill in the Synopsis }}
 

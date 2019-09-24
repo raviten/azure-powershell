@@ -14,13 +14,19 @@ Get the Storage Account credential corresponding to device and storage account
 
 ### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName <String> [-Name <String>] -DeviceName <String>
+Get-AzDataBoxEdgeStorageAccountCredential [-ResourceGroupName] <String> [-DeviceName] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetByResourceIdParameterSet
+```
+Get-AzDataBoxEdgeStorageAccountCredential -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
-Get-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName <String> -Name <String> -DeviceName <String>
+Get-AzDataBoxEdgeStorageAccountCredential [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -60,11 +66,11 @@ Name of the device
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -75,23 +81,11 @@ Name of the storage account credential
 
 ```yaml
 Type: System.String
-Parameter Sets: ListParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: System.String
 Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -102,7 +96,22 @@ Resource group name
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+Azure ResourceId
+
+```yaml
+Type: System.String
+Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True

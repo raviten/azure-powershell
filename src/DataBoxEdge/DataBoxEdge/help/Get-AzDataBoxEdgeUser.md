@@ -14,13 +14,18 @@ Get the created users  for this device
 
 ### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeUser -ResourceGroupName <String> -DeviceName <String>
+Get-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetByResourceIdParameterSet
+```
+Get-AzDataBoxEdgeUser -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
-Get-AzDataBoxEdgeUser -ResourceGroupName <String> -Name <String> -DeviceName <String>
+Get-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -59,11 +64,11 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -78,7 +83,7 @@ Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -89,7 +94,22 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: ListParameterSet, GetByNameParameterSet
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+Azure ResourceId
+
+```yaml
+Type: System.String
+Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True

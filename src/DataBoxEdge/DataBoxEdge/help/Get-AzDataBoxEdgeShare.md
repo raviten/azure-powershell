@@ -14,18 +14,18 @@ Gets the creted shares for this device
 
 ### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String>
+Get-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
-### ByResourceIdParameterSet
+### GetByResourceIdParameterSet
 ```
 Get-AzDataBoxEdgeShare -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
-Get-AzDataBoxEdgeShare -ResourceGroupName <String> -Name <String> -DeviceName <String>
+Get-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -71,7 +71,7 @@ Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -86,7 +86,7 @@ Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,7 +101,7 @@ Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -112,7 +112,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByResourceIdParameterSet
+Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True

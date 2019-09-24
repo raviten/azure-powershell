@@ -12,9 +12,23 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### SetByNameParameterSet  (Default)
 ```
-Set-AzDataBoxEdgeUser -ResourceGroupName <String> -DeviceName <String> -Username <String> -Password <String>
- -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Set-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ -Password <SecureString> -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
+### SetByResourceIdParameterSet 
+```
+Set-AzDataBoxEdgeUser -ResourceId <String> -Password <SecureString> -EncryptionKey <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### SetByInputObjectParameterSet
+```
+Set-AzDataBoxEdgeUser -InputObject <PSDataBoxEdgeUser> -Password <SecureString> -EncryptionKey <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,11 +65,11 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: SetByNameParameterSet 
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -76,11 +90,41 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -InputObject
+Azure ResourceId
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser
+Parameter Sets: SetByInputObjectParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+Username
+
+```yaml
+Type: System.String
+Parameter Sets: SetByNameParameterSet 
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Password
 {{ Fill Password Description }}
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: (All)
 Aliases:
 
@@ -96,22 +140,22 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: SetByNameParameterSet 
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Username
-{{ Fill Username Description }}
+### -ResourceId
+Azure ResourceId
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: SetByResourceIdParameterSet 
 Aliases:
 
 Required: True

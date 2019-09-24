@@ -39,7 +39,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string PassThruHelpMessage = "returns true if successful";
         internal const string AsJobHelpMessage = "Run cmdlet in the background";
 
-
-
+        internal const string EncryptionKeyHelpMessage = "Encryption key of the Edge device";
     }
 }

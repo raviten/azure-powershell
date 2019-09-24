@@ -21,6 +21,11 @@ using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users;
+using Microsoft.Rest.Azure;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.User;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
@@ -31,61 +36,104 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByResourceIdParameterSet,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-
-        [Parameter(Mandatory = true, ParameterSetName = ListParameterSet)]
-        [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = ListParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        public bool NotNullOrEmpty(string val)
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = HelpMessageUsers.NameHelpMessage,
+            Position = 2)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+        private ResourceModel GetResourceModel()
         {
-            return !string.IsNullOrEmpty(val);
+            return UsersOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Users,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+        private List<PSResourceModel> GetByResourceName()
+        {
+            var resourceModel = GetResourceModel();
+            return new List<PSResourceModel>() { new PSResourceModel(resourceModel) };
+        }
+
+        private IPage<ResourceModel> ListResourceModel()
+        {
+            return UsersOperationsExtensions.ListByDataBoxEdgeDevice(
+                this.DataBoxEdgeManagementClient.Users,
+                this.DeviceName,
+                this.ResourceGroupName);
+        }
+
+        private IPage<ResourceModel> ListResourceModel(string nextPageLink)
+        {
+            return UsersOperationsExtensions.ListByDataBoxEdgeDeviceNext(
+                this.DataBoxEdgeManagementClient.Users,
+                nextPageLink
+            );
         }
 
 
+        private List<PSResourceModel> ListPSResourceModels()
+        {
+            if (!string.IsNullOrEmpty(this.Name))
+            {
+                return GetByResourceName();
+            }
+
+            var resourceModel = ListResourceModel();
+            var paginatedResult = new List<ResourceModel>(resourceModel);
+            while (!string.IsNullOrEmpty(resourceModel.NextPageLink))
+            {
+                resourceModel = ListResourceModel(resourceModel.NextPageLink);
+                paginatedResult.AddRange(resourceModel);
+            }
+
+            return paginatedResult.Select(t => new PSResourceModel(t)).ToList();
+        }
+
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSDataBoxEdgeUser>();
-            if (this.ParameterSetName.Equals(GetByNameParameterSet))
+            if (this.IsParameterBound(c => c.ResourceId))
             {
-                results.Add(
-                    new PSDataBoxEdgeUser(
-                        UsersOperationsExtensions.Get(
-                            this.DataBoxEdgeManagementClient.Users,
-                            this.DeviceName,
-                            this.Name,
-                            this.ResourceGroupName)));
-            }
-            else if (this.ParameterSetName.Equals(ListParameterSet))
-            {
-                var users = UsersOperationsExtensions.ListByDataBoxEdgeDevice(
-                    this.DataBoxEdgeManagementClient.Users,
-                    this.DeviceName,
-                    this.ResourceGroupName);
-                var paginatedResult = new List<User>(users);
-                while (NotNullOrEmpty(users.NextPageLink))
-                {
-                    users = UsersOperationsExtensions.ListByDataBoxEdgeDeviceNext(
-                        this.DataBoxEdgeManagementClient.Users,
-                        users.NextPageLink
-                    );
-                    paginatedResult.AddRange(users);
-                }
-
-                results = paginatedResult.Select(t => new PSDataBoxEdgeUser(t)).ToList();
+                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+                this.DeviceName = resourceIdentifier.DeviceName;
+                this.Name = resourceIdentifier.ResourceName;
             }
 
+            var results = ListPSResourceModels();
             WriteObject(results, true);
         }
     }

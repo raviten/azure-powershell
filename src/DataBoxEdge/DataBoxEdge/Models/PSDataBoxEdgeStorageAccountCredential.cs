@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using StorageAccountCredential = Microsoft.Azure.Management.EdgeGateway.Models.StorageAccountCredential;
 
@@ -18,6 +19,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
         public string ResourceGroupName;
 
+        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table)]
+        public string DeviceName;
+
         public string Id;
         public string Name;
 
@@ -30,9 +34,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         {
             this.StorageAccountCredential = storageAccountCredential;
             this.Id = storageAccountCredential.Id;
-            this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(storageAccountCredential.Id);
-            this.Name = storageAccountCredential.Name;
-            
+            var resourceIdentifier = new DataBoxEdgeResourceIdentifier(storageAccountCredential.Id);
+            this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+            this.DeviceName = resourceIdentifier.DeviceName;
+            this.Name = resourceIdentifier.ResourceName;
+
+
         }
     }
 }

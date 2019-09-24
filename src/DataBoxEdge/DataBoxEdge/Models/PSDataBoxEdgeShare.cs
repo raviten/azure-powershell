@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using Share = Microsoft.Azure.Management.EdgeGateway.Models.Share;
 
@@ -6,13 +7,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeShare
     {
-        [Ps1Xml(Label = "Share.Name", Target = ViewControl.Table,
+        [Ps1Xml(Label = "Name", Target = ViewControl.Table,
             ScriptBlock = "$_.share.Name", Position = 0)]
-        [Ps1Xml(Label = "Share.Type", Target = ViewControl.Table,
+        [Ps1Xml(Label = "Type", Target = ViewControl.Table,
             ScriptBlock = "$_.share.AccessProtocol")]
-        [Ps1Xml(Label = "Share.DataPolicy", Target = ViewControl.Table,
+        [Ps1Xml(Label = "DataPolicy", Target = ViewControl.Table,
             ScriptBlock = "$_.share.DataPolicy")]
-        [Ps1Xml(Label = "Share.DataFormat", Target = ViewControl.Table,
+        [Ps1Xml(Label = "DataFormat", Target = ViewControl.Table,
             ScriptBlock = "$_.share.AzureContainerInfo.DataFormat")]
         
         public Share Share;
@@ -20,9 +21,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
         public string ResourceGroupName;
 
-        [Ps1Xml(Label = "StorageAccount.Name", Target = ViewControl.Table)]
+        [Ps1Xml(Label = "StorageAccountName", Target = ViewControl.Table)]
         public string StorageAccountName;
 
+        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table)]
+        public string DeviceName;
         public string Id;
         public string Name;
 
@@ -49,10 +52,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         {
             this.Share = share ?? throw new ArgumentNullException("share");
             this.Id = share.Id;
-            this.ResourceGroupName = ResourceIdHandler.GetResourceGroupName(share.Id);
             this.StorageAccountName = GetStorageAccountCredentialAccountName(share.AzureContainerInfo
                 .StorageAccountCredentialId);
-            this.Name = share.Name;
+            var resourceIdentifier = new DataBoxEdgeResourceIdentifier(share.Id);
+            this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
+            this.DeviceName = resourceIdentifier.DeviceName;
+            this.Name = resourceIdentifier.ResourceName;
         }
     }
 }

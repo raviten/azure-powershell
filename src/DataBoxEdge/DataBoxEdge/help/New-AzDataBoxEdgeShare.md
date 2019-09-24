@@ -14,22 +14,23 @@ schema: 2.0.0
 
 ### NewParameterSet (Default)
 ```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String>
- -Name <String> -DataFormat <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ [-StorageAccountCredentialName] <String> -DataFormat <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
-### NFSParameterSet
+### SmbParameterSet
 ```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String>
- -Name <String> [-SetClient] -ClientId <String> -ClientAccessRight <String> -DataFormat <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
-```
-
-### SMBParameterSet
-```
-New-AzDataBoxEdgeShare -ResourceGroupName <String> -DeviceName <String> -StorageAccountCredentialName <String>
- -Name <String> [-AccessProtocol <String>] [-SetUser] -Username <String> -UserAccessRight <String>
+New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ [-StorageAccountCredentialName] <String> -AccessProtocol <String> -SetUserAccessRights <Hashtable>
  -DataFormat <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### NfsParameterSet
+```
+New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ [-StorageAccountCredentialName] <String> -SetClientAccessRights <Hashtable> -DataFormat <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,37 +52,7 @@ will use this AccessProtocol in the case of creating Share
 
 ```yaml
 Type: System.String
-Parameter Sets: SMBParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ClientAccessRight
-Provide Read/Write Access for clientId
-
-```yaml
-Type: System.String
-Parameter Sets: NFSParameterSet
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ClientId
-Provide ClientId for the NFS
-
-```yaml
-Type: System.String
-Parameter Sets: NFSParameterSet
+Parameter Sets: SmbParameterSet
 Aliases:
 
 Required: True
@@ -130,7 +101,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -145,7 +116,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -160,36 +131,36 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SetClientAccessRights
+Read/Write Access for clientIps
+
+```yaml
+Type: System.Collections.Hashtable
+Parameter Sets: NfsParameterSet
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SetClient
-Add ClientId in case of NFS Access Protocol
+### -SetUserAccessRights
+provide access right along with existing usernames to access SMB Share types
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: NFSParameterSet
+Type: System.Collections.Hashtable
+Parameter Sets: SmbParameterSet
 Aliases:
 
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SetUser
-Attach user in case of SMB Access Protocol
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: SMBParameterSet
-Aliases:
-
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -205,37 +176,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UserAccessRight
-Provide user access right for the Username
-
-```yaml
-Type: System.String
-Parameter Sets: SMBParameterSet
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Username
-provide an existing username for SMB Share types
-
-```yaml
-Type: System.String
-Parameter Sets: SMBParameterSet
-Aliases:
-
-Required: True
-Position: Named
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

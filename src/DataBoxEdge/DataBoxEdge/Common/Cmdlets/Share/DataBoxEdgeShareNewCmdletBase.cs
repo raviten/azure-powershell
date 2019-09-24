@@ -13,110 +13,70 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.New, Constants.Share, DefaultParameterSetName = NewParameterSet),
-     OutputType(typeof(PSDataBoxEdgeShare))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgebandWidthNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
-        private const string NFSParameterSet = "NFSParameterSet";
-        private const string SMBParameterSet = "SMBParameterSet";
+        private const string NfsParameterSet = "NfsParameterSet";
+        private const string SmbParameterSet = "SmbParameterSet";
 
         [Parameter(Mandatory = true,
-            HelpMessage = "Share will be created under this ResourceGroupName",
-            ParameterSetName = NewParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName",
-            ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Share will be created under this ResourceGroupName",
-            ParameterSetName = SMBParameterSet)]
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = NewParameterSet)]
         [Parameter(Mandatory = true,
-            HelpMessage = "Share will be created on the device with Resource name as DeviceName",
-            ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true,
-            HelpMessage = "Share will be created on the device with Resource name as DeviceName",
-            ParameterSetName = SMBParameterSet)]
+            HelpMessage = Constants.DeviceNameHelpMessage,
+            Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-
-        [Parameter(Mandatory = true, HelpMessage = "Provide existing StorageAccountCredential's Resource Name",
-            ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Provide existing StorageAccountCredential's Resource Name",
-            ParameterSetName = SMBParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Provide existing StorageAccountCredential's Resource Name",
-            ParameterSetName = NewParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.NameHelpMessage,
+            Position = 2)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string StorageAccountCredentialName { get; set; }
-
-
-        [Parameter(Mandatory = true, HelpMessage = "Creates a share with Name with Share Access protocol as NFS and ",
-            ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Creates a share with Name with Share Access protocol as SMB",
-            ParameterSetName = SMBParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Creates a share with Name with Share Access protocol as SMB",
-            ParameterSetName = NewParameterSet)]
-        [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "will use this AccessProtocol in the case of creating Share",
-            ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true,
+            HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage,
+            Position = 3)]
+        [ValidateNotNullOrEmpty]
+        public string StorageAccountCredentialName { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = SmbParameterSet,
+            HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
         public string AccessProtocol { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Attach user in case of SMB Access Protocol",
-            ParameterSetName = SMBParameterSet)]
-        public SwitchParameter SetUser { get; set; }
-
-
-        [Parameter(Mandatory = true, HelpMessage = "provide an existing username for SMB Share types",
-            ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = SmbParameterSet,
+            HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string Username { get; set; }
+        public Hashtable SetUserAccessRights { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Provide user access right for the Username",
-            ParameterSetName = SMBParameterSet)]
+        [Parameter(Mandatory = true, 
+            ParameterSetName = NfsParameterSet,
+            HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string UserAccessRight { get; set; }
+        public Hashtable SetClientAccessRights { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Add ClientId in case of NFS Access Protocol",
-            ParameterSetName = NFSParameterSet)]
-        public SwitchParameter SetClient { get; set; }
-
-        [Parameter(Mandatory = true, HelpMessage = "Provide ClientId for the NFS", ParameterSetName = NFSParameterSet)]
+        [Parameter(Mandatory = true, HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string ClientId { get; set; }
-
-        [Parameter(Mandatory = true, HelpMessage = "Provide Read/Write Access for clientId",
-            ParameterSetName = NFSParameterSet)]
-        [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
-        public string ClientAccessRight { get; set; }
-
-        [Parameter(Mandatory = true, HelpMessage = "Set Data Format ex: PageBlob, BlobBlob",
-            ParameterSetName = NewParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set Data Format ex: PageBlob, BlobBlob",
-            ParameterSetName = NFSParameterSet)]
-        [Parameter(Mandatory = true, HelpMessage = "Set Data Format ex: PageBlob, BlobBlob",
-            ParameterSetName = SMBParameterSet)]
-        [ValidateNotNullOrEmpty]
-        [ResourceGroupCompleter]
         public string DataFormat { get; set; }
 
 
@@ -129,56 +89,55 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 dataPolicy: "Cloud");
         }
 
+        private string GetUserId(string username)
+        {
+            var user = UsersOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Users,
+                this.DeviceName,
+                username,
+                this.ResourceGroupName
+            );
+            return user.Id;
+        }
+
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSDataBoxEdgeShare>();
+            var results = new List<PSResourceModel>();
             var sac = StorageAccountCredentialsOperationsExtensions.Get(
                 this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                 this.DeviceName,
                 this.StorageAccountCredentialName,
                 this.ResourceGroupName);
-            Management.EdgeGateway.Models.Share share = null;
-            if (SetClient.IsPresent)
-            {
-                if (this.AccessProtocol != null && this.AccessProtocol == "SMB")
-                {
-                    //Raise invalidate error
-                }
+            var share = this.initShareObject(this.AccessProtocol);
 
-                share = this.initShareObject("NFS");
+            if (this.IsParameterBound(c => c.SetClientAccessRights))
+            {
+
                 share.ClientAccessRights = new List<ClientAccessRight>();
-                share.ClientAccessRights.Add(
-                    new ClientAccessRight(
-                        this.ClientId,
-                        this.ClientAccessRight
-                    )
-                );
-            }
-            else if (SetUser.IsPresent)
-            {
-                if (this.AccessProtocol != null && this.AccessProtocol == "NFS")
+                foreach (KeyValuePair<string, string> clientAccessRight in this.SetClientAccessRights)
                 {
-                    //Raise invalidate error
+
+                    share.ClientAccessRights.Add(
+                        new ClientAccessRight(
+                            clientAccessRight.Key,
+                            clientAccessRight.Value
+                        )
+                    );
                 }
 
-                share = this.initShareObject("SMB");
-                var user = UsersOperationsExtensions.Get(
-                    this.DataBoxEdgeManagementClient.Users,
-                    this.DeviceName,
-                    this.Username,
-                    this.ResourceGroupName
-                );
-                share.UserAccessRights = new List<UserAccessRight>();
-                share.UserAccessRights.Add(
-                    new UserAccessRight(
-                        user.Id,
-                        this.UserAccessRight
-                    )
-                );
             }
-            else
+
+            if (this.IsParameterBound(c => c.SetUserAccessRights))
             {
-                share = this.initShareObject(this.AccessProtocol);
+                share.UserAccessRights = new List<UserAccessRight>();
+                foreach (KeyValuePair<string, string> userAccessRight in this.SetUserAccessRights)
+                {
+                    share.UserAccessRights.Add(
+                        new UserAccessRight(
+                            GetUserId(username: userAccessRight.Key),
+                            userAccessRight.Value
+                        ));
+                }
             }
 
             share.AzureContainerInfo = new AzureContainerInfo(sac.Id, this.Name, this.DataFormat);
@@ -188,7 +147,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 this.Name,
                 share,
                 this.ResourceGroupName);
-            results.Add(new PSDataBoxEdgeShare(share));
+            results.Add(new PSResourceModel(share));
             WriteObject(results, true);
         }
     }

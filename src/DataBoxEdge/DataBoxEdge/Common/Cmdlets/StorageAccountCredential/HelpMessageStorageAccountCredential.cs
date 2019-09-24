@@ -13,17 +13,14 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
-    internal class HelpMessageShare
+    internal class HelpMessageStorageAccountCredential
     {
-        internal const string StorageAccountCredentialHelpMessage =
-            "Provide existing StorageAccountCredential's Resource Name";
-
-        internal const string AccessProtocolHelpMessage = "AccessProtocol in the case of creating Share";
-        internal const string SetUserAccessRightsHelpMessage = "provide access right along with existing usernames to access SMB Share types";
-        internal const string SetClientAccessRightsHelpMessage = "Read/Write Access for clientIps";
-        internal const string DataFormatHelpMessage = "Set Data Format ex: PageBlob, BlobBlob";
-        internal const string ObjectName = "Share";
+        internal const string StorageAccountNameHelpMessage = "Name of the storage account to be used";
+        internal const string ObjectName = "StorageAccountCredential";
+        internal const string StorageAccountTypeHelpMessage = "Possible Storage Access type";
+        internal const string SslStatusHelpMessage = "To enable/ disable ssl status message, possible values are Enabled/Disabled";
+        internal const string StorageAccountAccessKeyHelpMessage = "provide storage account access key";
     }
 }

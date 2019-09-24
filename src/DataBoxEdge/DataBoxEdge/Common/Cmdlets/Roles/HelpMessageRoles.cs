@@ -18,7 +18,18 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
     internal class HelpMessageRoles
     {
         internal const string Name = "Name of the Role";
-        internal const string ObjectName = "IOTRole";
-
+        internal const string ObjectName = "Iot Role";
+        internal const string ConnectionStringHelpMessage = "To Provide Connection Strings";
+        internal const string IotDeviceConnectionStringHelpMessage = "Please provide connection string of IOT Device";
+        internal const string IotEdgeDeviceConnectionStringHelpMessage = "Please provide connection string of Edge Device";
+        internal const string DeviceProperties = "To Provide Device Properties";
+        internal const string RoleStatusHelpMessage = "Provide the status enable/disable";
+        internal const string PlatformHelpMessage = "Provide the Platform, for ex: windows";
+        internal const string IotHostHubHelpMessage = "Hosthub address";
+        internal const string IotDeviceAccessKeyHelpMessage = "Iot Device Access Key";
+        internal const string IotEdgeDeviceId = "Id of the Iot Edge Device";
+        internal const string IotDeviceIdHelpMessage = "Device Id of the Iot Device";
+        internal const string IotEdgeDeviceAccessKeyHelpMessage = "Access key of the Iot Edge device";
+        
     }
 }

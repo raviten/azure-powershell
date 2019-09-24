@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
 {
     [Cmdlet(VerbsCommon.Remove, Constants.Role, DefaultParameterSetName = DeleteByNameParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeRole))]
+     OutputType(typeof(PSResourceModel))]
     public class RoleRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
@@ -98,10 +98,10 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common.Roles
                 string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageRoles.ObjectName, this.DeviceName, this.Name)))
             {
-                Remove();
+                var removed = Remove();
                 if (this.PassThru.IsPresent)
                 {
-                    WriteObject(true);
+                    WriteObject(removed);
                 }
             }
         }
