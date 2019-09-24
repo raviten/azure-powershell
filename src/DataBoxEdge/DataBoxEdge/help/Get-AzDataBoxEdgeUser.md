@@ -38,9 +38,11 @@ If Name is provided along with ResourceGroupName and DeviceName, this will get t
 ### Example 1
 ```powershell
 PS C:\> {{ Add example code here }}
+Name   ResourceGroupName
+----- -----------------
+ravi   psrgpfortest
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -60,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Name of the Device
 
 ```yaml
 Type: System.String
@@ -75,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the user or Username
 
 ```yaml
 Type: System.String
@@ -90,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource Group Name 
 
 ```yaml
 Type: System.String

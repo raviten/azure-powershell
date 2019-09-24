@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeDevice
 
 ## SYNOPSIS
-Get the devices with applied filters
+Get the available devices
 
 ## SYNTAX
 

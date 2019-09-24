@@ -38,10 +38,10 @@ If you specify the Name of the StorageAccountCredential along with the resource 
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
-StorageAccountCredential.Name    StorageAccountCredential.StorageAccount StorageAccountCredential.SslStatus ResourceGroupName
--------------------------------- --------------------------------------- ---------------------------------- -----------------
-storage-account-credential-name  storage-account-name                     Disabled                           resource-group-name
+PS C:\>  Get-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName resource-group-name -DeviceName device-name
+Name                             StorageAccount          SslStatus  ResourceGroupName
+-------------------------------- ---------------------- ---------- ---------------------
+storage-account-credential-name  storage-account-name    Enabled    resource-group-name
 ```
 
 ## PARAMETERS

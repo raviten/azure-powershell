@@ -37,7 +37,7 @@ The **Get-AzDataBoxEdgeShare** get the shares for the device. If Name is provide
 ### Example 1
 ```powershell
 PS C:\> Get-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -DeviceName device-name
-Share.Name Share.Type Share.DataPolicy Share.DataFormat ResourceGroupName     StorageAccount.Name
+Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
 ---------- ---------- ---------------- ---------------- --------------------- -------------------
 share-1    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
 share-2    SMB        Cloud            PageBlob         resource-group-name   storage-account-name

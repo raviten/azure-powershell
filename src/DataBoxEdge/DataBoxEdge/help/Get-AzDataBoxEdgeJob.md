@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeJob
 
 ## SYNOPSIS
-List down the active jobs for a device
+Get job by Name
 
 ## SYNTAX
 
