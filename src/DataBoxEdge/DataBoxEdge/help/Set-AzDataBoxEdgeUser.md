@@ -30,6 +30,7 @@ Set-AzDataBoxEdgeUser -ResourceId <String> -Password <SecureString> -EncryptionK
 Set-AzDataBoxEdgeUser -InputObject <PSDataBoxEdgeUser> -Password <SecureString> -EncryptionKey <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
+
 ## DESCRIPTION
 The **Set-AzDataBoxEdgeUser** will update the user with new password
 
@@ -47,7 +48,7 @@ PS C:\> Set-AzDataBoxEdgeUser -ResourceGroupName resource-group-name -DeviceName
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -62,7 +63,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: SetByNameParameterSet 
 Aliases:
 
@@ -77,7 +78,7 @@ Accept wildcard characters: False
 Encryption key of the Edge device
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -92,7 +93,7 @@ Accept wildcard characters: False
 Input Object
 
 ```yaml
-Type: PSDataBoxEdgeUser
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser
 Parameter Sets: SetByInputObjectParameterSet
 Aliases:
 
@@ -107,7 +108,7 @@ Accept wildcard characters: False
 Username
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: SetByNameParameterSet 
 Aliases:
 
@@ -122,7 +123,7 @@ Accept wildcard characters: False
 Password, provide as a secure string
 
 ```yaml
-Type: SecureString
+Type: System.Security.SecureString
 Parameter Sets: (All)
 Aliases:
 
@@ -137,7 +138,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: SetByNameParameterSet 
 Aliases:
 
@@ -152,7 +153,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: SetByResourceIdParameterSet 
 Aliases:
 

@@ -17,6 +17,7 @@ using System.Management.Automation;
 using System.Security;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Common;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.User;
@@ -78,11 +79,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         public override void ExecuteCmdlet()
         {
+            if (this.IsParameterBound(c => c.ResourceId))
+            {
+                var identifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.Name = Name;
+                this.DeviceName = identifier.DeviceName;
+                this.ResourceGroupName = identifier.ResourceGroupName;
+            }
+
+            if (this.IsParameterBound(c => c.InputObject))
+            {
+                this.Name = this.InputObject.Name;
+                this.DeviceName = this.InputObject.DeviceName;
+                this.ResourceGroupName = this.InputObject.ResourceGroupName;
+            }
             var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
-                    SecureStringExtensions.ConvertToString(this.Password),
+                    this.Password.ConvertToString(),
                     this.EncryptionKey
                 );
             var results = new List<PSResourceModel>();
