@@ -19,7 +19,7 @@ using System.Management.Automation;
 using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.Management.EdgeGateway.Models;                                                        
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
@@ -28,8 +28,8 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.Set, Constants.Share, DefaultParameterSetName = SmbParameterSet),
-     OutputType(typeof(PSDataBoxEdgeShare))]
-    public class DataBoxEdgebandWidthSetCmdletBase : AzureDataBoxEdgeCmdletBase
+     OutputType(typeof(PSResourceModel))]
+    public class DataBoxEdgeShareSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string SmbParameterSet = "SmbParameterSet";
         private const string NfsParameterSet = "NfsParameterSet";
@@ -152,7 +152,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSDataBoxEdgeShare>();
+            var results = new List<PSResourceModel>();
             var share = this.GetResourceModel();
 
             if (this.IsParameterBound(c => c.SetClientAccessRights))
@@ -191,7 +191,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 this.Name,
                 share,
                 this.ResourceGroupName);
-            results.Add(new PSDataBoxEdgeShare(share));
+            results.Add(new PSResourceModel(share));
             WriteObject(results, true);
         }
     }

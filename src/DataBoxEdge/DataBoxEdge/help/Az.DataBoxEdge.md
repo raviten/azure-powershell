@@ -77,3 +77,6 @@ Update a Bandwidth Schedule for the device
 ### [Set-AzDataBoxEdgeShare](Set-AzDataBoxEdgeShare.md)
 Update the share 
 
+### [Set-AzDataBoxEdgeUser](Set-AzDataBoxEdgeUser.md)
+Set the new password for the user
+
