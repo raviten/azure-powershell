@@ -39,7 +39,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = true,
             ParameterSetName = SetByInputObjectParameterSet,
-            HelpMessage = Constants.ResourceIdHelpMessage)]
+            HelpMessage = Constants.InputObjectHelpMessage)]
         [ValidateNotNullOrEmpty]
         public PSResourceModel InputObject { get; set; }
 

@@ -16,10 +16,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare;
 
@@ -67,13 +69,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public Hashtable SetUserAccessRights { get; set; }
+        public Hashtable[] SetUserAccessRights { get; set; }
 
         [Parameter(Mandatory = true, 
             ParameterSetName = NfsParameterSet,
             HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public Hashtable SetClientAccessRights { get; set; }
+        public Hashtable[] SetClientAccessRights { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
         [ValidateNotNullOrEmpty]
@@ -115,30 +117,30 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
             if (this.IsParameterBound(c => c.SetClientAccessRights))
             {
-
                 share.ClientAccessRights = new List<ClientAccessRight>();
-                foreach (KeyValuePair<string, string> clientAccessRight in this.SetClientAccessRights)
+                foreach (var clientAccessRight in this.SetClientAccessRights)
                 {
-
+                    var accessRightPolicy =  HashtableToDictionary<string, string>(clientAccessRight);
                     share.ClientAccessRights.Add(
                         new ClientAccessRight(
-                            clientAccessRight.Key,
-                            clientAccessRight.Value
+                            accessRightPolicy.GetOrNull("ClientId"),
+                            accessRightPolicy.GetOrNull("AccessRight")
                         )
                     );
                 }
-
             }
 
             if (this.IsParameterBound(c => c.SetUserAccessRights))
             {
                 share.UserAccessRights = new List<UserAccessRight>();
-                foreach (KeyValuePair<string, string> userAccessRight in this.SetUserAccessRights)
+                foreach (var userAccessRight in this.SetUserAccessRights)
                 {
+                    var accessRightPolicy = HashtableToDictionary<string, string>(userAccessRight);
+
                     share.UserAccessRights.Add(
                         new UserAccessRight(
-                            GetUserId(username: userAccessRight.Key),
-                            userAccessRight.Value
+                            GetUserId(accessRightPolicy.GetOrNull("Username")),
+                            accessRightPolicy.GetOrNull("AccessRight")
                         ));
                 }
             }

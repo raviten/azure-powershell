@@ -12,6 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure.Commands.Common.Authentication;
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Commands.ResourceManager.Common;
@@ -49,6 +52,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
             set { _dataBoxManagementClient = value; }
         }
 
-
+        public static Dictionary<K, V> HashtableToDictionary<K, V>(Hashtable table)
+        {
+            return table
+                .Cast<DictionaryEntry>()
+                .ToDictionary(kvp => (K) kvp.Key, kvp => (V) kvp.Value);
+        }
     }
 }

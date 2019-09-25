@@ -8,57 +8,68 @@ schema: 2.0.0
 # Set-AzDataBoxEdgeShare
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update the share 
 
 ## SYNTAX
 
 ### SmbParameterSet (Default)
 ```
 Set-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -SetUserAccessRights <Hashtable> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -SetUserAccessRights <Hashtable[]> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdSmbParameterSet
 ```
-Set-AzDataBoxEdgeShare -ResourceId <String> -SetUserAccessRights <Hashtable> [-AsJob]
+Set-AzDataBoxEdgeShare -ResourceId <String> -SetUserAccessRights <Hashtable[]> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdNfsParameterSet
 ```
-Set-AzDataBoxEdgeShare -ResourceId <String> -SetClientAccessRights <Hashtable> [-AsJob]
+Set-AzDataBoxEdgeShare -ResourceId <String> -SetClientAccessRights <Hashtable[]> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectSmbParameterSet
 ```
-Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetUserAccessRights <Hashtable> [-AsJob]
+Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetUserAccessRights <Hashtable[]> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectNfsParameterSet
 ```
-Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetClientAccessRights <Hashtable> [-AsJob]
+Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetClientAccessRights <Hashtable[]> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### NfsParameterSet
 ```
 Set-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -SetClientAccessRights <Hashtable> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -SetClientAccessRights <Hashtable[]> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Set-AzDataBoxEdgeShare** will replace the access rights
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $AccessRights = @(@{"ClientId"="192.168.10.10";"AccessRight"="NoAccess"}, @{"ClientId"="192.168.10.11";"AccessRight"="ReadOnly"})
+PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -SetClientAccessRights $AccessRights
+Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
+---------- ---------- ---------------- ---------------- --------------------- -------------------
+share-2    NFS        Cloud            PageBlob         resource-group-name   storage-account-name
 ```
 
-{{ Add example description here }}
+### Example 2
+```powershell
+PS C:\> $AccessRights = @(@{"Username"="user-name-1";"AccessRight"="Read"}, @{"Username"="user-name-2";"AccessRight"="Read"}, @{"Username"="user-name-3";"AccessRight"="Custom"})
+PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -SetClientAccessRights $AccessRights
+Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
+---------- ---------- ---------------- ---------------- --------------------- -------------------
+share-1    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
+```
 
 ## PARAMETERS
 
@@ -171,7 +182,7 @@ Accept wildcard characters: False
 Read/Write Access for clientIps
 
 ```yaml
-Type: System.Collections.Hashtable
+Type: System.Collections.Hashtable[]
 Parameter Sets: UpdateByResourceIdNfsParameterSet, UpdateByInputObjectNfsParameterSet, NfsParameterSet
 Aliases:
 
@@ -186,7 +197,7 @@ Accept wildcard characters: False
 provide access right along with existing usernames to access SMB Share types
 
 ```yaml
-Type: System.Collections.Hashtable
+Type: System.Collections.Hashtable[]
 Parameter Sets: SmbParameterSet, UpdateByResourceIdSmbParameterSet, UpdateByInputObjectSmbParameterSet
 Aliases:
 

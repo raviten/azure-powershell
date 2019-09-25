@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-AzDataBoxEdgeStorageAccountCredential
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create new storage account credential object
 
 ## SYNTAX
 
@@ -20,16 +20,19 @@ New-AzDataBoxEdgeStorageAccountCredential [-ResourceGroupName] <String> [-Device
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **New-AzDataBoxEdgeStorageAccountCredential** is used to create a new Storage Account Credential object
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName resource-group-name -DeviceName device-name -Name storage-acount-credential-name
+ -StorageAccountName storage-account-name -StorageAccountType BlobStorage -StorageAccountSslStatus Enabled
+ -StorageAccountAccessKey access-key -EncryptionKey encryption-key
+Name                             StorageAccount          SslStatus  ResourceGroupName
+-------------------------------- ---------------------- ---------- ---------------------
+storage-account-credential-name  storage-account-name    Enabled    resource-group-name
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 

@@ -42,16 +42,16 @@ Create a new Bandwidth schedule
 Configures a new device
 
 ### [New-AzDataBoxEdgeRole](New-AzDataBoxEdgeRole.md)
-{{ Fill in the Synopsis }}
+Creates a new Iot Role for the device
 
 ### [New-AzDataBoxEdgeShare](New-AzDataBoxEdgeShare.md)
-{{ Fill in the Synopsis }}
+Creates a new share in the device
 
 ### [New-AzDataBoxEdgeStorageAccountCredential](New-AzDataBoxEdgeStorageAccountCredential.md)
-{{ Fill in the Synopsis }}
+Create new storage account credential object
 
 ### [New-AzDataBoxEdgeUser](New-AzDataBoxEdgeUser.md)
-{{ Fill in the Synopsis }}
+Creates a new user for the device
 
 ### [Remove-AzDataBoxEdgeBandwidthSchedule](Remove-AzDataBoxEdgeBandwidthSchedule.md)
 Removes a Bandwidth Schedule
@@ -75,8 +75,5 @@ Removes the user
 Update a Bandwidth Schedule for the device
 
 ### [Set-AzDataBoxEdgeShare](Set-AzDataBoxEdgeShare.md)
-{{ Fill in the Synopsis }}
-
-### [Set-AzDataBoxEdgeUser](Set-AzDataBoxEdgeUser.md)
-{{ Fill in the Synopsis }}
+Update the share 
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-AzDataBoxEdgeUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Set the new password for the user
 
 ## SYNTAX
 
@@ -30,18 +30,16 @@ Set-AzDataBoxEdgeUser -ResourceId <String> -Password <SecureString> -EncryptionK
 Set-AzDataBoxEdgeUser -InputObject <PSDataBoxEdgeUser> -Password <SecureString> -EncryptionKey <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
-
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Set-AzDataBoxEdgeUser** will update the user with new password
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Set-AzDataBoxEdgeUser -ResourceGroupName resource-group-name -DeviceName device-name -Name username
+ -Password @SecureString -EncryptionKey EncryptionKey
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -49,7 +47,7 @@ PS C:\> {{ Add example code here }}
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -61,10 +59,10 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Device Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: SetByNameParameterSet 
 Aliases:
 
@@ -76,10 +74,10 @@ Accept wildcard characters: False
 ```
 
 ### -EncryptionKey
-{{ Fill EncryptionKey Description }}
+Encryption key of the Edge device
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -91,10 +89,10 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-Azure ResourceId
+Input Object
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser
+Type: PSDataBoxEdgeUser
 Parameter Sets: SetByInputObjectParameterSet
 Aliases:
 
@@ -109,7 +107,7 @@ Accept wildcard characters: False
 Username
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: SetByNameParameterSet 
 Aliases:
 
@@ -121,10 +119,10 @@ Accept wildcard characters: False
 ```
 
 ### -Password
-{{ Fill Password Description }}
+Password, provide as a secure string
 
 ```yaml
-Type: System.Security.SecureString
+Type: SecureString
 Parameter Sets: (All)
 Aliases:
 
@@ -136,10 +134,10 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource Group Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: SetByNameParameterSet 
 Aliases:
 
@@ -154,7 +152,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: SetByResourceIdParameterSet 
 Aliases:
 
@@ -174,7 +172,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser
 
 ## NOTES
 

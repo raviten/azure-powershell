@@ -21,8 +21,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             "Provide existing StorageAccountCredential's Resource Name";
 
         internal const string AccessProtocolHelpMessage = "AccessProtocol in the case of creating Share";
-        internal const string SetUserAccessRightsHelpMessage = "provide access right along with existing usernames to access SMB Share types";
-        internal const string SetClientAccessRightsHelpMessage = "Read/Write Access for clientIps";
+
+        internal const string SetUserAccessRightsHelpMessage =
+            @"provide access right along with existing usernames to access SMB Share types, For ex: " +
+            "@(" +
+            "@{\"Username\"=\"user-name-1\";\"AccessRight\"=\"Read\"}, " +
+            "@{\"Username\"=\"user-name-2\";\"AccessRight\"=\"Read\"}, " +
+            "@{\"Username\"=\"user-name-3\";\"AccessRight\"=\"Custom\"}" +
+            ")";
+
+        internal const string SetClientAccessRightsHelpMessage = @"Read/Write Access for clientIds, For ex:" +
+            "@(" +
+            "@{\"ClientId\"=\"192.168.10.10\";\"AccessRight\"=\"NoAccess\"}, " +
+            "@{\"ClientId\"=\"192.168.10.11\";\"AccessRight\"=\"ReadOnly\"}" +
+            ")";
         internal const string DataFormatHelpMessage = "Set Data Format ex: PageBlob, BlobBlob";
         internal const string ObjectName = "Share";
     }

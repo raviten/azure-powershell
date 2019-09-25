@@ -25,9 +25,9 @@ This **New-AzDataBoxEdgeDevice** will configure a device.
 ### Example 1
 ```powershell
 PS C:\> New-AzDataBoxEdgeDevice -ResourceGroupName resource-goup-name -Name device-name -Location eastus -Sku Edge
-Name        ResourceGroupName DeviceType        Location
-----        ----------------- ----------        --------
-device-name ranandu-rgp       DataBoxEdgeDevice eastus
+Name        ResourceGroupName     DeviceType        Location
+----        -----------------    ----------        --------
+device-name resource-group-name   DataBoxEdgeDevice eastus
 ```
 
 ## PARAMETERS

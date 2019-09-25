@@ -8,29 +8,46 @@ schema: 2.0.0
 # New-AzDataBoxEdgeUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Creates a new user for the device
 
 ## SYNTAX
 
 ```
 New-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -Password <SecureString> -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>]
+ -Password <SecureString> -EncryptionKey <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **New-AzDataBoxEdgeUser** is used to create a new user for the device
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-AzDataBoxEdgeUser -ResourceGroupName resource-group-name -DeviceName device-name -Name username
+ -Password password-secured-string -EncryptionKey encryption-key
+Name      ResourceGroupName
+-------- -----------------
+usename   resource-group-name
 ```
 
-{{ Add example description here }}
-
 ## PARAMETERS
+
+### -AsJob
+Run cmdlet in the background
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
@@ -48,7 +65,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+name of the device
 
 ```yaml
 Type: System.String
@@ -93,7 +110,7 @@ Accept wildcard characters: False
 ```
 
 ### -Password
-{{ Fill Password Description }}
+Password in secure string
 
 ```yaml
 Type: System.Security.SecureString
@@ -108,7 +125,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Name of the resource group
 
 ```yaml
 Type: System.String

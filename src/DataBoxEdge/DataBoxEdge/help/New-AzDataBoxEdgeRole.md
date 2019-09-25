@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-AzDataBoxEdgeRole
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Creates a new Iot Role for the device
 
 ## SYNTAX
 
@@ -29,16 +29,20 @@ New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Nam
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The Command **New-AzDataBoxEdgeRole** will create a new Iot Role for Edge device and Iot device
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
-```
+PS C:\> New-AzDataBoxEdgeRole -ResourceGroupName resource-group-name -DeviceName device-name -Name iot-role-name -DeviceProperties
+ -IotDeviceId iot-device-id -IotDeviceAccessKey iot-device-access-key -IotEdgeDeviceId iot-edge-device-id -IotEdgeDeviceAccessKey iot-edge-device-access-key
+ -IotHostHub iot-host-hub-url -EncryptionKey encryption-key -Platform windows -RoleStatus Enabled
 
-{{ Add example description here }}
+Name 
+-----------
+iot-role-name
+```
 
 ## PARAMETERS
 

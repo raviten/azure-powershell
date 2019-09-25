@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-AzDataBoxEdgeShare
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Creates a new share in the device
 
 ## SYNTAX
 
@@ -22,28 +22,30 @@ New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Na
 ### SmbParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -AccessProtocol <String> -SetUserAccessRights <Hashtable>
+ [-StorageAccountCredentialName] <String> -AccessProtocol <String> -SetUserAccessRights <Hashtable[]>
  -DataFormat <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### NfsParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -SetClientAccessRights <Hashtable> -DataFormat <String> [-AsJob]
+ [-StorageAccountCredentialName] <String> -SetClientAccessRights <Hashtable[]> -DataFormat <String> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The command **New-AzDataBoxEdgeShare** is used to create a new share in the device
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -DeviceName device-name -Name share-1
+-StorageAccountCredentialName storage-credential-name -DataFormat PageBlob
+Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
+---------- ---------- ---------------- ---------------- --------------------- -------------------
+share-1    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -156,7 +158,7 @@ Accept wildcard characters: False
 Read/Write Access for clientIps
 
 ```yaml
-Type: System.Collections.Hashtable
+Type: System.Collections.Hashtable[]
 Parameter Sets: NfsParameterSet
 Aliases:
 
@@ -171,7 +173,7 @@ Accept wildcard characters: False
 provide access right along with existing usernames to access SMB Share types
 
 ```yaml
-Type: System.Collections.Hashtable
+Type: System.Collections.Hashtable[]
 Parameter Sets: SmbParameterSet
 Aliases:
 
