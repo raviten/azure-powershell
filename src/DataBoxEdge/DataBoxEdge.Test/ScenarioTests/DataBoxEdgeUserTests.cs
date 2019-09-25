@@ -36,6 +36,23 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-GetNonExistingUser");
         }
 
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestCreateUser()
+        {
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateNewUser");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestRemoveUser()
+        {
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveUser");
+        }
+
+        
+
     }
 
 }

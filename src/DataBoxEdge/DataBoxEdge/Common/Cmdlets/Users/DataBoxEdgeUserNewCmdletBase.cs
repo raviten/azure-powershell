@@ -57,19 +57,22 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public string EncryptionKey { get; set; }
+        public SecureString EncryptionKey { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
         public override void ExecuteCmdlet()
         {
+            WriteVerbose(this.Password.ConvertToString());
+            WriteVerbose(this.EncryptionKey.ConvertToString());
+                    
             var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
-                    SecureStringExtensions.ConvertToString(this.Password),
-                    this.EncryptionKey
+                    this.Password.ConvertToString(),
+                    this.EncryptionKey.ConvertToString()
                 );
             var results = new List<PSDataBoxEdgeUser>();
             var user = new PSDataBoxEdgeUser(

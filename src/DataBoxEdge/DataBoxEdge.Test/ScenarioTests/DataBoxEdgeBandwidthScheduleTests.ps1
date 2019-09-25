@@ -112,3 +112,31 @@ function Test-CreateUnlimitedBandwidthSchedule
 		Remove-AzDataBoxEdgeBandwidthSchedule $rgname $dfname $bwname
     }  
 }
+
+
+<#
+.SYNOPSIS
+Test Remove BandwidthSchedule
+#>
+function Test-RemoveBandwidthSchedule
+{	
+    $rgname = Get-DeviceResourceGroupName
+    $dfname = Get-DeviceName
+	$bwname = Get-BandwidthScheduleName
+	$bwRateInMbps = 45
+	$bwStartTime = "11:00:00"
+	$bwStopTime = "13:00:00"
+	$bwDaysOfWeek = "Sunday,Saturday"
+
+    # Test
+	try
+    {
+        $expected = New-AzDataBoxEdgeBandwidthSchedule $rgname $dfname $bwname -DaysOfWeek $bwDaysOfWeek -StartTime $bwStartTime -StopTime $bwStopTime -Bandwidth $bwRateInMbps
+		Assert-AreEqual $expected.Name $bwname
+		Remove-AzDataBoxEdgeBandwidthSchedule $rgname $dfname $bwname
+    }
+    finally
+    {
+		Assert-ThrowsContains { Get-AzDataBoxEdgeBandwidthSchedule -ResourceGroupName $rgname -DeviceName $dfname -Name $bwname } "not find"    
+    }  
+}

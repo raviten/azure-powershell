@@ -16,18 +16,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using System.Security;
 using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.Management.WebSites.Version2016_09_01.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Common;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
     [Cmdlet(VerbsCommon.New, Constants.Role, DefaultParameterSetName = ConnectionStringParameterSet),
-     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
-    public class RoleNewCmdletBase : AzureDataBoxEdgeCmdletBase
+     OutputType(typeof(PSResourceModel))]
+    public class DataBoxEdgeRoleNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ConnectionStringParameterSet = "ConnectionStringParameterSet";
         private const string IotParameterSet = "IotParameterSet";
@@ -106,7 +109,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 
         [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public string EncryptionKey { get; set; }
+        public SecureString EncryptionKey { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageRoles.PlatformHelpMessage)]
         [ValidateNotNullOrEmpty]
@@ -213,17 +216,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 this.DeviceName,
                 this.ResourceGroupName,
                 this.IotDeviceAccessKey,
-                this.EncryptionKey
+                this.EncryptionKey.ConvertToString()
             );
 
             var iotEdgeDeviceSecret = DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                 this.DeviceName,
                 this.ResourceGroupName,
                 this.IotEdgeDeviceAccessKey,
-                this.EncryptionKey
+                this.EncryptionKey.ConvertToString()
             );
 
-            var results = new List<PSDataBoxEdgeRole>();
+            var results = new List<PSResourceModel>();
             var iotRole = GetIoTRoleObject(
                 this.IotDeviceId,
                 this.IotEdgeDeviceId,
@@ -234,7 +237,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 this.RoleStatus
             );
 
-            var psRole = new PSDataBoxEdgeRole(
+            var psRole = new PSResourceModel (
                 DataBoxEdgeManagementClient.Roles.CreateOrUpdate(
                     this.DeviceName, this.Name, iotRole,
                     this.ResourceGroupName)

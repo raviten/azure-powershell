@@ -57,8 +57,12 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateUnlimitedBandwidthSchedule");
         }
 
-
-
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestRemoveBandwidthSchedule()
+        {
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveBandwidthSchedule");
+        }
 
     }
 

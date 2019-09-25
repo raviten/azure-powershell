@@ -27,7 +27,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
     [Cmdlet(VerbsCommon.Get, Constants.Role, DefaultParameterSetName = ListParameterSet
      ),
      OutputType(typeof(PSResourceModel))]
-    public class RoleGetCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgeRoleGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeJob;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
 {
@@ -25,7 +26,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
          Constants.Job,
          DefaultParameterSetName = GetByNameParameterSet
      ),
-     OutputType(typeof(PSDataBoxEdgeJob))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeJobsGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string GetByNameParameterSet = "GetByNameParameterSet";
@@ -69,13 +70,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
                 this.Name = this.Name;
             }
 
-            List<PSDataBoxEdgeJob> results = new List<PSDataBoxEdgeJob>();
+            var results = new List<PSResourceModel>();
             if (!string.IsNullOrEmpty(this.Name) &&
                 !string.IsNullOrEmpty(this.DeviceName) &&
                 !string.IsNullOrEmpty(this.ResourceGroupName))
             {
                 results.Add(
-                    new PSDataBoxEdgeJob(
+                    new PSResourceModel(
                         JobsOperationsExtensions.Get(
                             this.DataBoxEdgeManagementClient.Jobs,
                             this.DeviceName,

@@ -14,7 +14,7 @@ Creates a new user for the device
 
 ```
 New-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -Password <SecureString> -EncryptionKey <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ -Password <SecureString> -EncryptionKey <SecureString> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
@@ -83,7 +83,7 @@ Accept wildcard characters: False
 Encryption key of the Edge device
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: (All)
 Aliases:
 

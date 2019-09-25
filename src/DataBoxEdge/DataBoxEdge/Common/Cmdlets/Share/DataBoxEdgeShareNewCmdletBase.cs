@@ -29,7 +29,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.New, Constants.Share, DefaultParameterSetName = NewParameterSet),
      OutputType(typeof(PSResourceModel))]
-    public class DataBoxEdgebandWidthNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgeShareNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
         private const string NfsParameterSet = "NfsParameterSet";

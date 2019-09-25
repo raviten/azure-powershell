@@ -22,8 +22,8 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.Remove, Constants.Share, DefaultParameterSetName = DeleteByNameParameterSet),
-     OutputType(typeof(PSResourceModel))]
-    public class DataBoxEdgebandWidthRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
+     OutputType(typeof(bool))]
+    public class DataBoxEdgeShareRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
         private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";

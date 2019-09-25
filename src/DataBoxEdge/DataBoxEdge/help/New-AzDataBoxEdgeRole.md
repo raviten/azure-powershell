@@ -15,7 +15,7 @@ Creates a new Iot Role for the device
 ### ConnectionStringParameterSet (Default)
 ```
 New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-ConnectionString]
- -IotDeviceConnectionString <String> -IotEdgeDeviceConnectionString <String> -EncryptionKey <String>
+ -IotDeviceConnectionString <String> -IotEdgeDeviceConnectionString <String> -EncryptionKey <SecureString>
  -Platform <String> -RoleStatus <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
@@ -24,7 +24,7 @@ New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Nam
 ```
 New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-DeviceProperties]
  -IotDeviceId <String> -IotDeviceAccessKey <String> -IotEdgeDeviceId <String> -IotEdgeDeviceAccessKey <String>
- -IotHostHub <String> -EncryptionKey <String> -Platform <String> -RoleStatus <String> [-AsJob]
+ -IotHostHub <String> -EncryptionKey <SecureString> -Platform <String> -RoleStatus <String> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -125,7 +125,7 @@ Accept wildcard characters: False
 Encryption key of the Edge device
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: (All)
 Aliases:
 

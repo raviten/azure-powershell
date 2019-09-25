@@ -73,9 +73,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public string EncryptionKey { get; set; }
-
-
+        public SecureString EncryptionKey { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -98,7 +96,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     this.DeviceName,
                     this.ResourceGroupName,
                     this.Password.ConvertToString(),
-                    this.EncryptionKey
+                    this.EncryptionKey.ConvertToString()
                 );
             var results = new List<PSResourceModel>();
             var user = new PSResourceModel(

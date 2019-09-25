@@ -14,18 +14,19 @@
 
 using System.Collections.Generic;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
+using System.Security;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.WindowsAzure.Commands.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.StorageAccountCredential;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
     [Cmdlet(VerbsCommon.New, Constants.Sac, DefaultParameterSetName = NewParameterSet),
      OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
-    public class StorageAccountCredentialNewCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgeStorageAccountCredentialNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
         [Parameter(Mandatory = true,
@@ -76,7 +77,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
             ParameterSetName = NewParameterSet, 
             HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public string EncryptionKey { get; set; }
+        public SecureString EncryptionKey { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
@@ -104,7 +105,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     this.DeviceName,
                     this.ResourceGroupName,
                     this.StorageAccountAccessKey,
-                    this.EncryptionKey
+                    this.EncryptionKey.ConvertToString()
                 );
             var results = new List<PSDataBoxEdgeStorageAccountCredential>();
             var user = new PSDataBoxEdgeStorageAccountCredential(

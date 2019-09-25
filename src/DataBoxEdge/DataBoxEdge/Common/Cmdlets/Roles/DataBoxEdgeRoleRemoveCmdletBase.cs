@@ -12,63 +12,51 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Management.Automation;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccountCredential;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole;
 
-namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
+namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = DeleteByNameParameterSet),
-     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
-    public class StorageAccountCredentialRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
+    [Cmdlet(VerbsCommon.Remove, Constants.Role, DefaultParameterSetName = DeleteByNameParameterSet
+     ),
+     OutputType(typeof(PSResourceModel))]
+    public class DataBoxEdgeRoleRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string DeleteByNameParameterSet = "DeleteByNameParameterSet";
         private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
         private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(
-            Mandatory = true,
+        [Parameter(Mandatory = true, 
             ParameterSetName = DeleteByResourceIdParameterSet,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = Constants.ResourceIdHelpMessage,
-            Position = 0)]
+            HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(
-            Mandatory = true,
-            ValueFromPipeline = true,
+        [Parameter(Mandatory = true, 
+            ValueFromPipeline = true, 
             ParameterSetName = DeleteByInputObjectParameterSet,
-            HelpMessage = Constants.InputObjectHelpMessage,
-            Position = 0
+           HelpMessage = Constants.InputObjectHelpMessage
         )]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
 
-
-        [Parameter(Mandatory = true,
-            ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage,
-            Position = 0)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true,
-            ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage,
-            Position = 1)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true,
-            ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage,
-            Position = 2)]
+        [Parameter(Mandatory = true, ParameterSetName = DeleteByNameParameterSet,
+            HelpMessage = Constants.NameHelpMessage, Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
@@ -80,11 +68,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
 
         private bool Remove()
         {
-            StorageAccountCredentialsOperationsExtensions.Delete(
-                this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+            RolesOperationsExtensions.Delete(
+                this.DataBoxEdgeManagementClient.Roles,
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
+
             return true;
         }
 
@@ -107,7 +96,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
 
             if (this.ShouldProcess(this.Name,
                 string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
-                    HelpMessageStorageAccountCredential.ObjectName, this.DeviceName, this.Name)))
+                    HelpMessageRoles.ObjectName, this.DeviceName, this.Name)))
             {
                 var removed = Remove();
                 if (this.PassThru.IsPresent)
@@ -115,7 +104,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     WriteObject(removed);
                 }
             }
-
         }
     }
+
+    
 }

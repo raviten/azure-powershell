@@ -27,7 +27,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
     [Cmdlet(VerbsCommon.Get, Constants.Sac, DefaultParameterSetName = ListParameterSet
      ),
      OutputType(typeof(PSResourceModel))]
-    public class StorageAccountCredentialGetCmdletBase : AzureDataBoxEdgeCmdletBase
+    public class DataBoxEdgeStorageAccountCredentialGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";

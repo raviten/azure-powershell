@@ -15,19 +15,19 @@ Set the new password for the user
 ### SetByNameParameterSet  (Default)
 ```
 Set-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -Password <SecureString> -EncryptionKey <String> [-DefaultProfile <IAzureContextContainer>]
+ -Password <SecureString> -EncryptionKey <SecureString> [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
 ### SetByResourceIdParameterSet 
 ```
-Set-AzDataBoxEdgeUser -ResourceId <String> -Password <SecureString> -EncryptionKey <String>
+Set-AzDataBoxEdgeUser -ResourceId <String> -Password <SecureString> -EncryptionKey <SecureString>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### SetByInputObjectParameterSet
 ```
-Set-AzDataBoxEdgeUser -InputObject <PSDataBoxEdgeUser> -Password <SecureString> -EncryptionKey <String>
+Set-AzDataBoxEdgeUser -InputObject <PSDataBoxEdgeUser> -Password <SecureString> -EncryptionKey <SecureString>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 Encryption key of the Edge device
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: (All)
 Aliases:
 
