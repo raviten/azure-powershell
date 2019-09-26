@@ -19,7 +19,7 @@ using System.Management.Automation;
 using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;                                                        
+using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare;
@@ -89,6 +89,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true,
@@ -151,6 +152,21 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         public override void ExecuteCmdlet()
         {
+            if (this.IsParameterBound(c => c.InputObject))
+            {
+                this.DeviceName = this.InputObject.DeviceName;
+                this.Name = this.Name;
+                this.ResourceGroupName = this.InputObject.ResourceGroupName;
+            }
+
+            if (this.IsParameterBound(c => c.ResourceId))
+            {
+                var resource = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                this.DeviceName = resource.DeviceName;
+                this.ResourceGroupName = resource.ResourceGroupName;
+                this.Name = resource.Name;
+            }
+
             var results = new List<PSResourceModel>();
             var share = this.GetResourceModel();
 

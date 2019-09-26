@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -20,10 +19,9 @@ using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
-using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
@@ -45,6 +43,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [Parameter(Mandatory = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
@@ -61,8 +60,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         public string StorageAccountCredentialName { get; set; }
 
         [Parameter(Mandatory = true,
-            ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        [PSArgumentCompleter("SMB", "NFS")]
         public string AccessProtocol { get; set; }
 
         [Parameter(Mandatory = true, 
@@ -79,16 +79,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
         [ValidateNotNullOrEmpty]
+        [PSArgumentCompleter("BlockBlob", "PageBlob", "AzureFile")]
         public string DataFormat { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
-
-        private Management.EdgeGateway.Models.Share initShareObject(
+        private static ResourceModel InitShareObject(
             string accessProtocol)
         {
-            return new Management.EdgeGateway.Models.Share("Online",
+            return new ResourceModel("Online",
                 "Enabled",
                 accessProtocol,
                 dataPolicy: "Cloud");
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 this.DeviceName,
                 this.StorageAccountCredentialName,
                 this.ResourceGroupName);
-            var share = this.initShareObject(this.AccessProtocol);
+            var share = InitShareObject(this.AccessProtocol);
 
             if (this.IsParameterBound(c => c.SetClientAccessRights))
             {

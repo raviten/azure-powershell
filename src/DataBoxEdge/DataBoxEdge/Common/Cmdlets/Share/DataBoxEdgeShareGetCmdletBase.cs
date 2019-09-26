@@ -60,6 +60,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true,

@@ -40,32 +40,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true,
-            HelpMessage = Constants.NameHelpMessage,
+            HelpMessage = HelpMessageStorageAccountCredential.StorageAccountNameHelpMessage,
             Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
-
-        [Parameter(Mandatory = true,
-            HelpMessage = HelpMessageStorageAccountCredential.StorageAccountNameHelpMessage,
-            Position = 3)]
-        [ValidateNotNullOrEmpty]
-        public string StorageAccountName { get; set; }
 
         [Parameter(Mandatory = true, 
             ParameterSetName = NewParameterSet,
             HelpMessage = HelpMessageStorageAccountCredential.StorageAccountTypeHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountType { get; set; }
-
-        [Parameter(Mandatory = true, 
-            ParameterSetName = NewParameterSet,
-            HelpMessage = HelpMessageStorageAccountCredential.SslStatusHelpMessage)]
-        [ValidateNotNullOrEmpty]
-        [PSArgumentCompleter("Enabled", "Disabled")]
-        public string StorageAccountSslStatus { get; set; }
 
         [Parameter(Mandatory = true, 
             ParameterSetName = NewParameterSet,
@@ -115,9 +103,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     this.Name,
                     InitStorageAccountCredentialObject(
                         name: this.Name,
-                        storageAccountName: this.StorageAccountName,
+                        storageAccountName: this.Name,
                         accountType: this.StorageAccountType,
-                        sslStatus: this.StorageAccountSslStatus,
+                        sslStatus: HelpMessageStorageAccountCredential.SslStatus,
                         secret: encryptedSecret
                     ),
                     this.ResourceGroupName

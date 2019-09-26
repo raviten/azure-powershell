@@ -20,7 +20,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         internal const string StorageAccountNameHelpMessage = "Name of the storage account to be used";
         internal const string ObjectName = "StorageAccountCredential";
         internal const string StorageAccountTypeHelpMessage = "Possible Storage Access type";
-        internal const string SslStatusHelpMessage = "To enable/ disable ssl status message, possible values are Enabled/Disabled";
+
         internal const string StorageAccountAccessKeyHelpMessage = "provide storage account access key";
+
+        /*"To enable/ disable ssl status message, possible values are Enabled/Disabled";*/
+        internal const string SslStatus = "Enabled";
     }
 }

@@ -21,7 +21,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
         public string ResourceGroupName;
 
-        [Ps1Xml(Label = "StorageAccountName", Target = ViewControl.Table)]
+        [Ps1Xml(Label = "Name", Target = ViewControl.Table)]
         public string StorageAccountName;
 
         [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table)]
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         private static string GetStorageAccountCredentialAccountName(string resourceId)
         {
             var splits = resourceId.Split(new[] {'/'});
-            for (int i = 0; i < splits.Length; i++)
+            for (var i = 0; i < splits.Length; i++)
             {
                 if (splits[i].Equals("storageAccountCredentials", StringComparison.CurrentCultureIgnoreCase))
                 {

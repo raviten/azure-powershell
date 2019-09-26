@@ -60,11 +60,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage,
+            HelpMessage = HelpMessageStorageAccountCredential.StorageAccountNameHelpMessage,
             Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -77,10 +78,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                 this.Name,
                 this.ResourceGroupName);
         }
+
         private List<PSResourceModel> GetByResourceName()
         {
             var resourceModel = GetResourceModel();
-            return new List<PSResourceModel>() { new PSResourceModel(resourceModel) };
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
         }
 
         private IPage<ResourceModel> ListResourceModel()
@@ -98,6 +100,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                 nextPageLink
             );
         }
+
 
         private List<PSResourceModel> ListPSResourceModels()
         {
@@ -131,5 +134,4 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
             WriteObject(results, true);
         }
     }
-
 }

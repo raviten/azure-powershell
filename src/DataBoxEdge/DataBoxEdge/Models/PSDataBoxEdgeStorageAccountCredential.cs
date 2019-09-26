@@ -7,11 +7,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeStorageAccountCredential
     {
-        [Ps1Xml(Label = "StorageAccountCredential.Name", Target = ViewControl.Table,
-            ScriptBlock = "$_.storageAccountCredential.Name")]
-        [Ps1Xml(Label = "StorageAccountCredential.StorageAccount", Target = ViewControl.Table,
-            ScriptBlock = "$_.storageAccountCredential.UserName")]
-        [Ps1Xml(Label = "StorageAccountCredential.SslStatus", Target = ViewControl.Table,
+        [Ps1Xml(Label = "SslStatus", Target = ViewControl.Table,
             ScriptBlock = "$_.storageAccountCredential.SslStatus")]
         
         public StorageAccountCredential StorageAccountCredential;
@@ -23,6 +19,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         public string DeviceName;
 
         public string Id;
+        [Ps1Xml(Label = "Name", Target = ViewControl.Table)]
         public string Name;
 
         public PSDataBoxEdgeStorageAccountCredential()
@@ -38,7 +35,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
             this.DeviceName = resourceIdentifier.DeviceName;
             this.Name = resourceIdentifier.ResourceName;
-
 
         }
     }

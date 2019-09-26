@@ -12,18 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.Azure.ServiceManagement.Common.Models;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 {
-    public class DataBoxEdgeBandwidthScheduleTests : DataBoxEdgeScenarioTestBase
+    public class DataBoxEdgeStorageAccountCredentialTests : DataBoxEdgeScenarioTestBase
     {
         private ServiceManagement.Common.Models.XunitTracingInterceptor _logger;
 
-        public DataBoxEdgeBandwidthScheduleTests(Xunit.Abstractions.ITestOutputHelper output)
+        public DataBoxEdgeStorageAccountCredentialTests(Xunit.Abstractions.ITestOutputHelper output)
         {
             _logger = new ServiceManagement.Common.Models.XunitTracingInterceptor(output);
             ServiceManagement.Common.Models.XunitTracingInterceptor.AddToContext(_logger);
@@ -31,42 +29,25 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestGetNonExistingBandwidthSchedule()
+        public void TestGetNonExistingStorageAccountCredential()
         {
-            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-GetNonExistingBandwidthSchedule");
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-GetStorageAccountCredentialNonExistent");
         }
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestCreateBandwidthSchedule()
+        public void TestCreateStorageAccountCredential()
         {
-            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateBandwidthSchedule");
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateStorageAccountCredential");
         }
-
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestUpdateBandwidthSchedule()
+        public void TestRemoveStorageAccountCredential()
         {
-            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-UpdateBandwidthSchedule");
-        }
-
-        [Fact]
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestCreateUnlimitedBandwidthSchedule()
-        {
-            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateUnlimitedBandwidthSchedule");
-        }
-
-        [Fact]
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestRemoveBandwidthSchedule()
-        {
-            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveBandwidthSchedule");
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveStorageAccountCredential");
         }
 
     }
-
-
 
 }
 

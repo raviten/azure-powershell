@@ -63,11 +63,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage,
+            HelpMessage = HelpMessageStorageAccountCredential.StorageAccountNameHelpMessage,
             Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
