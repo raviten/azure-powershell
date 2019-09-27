@@ -15,7 +15,7 @@ Creates a new share in the device
 ### NewParameterSet (Default)
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -DataFormat <String> [-AsJob]
+ [-StorageAccountCredentialName] <String> -AccessProtocol <String> -DataFormat <String> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -29,8 +29,8 @@ New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Na
 ### NfsParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -SetClientAccessRights <Hashtable[]> -DataFormat <String> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-StorageAccountCredentialName] <String> -AccessProtocol <String> -SetClientAccessRights <Hashtable[]>
+ -DataFormat <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,7 +54,7 @@ will use this AccessProtocol in the case of creating Share
 
 ```yaml
 Type: System.String
-Parameter Sets: SmbParameterSet
+Parameter Sets: (All)
 Aliases:
 
 Required: True
