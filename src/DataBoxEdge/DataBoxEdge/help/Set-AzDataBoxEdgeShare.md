@@ -60,6 +60,8 @@ PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -SetClient
 Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
 ---------- ---------- ---------------- ---------------- --------------------- -------------------
 share-2    NFS        Cloud            PageBlob         resource-group-name   storage-account-name
+## $ClientAccessRights = @(@{"ClientId"="192.168.10.10";"AccessRight"="NoAccess"}, @{"ClientId"="192.168.10.11";"AccessRight"="ReadOnly"})
+## Possible values for AccessRight options are 'NoAccess', 'ReadOnly', 'ReadWrite'
 ```
 
 ### Example 2
@@ -69,6 +71,8 @@ PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -SetClient
 Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
 ---------- ---------- ---------------- ---------------- --------------------- -------------------
 share-1    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
+## $UserAccessRights = @(@{"Username"="user-name-1";"AccessRight"="Read"}, @{"Username"="user-name-2";"AccessRight"="Read"}, @{"Username"="user-name-3";"AccessRight"="Custom"})
+## Possible values for AccessRight are 'Change', 'Read', 'Custom'
 ```
 
 ## PARAMETERS
@@ -181,10 +185,6 @@ Accept wildcard characters: False
 ### -SetClientAccessRights
 Read/Write Access for clientIps
 This command will replace the old client access rights with new access rights
-```
-$ClientAccessRights = @(@{"ClientId"="192.168.10.10";"AccessRight"="NoAccess"}, @{"ClientId"="192.168.10.11";"AccessRight"="ReadOnly"})
-# Possible values for AccessRight options are 'NoAccess', 'ReadOnly', 'ReadWrite'
-```
 
 
 ```yaml
@@ -202,11 +202,6 @@ Accept wildcard characters: False
 ### -SetUserAccessRights
 This command will replace the old user rights with new access rights
 Provide access right along with existing usernames to access SMB Share types
-
-```
-$UserAccessRights = @(@{"Username"="user-name-1";"AccessRight"="Read"}, @{"Username"="user-name-2";"AccessRight"="Read"}, @{"Username"="user-name-3";"AccessRight"="Custom"})
-# Possible values for AccessRight are 'Change', 'Read', 'Custom'
-```
 
 
 ```yaml

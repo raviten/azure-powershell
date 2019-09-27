@@ -50,19 +50,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         public string Name { get; set; }
 
         [Parameter(Mandatory = true, 
-            ParameterSetName = NewParameterSet,
             HelpMessage = HelpMessageStorageAccountCredential.StorageAccountTypeHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountType { get; set; }
 
         [Parameter(Mandatory = true, 
-            ParameterSetName = NewParameterSet,
             HelpMessage = HelpMessageStorageAccountCredential.StorageAccountAccessKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountAccessKey { get; set; }
 
         [Parameter(Mandatory = true, 
-            ParameterSetName = NewParameterSet, 
             HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString EncryptionKey { get; set; }
