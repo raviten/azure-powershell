@@ -88,7 +88,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Name of the device
 
 ```yaml
 Type: System.String
@@ -149,6 +149,12 @@ Accept wildcard characters: False
 
 ### -SetClientAccessRights
 Read/Write Access for clientIps
+To provide client access rights form an array of dictionaries
+
+```
+$ClientAccessRights = @(@{"ClientId"="192.168.10.10";"AccessRight"="NoAccess"}, @{"ClientId"="192.168.10.11";"AccessRight"="ReadOnly"})
+# Possible values for AccessRight options are 'NoAccess', 'ReadOnly', 'ReadWrite'
+```
 
 ```yaml
 Type: System.Collections.Hashtable[]
@@ -164,6 +170,13 @@ Accept wildcard characters: False
 
 ### -SetUserAccessRights
 provide access right along with existing usernames to access SMB Share types
+
+```
+$UserAccessRights = @(@{"Username"="user-name-1";"AccessRight"="Read"}, @{"Username"="user-name-2";"AccessRight"="Read"}, @{"Username"="user-name-3";"AccessRight"="Custom"})
+# Possible values for AccessRight are 'Change', 'Read', 'Custom'
+```
+
+
 
 ```yaml
 Type: System.Collections.Hashtable[]
