@@ -14,8 +14,7 @@ Create new storage account credential object
 
 ```
 New-AzDataBoxEdgeStorageAccountCredential [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountName] <String> -StorageAccountType <String> -StorageAccountSslStatus <String>
- -StorageAccountAccessKey <String> -EncryptionKey <SecureString> [-AsJob]
+ -StorageAccountType <String> -StorageAccountAccessKey <String> -EncryptionKey <SecureString> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -128,36 +127,6 @@ Accept wildcard characters: False
 
 ### -StorageAccountAccessKey
 {{ Fill StorageAccountAccessKey Description }}
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StorageAccountName
-{{ Fill StorageAccountName Description }}
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StorageAccountSslStatus
-{{ Fill StorageAccountSSLStatus Description }}
 
 ```yaml
 Type: System.String
