@@ -33,13 +33,14 @@ Name                             StorageAccount          SslStatus  ResourceGrou
 storage-account-credential-name  storage-account-name    Enabled    resource-group-name
 ```
 
+
 ## PARAMETERS
 
 ### -AsJob
 Run cmdlet in the background
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -54,7 +55,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -66,10 +67,10 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-{{ Fill DeviceName Description }}
+Device Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -81,10 +82,10 @@ Accept wildcard characters: False
 ```
 
 ### -EncryptionKey
-{{ Fill EncryptionKey Description }}
+Encryption key of the Edge device
 
 ```yaml
-Type: System.Security.SecureString
+Type: SecureString
 Parameter Sets: (All)
 Aliases:
 
@@ -96,10 +97,10 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Name of the storage account to be used
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -111,10 +112,10 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-{{ Fill ResourceGroupName Description }}
+Resource Group Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -126,10 +127,10 @@ Accept wildcard characters: False
 ```
 
 ### -StorageAccountAccessKey
-{{ Fill StorageAccountAccessKey Description }}
+provide storage account access key
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -141,10 +142,10 @@ Accept wildcard characters: False
 ```
 
 ### -StorageAccountType
-{{ Fill StorageAccountType Description }}
+Possible Storage Access type
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -164,7 +165,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccountCredential
 
 ## NOTES
 
