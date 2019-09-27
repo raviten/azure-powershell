@@ -48,7 +48,6 @@ function Test-CreateShare
     $dfname = Get-DeviceName
 	$sharename = Get-ShareName
 	$dataFormat = 'BlockBlob'
-	$accessProtocol = 'SMB'
 
 
 	$staname = Get-StorageAccountCredentialName
@@ -65,7 +64,7 @@ function Test-CreateShare
 	# Test
 	try
     {
-        $expected = New-AzDataBoxEdgeShare $rgname $dfname $sharename $storageAccountCredential.Name -AccessProtocol $accessProtocol -DataFormat $dataFormat
+        $expected = New-AzDataBoxEdgeShare $rgname $dfname $sharename $storageAccountCredential.Name -Smb -DataFormat $dataFormat
 		Assert-AreEqual $expected.Name $sharename
 		
     }

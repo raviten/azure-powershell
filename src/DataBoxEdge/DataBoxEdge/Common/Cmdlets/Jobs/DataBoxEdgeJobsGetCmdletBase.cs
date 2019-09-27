@@ -50,6 +50,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
             ParameterSetName = GetByNameParameterSet,
             HelpMessage = HelpMessageJobs.DeviceName, 
             Position = 1)]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 

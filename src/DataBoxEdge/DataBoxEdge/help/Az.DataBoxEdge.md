@@ -1,9 +1,9 @@
 ---
 Module Name: Az.DataBoxEdge
-Module Guid: 39b6b3e6-a15e-48ba-be20-fe0d441d92b4
-Download Help Link: : https://docs.microsoft.com/en-us/powershell/module/az.databoxedge
-Help Version: 1.0.0.0
-Locale: en-US
+Module Guid: 
+Download Help Link: 
+Help Version: 
+Locale: 
 ---
 
 # Az.DataBoxEdge Module

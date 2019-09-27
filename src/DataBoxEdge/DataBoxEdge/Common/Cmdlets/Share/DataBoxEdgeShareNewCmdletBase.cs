@@ -25,11 +25,10 @@ using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
-    [Cmdlet(VerbsCommon.New, Constants.Share, DefaultParameterSetName = NewParameterSet),
+    [Cmdlet(VerbsCommon.New, Constants.Share, DefaultParameterSetName = SmbParameterSet),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeShareNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
-        private const string NewParameterSet = "NewParameterSet";
         private const string NfsParameterSet = "NfsParameterSet";
         private const string SmbParameterSet = "SmbParameterSet";
 
@@ -59,19 +58,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public string StorageAccountCredentialName { get; set; }
 
-        [Parameter(Mandatory = true,
+        [Parameter(Mandatory = false,
+            ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
         [ValidateNotNullOrEmpty]
-        [PSArgumentCompleter("SMB", "NFS")]
-        public string AccessProtocol { get; set; }
+        public SwitchParameter Smb{ get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = false,
+            ParameterSetName = NfsParameterSet,
+            HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter Nfs { get; set; }
+
+        [Parameter(Mandatory = false, 
             ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
         public Hashtable[] SetUserAccessRights { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = false, 
             ParameterSetName = NfsParameterSet,
             HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
@@ -85,9 +90,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
-        private static ResourceModel InitShareObject(
-            string accessProtocol)
+        private ResourceModel InitShareObject()
         {
+            var accessProtocol = this.Nfs.IsPresent ? "NFS" : "SMB";
             return new ResourceModel("Online",
                 "Enabled",
                 accessProtocol,
@@ -113,7 +118,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 this.DeviceName,
                 this.StorageAccountCredentialName,
                 this.ResourceGroupName);
-            var share = InitShareObject(this.AccessProtocol);
+            
+            var share = InitShareObject();
 
             if (this.IsParameterBound(c => c.SetClientAccessRights))
             {

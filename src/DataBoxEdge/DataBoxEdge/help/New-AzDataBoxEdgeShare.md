@@ -12,25 +12,18 @@ Creates a new share in the device
 
 ## SYNTAX
 
-### NewParameterSet (Default)
+### SmbParameterSet (Default)
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -AccessProtocol <String> -DataFormat <String> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
-```
-
-### SmbParameterSet
-```
-New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -AccessProtocol <String> -SetUserAccessRights <Hashtable[]>
- -DataFormat <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-StorageAccountCredentialName] <String> [-Smb] [-SetUserAccessRights <Hashtable[]>] -DataFormat <String>
+ [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### NfsParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> -AccessProtocol <String> -SetClientAccessRights <Hashtable[]>
- -DataFormat <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-StorageAccountCredentialName] <String> [-Nfs] [-SetClientAccessRights <Hashtable[]>] -DataFormat <String>
+ [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,21 +41,6 @@ share-1    SMB        Cloud            PageBlob         resource-group-name   st
 ```
 
 ## PARAMETERS
-
-### -AccessProtocol
-will use this AccessProtocol in the case of creating Share
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -AsJob
 Run cmdlet in the background
@@ -139,6 +117,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Nfs
+AccessProtocol in the case of creating Share
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: NfsParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 Share will be created under this ResourceGroupName
 
@@ -162,7 +155,7 @@ Type: System.Collections.Hashtable[]
 Parameter Sets: NfsParameterSet
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -177,7 +170,22 @@ Type: System.Collections.Hashtable[]
 Parameter Sets: SmbParameterSet
 Aliases:
 
-Required: True
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Smb
+AccessProtocol in the case of creating Share
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: SmbParameterSet
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

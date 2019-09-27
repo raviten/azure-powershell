@@ -33,7 +33,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         private const string CreateByNewParameterSet = "CreateByNewParameterSet";
 
         [Parameter(Mandatory = true, 
-            ParameterSetName = CreateByNewParameterSet, 
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ResourceGroupCompleter]
@@ -41,20 +40,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, 
-            ParameterSetName = CreateByNewParameterSet,
             HelpMessage = Constants.NameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         [Parameter(Mandatory = true, 
-            ParameterSetName = CreateByNewParameterSet,
             HelpMessage = HelpMessageDevice.LocationHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
         
         [Parameter(Mandatory = true, 
-            ParameterSetName = CreateByNewParameterSet,
             HelpMessage = HelpMessageDevice.SkuHelpMessage)]
         [ValidateNotNullOrEmpty]
         [PSArgumentCompleter("Edge", "Gateway")]
@@ -65,9 +61,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         private PSResourceModel CreateResourceModel()
         {
-            DataBoxEdgeDevice dbe = new DataBoxEdgeDevice();
-            dbe.Sku = new Sku(this.Sku);
-            dbe.Location = this.Location;
+            var dbe = new DataBoxEdgeDevice {Sku = new Sku(this.Sku), Location = this.Location};
 
             var device = new PSResourceModel(
                 DevicesOperationsExtensions.CreateOrUpdate(

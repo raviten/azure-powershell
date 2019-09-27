@@ -53,7 +53,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageUsers.PasswordHelpMessage)]
         [ValidateNotNullOrEmpty]
-        
         public SecureString Password { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
@@ -65,8 +64,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         public override void ExecuteCmdlet()
         {
-            WriteVerbose(this.Password.ConvertToString());
-            WriteVerbose(this.EncryptionKey.ConvertToString());
                     
             var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
