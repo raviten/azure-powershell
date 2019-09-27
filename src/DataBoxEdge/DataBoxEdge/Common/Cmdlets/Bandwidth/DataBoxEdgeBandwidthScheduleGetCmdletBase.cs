@@ -42,14 +42,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
-        [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
+        [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = ListParameterSet,
             HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet,
             HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 

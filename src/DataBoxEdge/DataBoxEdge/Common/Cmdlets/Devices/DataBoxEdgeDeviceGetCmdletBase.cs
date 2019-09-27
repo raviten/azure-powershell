@@ -56,6 +56,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             ParameterSetName = GetByNameParameterSet, 
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 1)]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 

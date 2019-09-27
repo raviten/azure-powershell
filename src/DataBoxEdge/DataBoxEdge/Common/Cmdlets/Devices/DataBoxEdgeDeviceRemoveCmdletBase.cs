@@ -48,14 +48,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             ParameterSetName = DeleteByNameParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage, 
             Position = 0)]
-        [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
+        [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true, 
             ParameterSetName = DeleteByNameParameterSet,
             HelpMessage = Constants.NameHelpMessage, 
             Position = 1)]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 

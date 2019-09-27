@@ -36,6 +36,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             ParameterSetName = CreateByNewParameterSet, 
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
+        [ResourceGroupCompleter]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 

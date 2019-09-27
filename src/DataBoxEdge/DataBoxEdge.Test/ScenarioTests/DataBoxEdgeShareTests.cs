@@ -27,25 +27,28 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
             ServiceManagement.Common.Models.XunitTracingInterceptor.AddToContext(_logger);
         }
 
-        /*[Fact]
+        [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestGetNonExistingStorageAccountCredential()
+        public void TestGetNonExistingShare()
         {
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-GetShareNonExistent");
         }
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestCreateStorageAccountCredential()
+        public void TestCreateShare()
         {
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateShare");
         }
-        [Fact]
+
+
+        
+         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestRemoveStorageAccountCredential()
+        public void TestRemoveShare()
         {
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveShare");
-        }*/
+        }
 
     }
 

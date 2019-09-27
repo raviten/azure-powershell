@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
@@ -34,26 +35,26 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         private const string UnlimitedBandwidthParameterSet = "UnlimitedBandwidthParameterSet";
 
 
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, Position = 0)]
+        [Parameter(Mandatory = true, 
+            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            Position = 0)]
+        [ResourceGroupCompleter]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
 
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, Position = 1)]
+        [Parameter(Mandatory = true, 
+            HelpMessage = Constants.DeviceNameHelpMessage, 
+            Position = 1)]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
+
         public string DeviceName { get; set; }
 
 
-        [Parameter(Mandatory = true, ParameterSetName = BandwidthParameterSet,
-            HelpMessage = Constants.NameHelpMessage, Position = 2)]
-        [Parameter(Mandatory = true, ParameterSetName = UnlimitedBandwidthParameterSet,
-            HelpMessage = Constants.NameHelpMessage, Position = 2)]
+        [Parameter(Mandatory = true, 
+            HelpMessage = Constants.NameHelpMessage, 
+            Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 

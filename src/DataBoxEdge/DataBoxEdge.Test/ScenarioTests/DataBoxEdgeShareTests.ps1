@@ -47,7 +47,8 @@ function Test-CreateShare
     $rgname = Get-DeviceResourceGroupName
     $dfname = Get-DeviceName
 	$sharename = Get-ShareName
-	$dataFormat = 'BlobBlob'
+	$dataFormat = 'BlockBlob'
+	$accessProtocol = 'SMB'
 
 
 	$staname = Get-StorageAccountCredentialName
@@ -55,23 +56,63 @@ function Test-CreateShare
 	$storageAccountType = 'GeneralPurposeStorage'
 	$storageAccountSkuName = 'Standard_LRS'
 	$storageAccountLocation = 'WestUS'
-	$storageAccountSslStatus = 'Enabled'
 	$storageAccount = New-AzStorageAccount $rgname $staname $storageAccountSkuName -Location $storageAccountLocation
 
 	$storageAccountKeys = Get-AzStorageAccountKey $rgname $staname
 	$storageAccountKey = $storageAccountKeys[0]
-    $storageAccountCredential = New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountSslStatus $storageAccountSslStatus -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
+    $storageAccountCredential = New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
 		
 	# Test
 	try
     {
-        $expected = New-AzDataBoxEdgeShare $rgname $dfname $sharename $storageAccountCredential.Name -DataFormat  
-		Assert-AreEqual $expected.Name $staname
+        $expected = New-AzDataBoxEdgeShare $rgname $dfname $sharename $storageAccountCredential.Name -AccessProtocol $accessProtocol -DataFormat $dataFormat
+		Assert-AreEqual $expected.Name $sharename
+		
+    }
+    finally
+    {
+		Remove-AzDataBoxEdgeShare $rgname $dfname $sharename
+		Remove-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname
+		Remove-AzStorageAccount $rgname $staname
+    }  
+}
+
+<#
+.SYNOPSIS
+Tests Create New StorageAccountCredential
+#>
+function Test-RemoveShare
+{	
+    $rgname = Get-DeviceResourceGroupName
+    $dfname = Get-DeviceName
+	$sharename = Get-ShareName
+	$dataFormat = 'BlockBlob'
+	$accessProtocol = 'SMB'
+
+
+	$staname = Get-StorageAccountCredentialName
+	$encryptionKey = Get-EncryptionKey
+	$storageAccountType = 'GeneralPurposeStorage'
+	$storageAccountSkuName = 'Standard_LRS'
+	$storageAccountLocation = 'WestUS'
+	$storageAccount = New-AzStorageAccount $rgname $staname $storageAccountSkuName -Location $storageAccountLocation
+
+	$storageAccountKeys = Get-AzStorageAccountKey $rgname $staname
+	$storageAccountKey = $storageAccountKeys[0]
+    $storageAccountCredential = New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
+		
+	# Test
+	try
+    {
+        $expected = New-AzDataBoxEdgeShare $rgname $dfname $sharename $storageAccountCredential.Name -AccessProtocol $accessProtocol -DataFormat $dataFormat
+		Remove-AzDataBoxEdgeShare $rgname $dfname $sharename
+		Assert-ThrowsContains { Get-AzDataBoxEdgeShare $rgname $dfname $sharename  } "not find"    
+
 		
     }
     finally
     {
 		Remove-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname
-		Remove-AzStorageAccount $rgname $staname -Force
+		Remove-AzStorageAccount $rgname $staname
     }  
 }
