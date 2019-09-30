@@ -155,7 +155,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             if (this.IsParameterBound(c => c.InputObject))
             {
                 this.DeviceName = this.InputObject.DeviceName;
-                this.Name = this.Name;
+                this.Name = this.InputObject.Name;
                 this.ResourceGroupName = this.InputObject.ResourceGroupName;
             }
 
