@@ -38,6 +38,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string NameHelpMessage = "Resource Name";
         internal const string PassThruHelpMessage = "returns true if successful";
         internal const string AsJobHelpMessage = "Run cmdlet in the background";
+        internal const string PsDeviceObjectHelpMessage = "Please provide corresponding device object";
 
         internal const string EncryptionKeyHelpMessage = "Encryption key of the Edge device";
     }

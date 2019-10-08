@@ -22,7 +22,9 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = DeleteByNameParameterSet),
+    [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = DeleteByNameParameterSet,
+         SupportsShouldProcess = true
+         ),
      OutputType(typeof(bool))]
     public class DataBoxEdgeStorageAccountCredentialRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {

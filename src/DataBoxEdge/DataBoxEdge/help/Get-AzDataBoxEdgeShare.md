@@ -29,6 +29,12 @@ Get-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Na
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### GetByParentObjectParameterSet
+```
+Get-AzDataBoxEdgeShare [[-Name] <String>] [-DefaultProfile <IAzureContextContainer>]
+ -TopLevelResourceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The **Get-AzDataBoxEdgeShare** get the shares for the device. If Name is provided this will get the share by Name.
 
@@ -92,6 +98,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+```yaml
+Type: System.String
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 Resource group name
 
@@ -119,6 +137,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TopLevelResourceObject
+Please provide corresponding device object
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

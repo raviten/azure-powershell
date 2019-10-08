@@ -15,37 +15,39 @@ Update the share
 ### SmbParameterSet (Default)
 ```
 Set-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -SetUserAccessRights <Hashtable[]> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -UserAccessRight <Hashtable[]> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdSmbParameterSet
 ```
-Set-AzDataBoxEdgeShare -ResourceId <String> -SetUserAccessRights <Hashtable[]> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Set-AzDataBoxEdgeShare -ResourceId <String> -UserAccessRight <Hashtable[]> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### UpdateByResourceIdNfsParameterSet
 ```
-Set-AzDataBoxEdgeShare -ResourceId <String> -SetClientAccessRights <Hashtable[]> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Set-AzDataBoxEdgeShare -ResourceId <String> -ClientAccessRight <Hashtable[]> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectSmbParameterSet
 ```
-Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetUserAccessRights <Hashtable[]> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -UserAccessRight <Hashtable[]> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### UpdateByInputObjectNfsParameterSet
 ```
-Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -SetClientAccessRights <Hashtable[]> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Set-AzDataBoxEdgeShare -InputObject <PSDataBoxEdgeShare> -ClientAccessRight <Hashtable[]> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### NfsParameterSet
 ```
 Set-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- -SetClientAccessRights <Hashtable[]> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ -ClientAccessRight <Hashtable[]> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -56,7 +58,7 @@ This **Set-AzDataBoxEdgeShare** will replace the access rights
 ### Example 1
 ```powershell
 PS C:\> $AccessRights = @(@{"ClientId"="192.168.10.10";"AccessRight"="NoAccess"}, @{"ClientId"="192.168.10.11";"AccessRight"="ReadOnly"})
-PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -SetClientAccessRights $AccessRights
+PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -ClientAccessRight $AccessRights
 Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
 ---------- ---------- ---------------- ---------------- --------------------- -------------------
 share-2    NFS        Cloud            PageBlob         resource-group-name   storage-account-name
@@ -67,7 +69,7 @@ share-2    NFS        Cloud            PageBlob         resource-group-name   st
 ### Example 2
 ```powershell
 PS C:\> $AccessRights = @(@{"Username"="user-name-1";"AccessRight"="Read"}, @{"Username"="user-name-2";"AccessRight"="Read"}, @{"Username"="user-name-3";"AccessRight"="Custom"})
-PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -SetClientAccessRights $AccessRights
+PS C:\> Set-AzDataBoxEdgeShare -ResourceGroupName resource-group-name -UserAccessRight $AccessRights
 Name       Type       DataPolicy       DataFormat       ResourceGroupName     StorageAccountName
 ---------- ---------- ---------------- ---------------- --------------------- -------------------
 share-1    SMB        Cloud            PageBlob         resource-group-name   storage-account-name
@@ -86,6 +88,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClientAccessRight
+Read/Write Access for clientIds, For ex:@(@{"ClientId"="192.168.10.10";"AccessRight"="NoAccess"}, @{"ClientId"="192.168.10.11";"AccessRight"="ReadOnly"})
+
+```yaml
+Type: System.Collections.Hashtable[]
+Parameter Sets: UpdateByResourceIdNfsParameterSet, UpdateByInputObjectNfsParameterSet, NfsParameterSet
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -182,14 +199,12 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -SetClientAccessRights
-Read/Write Access for clientIps
-This command will replace the old client access rights with new access rights
-
+### -UserAccessRight
+provide access right along with existing usernames to access SMB Share types, For ex: @(@{"Username"="user-name-1";"AccessRight"="Read"}, @{"Username"="user-name-2";"AccessRight"="Read"}, @{"Username"="user-name-3";"AccessRight"="Custom"})
 
 ```yaml
 Type: System.Collections.Hashtable[]
-Parameter Sets: UpdateByResourceIdNfsParameterSet, UpdateByInputObjectNfsParameterSet, NfsParameterSet
+Parameter Sets: SmbParameterSet, UpdateByResourceIdSmbParameterSet, UpdateByInputObjectSmbParameterSet
 Aliases:
 
 Required: True
@@ -199,17 +214,30 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SetUserAccessRights
-This command will replace the old user rights with new access rights
-Provide access right along with existing usernames to access SMB Share types
-
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Collections.Hashtable[]
-Parameter Sets: SmbParameterSet, UpdateByResourceIdSmbParameterSet, UpdateByInputObjectSmbParameterSet
-Aliases:
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
 
-Required: True
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

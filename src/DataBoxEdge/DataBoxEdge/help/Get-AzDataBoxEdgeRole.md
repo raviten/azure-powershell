@@ -29,6 +29,12 @@ Get-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Nam
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### GetByParentObjectParameterSet
+```
+Get-AzDataBoxEdgeRole [[-Name] <String>] [-DefaultProfile <IAzureContextContainer>]
+ -TopLevelResourceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+```
+
 ## DESCRIPTION
 This **Get-AzDataBoxEdgeRole** fetches the available IOT role by Name or lists the IOT roles available for the  device
 
@@ -38,9 +44,9 @@ This **Get-AzDataBoxEdgeRole** fetches the available IOT role by Name or lists t
 ```powershell
 PS C:\> Get-AzDataBoxEdgeRole -ResourceGroupName resource-group-name -DeviceName device-name
 
-Name 
------------
-IotRole
+Name    IotEdgeDeviceId IotDeviceId            IotEdgeDeviceId                ResourceGroupName
+----    --------------- -----------            ---------------                -----------------
+IotRole dbedge-edge     dbedge-storagegateway iothub-dbedge.azure-devices.net dbedge-rg
 ```
 
 ## PARAMETERS
@@ -90,6 +96,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+```yaml
+Type: System.String
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 Resource Group Name 
 
@@ -118,6 +136,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TopLevelResourceObject
+Please provide corresponding device object
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

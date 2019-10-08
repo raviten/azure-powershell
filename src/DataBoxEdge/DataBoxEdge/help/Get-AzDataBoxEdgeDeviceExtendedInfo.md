@@ -30,6 +30,12 @@ Get-AzDataBoxEdgeDeviceExtendedInfo -InputObject <PSDataBoxEdgeDeviceExtendedInf
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### GetByParentObjectParameterSet
+```
+Get-AzDataBoxEdgeDeviceExtendedInfo [-DefaultProfile <IAzureContextContainer>]
+ -TopLevelResourceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The **Get-AzDataBoxEdgeDeviceEdtendedInfo** cmdlet gets extended information of a single device.
 
@@ -38,12 +44,9 @@ The **Get-AzDataBoxEdgeDeviceEdtendedInfo** cmdlet gets extended information of 
 ### Example 1
 ```powershell
 PS C:\> Get-AzDataBoxEdgeDeviceExtendedInfo -ResourceGroupName rgp-name -Name device-name
-
-Name                    : device-name
-ResourceGroupName       : resource-group-name
-EncryptionKey           : {LONG_ENCRYPTION_KEY}
-EncryptionKeyThumbprint : {THUMBPRINT}
-ResourceKey             : {RESOURCEKEY}
+DeviceName EncryptionKey
+---------- -------------
+dbEdge     EAAAAJdnau2XC0QtRGj6DP86ItYz52MjnynWY07yg13VH5FStmUa/4tQxlmJuaFLF6BY5qHIy0hnTvdJbWCHzr7g6xufw48yNFE4uYhlanI3N6SRKd2vrp15Tu3N0K4/e9zxheo35ITEkJDjvobgI9zxM3+IZYA7srD4NvwNuo1CnFA5eM/yLm1LCTZcaSxA0G0O9vb3�
 ```
 
 ## PARAMETERS
@@ -120,6 +123,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TopLevelResourceObject
+Please provide corresponding device object
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

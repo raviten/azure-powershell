@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using PSTopLevelResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeJob;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
@@ -31,6 +32,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
     {
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceIdObject = "GetByResourceIdObject";
+        private const string GetByParentObjectParameterSet = "GetByParentObjectParameterSet";
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByResourceIdObject,
@@ -58,8 +60,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
             ParameterSetName = GetByNameParameterSet,
             HelpMessage = HelpMessageJobs.Name, 
             Position = 2)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = HelpMessageJobs.Name
+            )]
         [ValidateNotNullOrEmpty]
+
         public string Name { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipeline = true, 
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = Constants.PsDeviceObjectHelpMessage)]
+        [ValidateNotNull]
+        public PSTopLevelResourceModel TopLevelResourceObject;
+
 
         public override void ExecuteCmdlet()
         {
@@ -69,6 +83,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
                 this.ResourceGroupName = this.ResourceGroupName;
                 this.DeviceName = this.DeviceName;
                 this.Name = this.Name;
+            }
+
+            if (this.IsParameterBound(c => this.TopLevelResourceObject))
+            {
+                this.ResourceGroupName = this.TopLevelResourceObject.ResourceGroupName;
+                this.DeviceName = this.TopLevelResourceObject.Name;
             }
 
             var results = new List<PSResourceModel>();

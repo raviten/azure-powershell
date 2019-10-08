@@ -25,6 +25,7 @@ using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.User;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser;
+using PSTopLevelResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
 
 namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 {
@@ -36,6 +37,7 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
+        private const string GetByParentObjectParameterSet = "GetByParentObjectParameterSet";
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByResourceIdParameterSet,
@@ -71,8 +73,18 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
             ParameterSetName = GetByNameParameterSet,
             HelpMessage = HelpMessageUsers.NameHelpMessage,
             Position = 2)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = HelpMessageUsers.NameHelpMessage
+        )]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipeline = true,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = Constants.PsDeviceObjectHelpMessage)]
+        [ValidateNotNull]
+        public PSTopLevelResourceModel TopLevelResourceObject;
 
         private ResourceModel GetResourceModel()
         {
@@ -82,10 +94,11 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
                 this.Name,
                 this.ResourceGroupName);
         }
+
         private List<PSResourceModel> GetByResourceName()
         {
             var resourceModel = GetResourceModel();
-            return new List<PSResourceModel>() { new PSResourceModel(resourceModel) };
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
         }
 
         private IPage<ResourceModel> ListResourceModel()
@@ -125,6 +138,12 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Common
 
         public override void ExecuteCmdlet()
         {
+            if (this.IsParameterBound(c => this.TopLevelResourceObject))
+            {
+                this.ResourceGroupName = this.TopLevelResourceObject.ResourceGroupName;
+                this.DeviceName = this.TopLevelResourceObject.Name;
+            }
+
             if (this.IsParameterBound(c => c.ResourceId))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);

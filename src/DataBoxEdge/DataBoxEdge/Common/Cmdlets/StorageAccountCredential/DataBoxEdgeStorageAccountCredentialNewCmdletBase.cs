@@ -24,11 +24,14 @@ using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.StorageAccou
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
-    [Cmdlet(VerbsCommon.New, Constants.Sac, DefaultParameterSetName = NewParameterSet),
+    [Cmdlet(VerbsCommon.New, Constants.Sac, DefaultParameterSetName = NewParameterSet,
+         SupportsShouldProcess = true
+     ),
      OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class DataBoxEdgeStorageAccountCredentialNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
+
         [Parameter(Mandatory = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
@@ -49,17 +52,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             HelpMessage = HelpMessageStorageAccountCredential.StorageAccountTypeHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountType { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             HelpMessage = HelpMessageStorageAccountCredential.StorageAccountAccessKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public string StorageAccountAccessKey { get; set; }
+        public SecureString StorageAccountAccessKey { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString EncryptionKey { get; set; }
@@ -89,27 +92,33 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
                     this.ResourceGroupName,
-                    this.StorageAccountAccessKey,
+                    this.StorageAccountAccessKey.ConvertToString(),
                     this.EncryptionKey.ConvertToString()
                 );
             var results = new List<PSDataBoxEdgeStorageAccountCredential>();
-            var user = new PSDataBoxEdgeStorageAccountCredential(
-                StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
-                    this.DataBoxEdgeManagementClient.StorageAccountCredentials,
-                    this.DeviceName,
-                    this.Name,
-                    InitStorageAccountCredentialObject(
-                        name: this.Name,
-                        storageAccountName: this.Name,
-                        accountType: this.StorageAccountType,
-                        sslStatus: HelpMessageStorageAccountCredential.SslStatus,
-                        secret: encryptedSecret
-                    ),
-                    this.ResourceGroupName
-                ));
-            results.Add(user);
 
-            WriteObject(results, true);
+            if (this.ShouldProcess(this.Name,
+                string.Format("Creating '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageStorageAccountCredential.ObjectName, this.DeviceName, this.Name)))
+            {
+                var user = new PSDataBoxEdgeStorageAccountCredential(
+                    StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
+                        this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                        this.DeviceName,
+                        this.Name,
+                        InitStorageAccountCredentialObject(
+                            name: this.Name,
+                            storageAccountName: this.Name,
+                            accountType: this.StorageAccountType,
+                            sslStatus: HelpMessageStorageAccountCredential.SslStatus,
+                            secret: encryptedSecret
+                        ),
+                        this.ResourceGroupName
+                    ));
+                results.Add(user);
+
+                WriteObject(results, true);
+            }
         }
     }
 }

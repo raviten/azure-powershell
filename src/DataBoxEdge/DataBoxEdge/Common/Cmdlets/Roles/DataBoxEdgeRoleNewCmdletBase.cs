@@ -22,13 +22,14 @@ using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.Management.WebSites.Version2016_09_01.Models;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.WindowsAzure.Commands.Common;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
-    [Cmdlet(VerbsCommon.New, Constants.Role, DefaultParameterSetName = ConnectionStringParameterSet),
+    [Cmdlet(VerbsCommon.New, Constants.Role, DefaultParameterSetName = ConnectionStringParameterSet,
+         SupportsShouldProcess = true
+         ),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeRoleNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
@@ -207,8 +208,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             {
                 throw new Exception(
                     string.Format(
-                        "Please select one of -'{0}' or -'{1}'", 
-                        nameof(this.ConnectionString), 
+                        "Please select one of -'{0}' or -'{1}'",
+                        nameof(this.ConnectionString),
                         nameof(this.DeviceProperties)));
             }
 
@@ -237,15 +238,21 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 this.RoleStatus
             );
 
-            var psRole = new PSResourceModel (
-                DataBoxEdgeManagementClient.Roles.CreateOrUpdate(
-                    this.DeviceName, this.Name, iotRole,
-                    this.ResourceGroupName)
-            );
+            if (this.ShouldProcess(this.Name,
+                string.Format("Creating '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageRoles.ObjectName, this.DeviceName, this.Name)))
+            {
 
-            results.Add(psRole);
+                var psRole = new PSResourceModel(
+                    DataBoxEdgeManagementClient.Roles.CreateOrUpdate(
+                        this.DeviceName, this.Name, iotRole,
+                        this.ResourceGroupName)
+                );
 
-            WriteObject(results, true);
+                results.Add(psRole);
+
+                WriteObject(results, true);
+            }
         }
     }
 }

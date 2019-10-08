@@ -21,6 +21,8 @@ using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Role;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole;
+using PSTopLevelResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
+
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
@@ -32,42 +34,53 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
+        private const string GetByParentObjectParameterSet = "GetByParentObjectParameterSet";
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = GetByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = ListParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = ListParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, 
+            HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            HelpMessage = Constants.DeviceNameHelpMessage, 
+            HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, 
-            ParameterSetName = GetByNameParameterSet, 
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
             HelpMessage = Constants.NameHelpMessage,
             Position = 2)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = HelpMessageRoles.Name
+        )]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipeline = true,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = Constants.PsDeviceObjectHelpMessage)]
+        [ValidateNotNull]
+        public PSTopLevelResourceModel TopLevelResourceObject;
 
         private ResourceModel GetResourceModel()
         {
@@ -77,10 +90,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 this.Name,
                 this.ResourceGroupName);
         }
+
         private List<PSResourceModel> GetByResourceName()
         {
             var resourceModel = GetResourceModel();
-            return new List<PSResourceModel>() { new PSResourceModel(resourceModel) };
+            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
         }
 
         private IPage<ResourceModel> ListResourceModel()
@@ -120,6 +134,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 
         public override void ExecuteCmdlet()
         {
+            if (this.IsParameterBound(c => this.TopLevelResourceObject))
+            {
+                this.ResourceGroupName = this.TopLevelResourceObject.ResourceGroupName;
+                this.DeviceName = this.TopLevelResourceObject.Name;
+            }
+
             if (this.IsParameterBound(c => c.ResourceId))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);

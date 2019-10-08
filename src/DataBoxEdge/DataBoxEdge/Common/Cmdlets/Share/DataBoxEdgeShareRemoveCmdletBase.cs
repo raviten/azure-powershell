@@ -21,7 +21,9 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Share, DefaultParameterSetName = DeleteByNameParameterSet),
+    [Cmdlet(VerbsCommon.Remove, Constants.Share, DefaultParameterSetName = DeleteByNameParameterSet,
+         SupportsShouldProcess = true
+         ),
      OutputType(typeof(bool))]
     public class DataBoxEdgeShareRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {

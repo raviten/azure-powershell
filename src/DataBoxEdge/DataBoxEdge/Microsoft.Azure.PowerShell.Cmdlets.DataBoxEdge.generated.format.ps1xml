@@ -98,15 +98,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>StorageAccountCredential.Name</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Alignment>Left</Alignment>
-            <Label>StorageAccountCredential.StorageAccount</Label>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Alignment>Left</Alignment>
-            <Label>StorageAccountCredential.SslStatus</Label>
+            <Label>SslStatus</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
@@ -116,18 +108,14 @@
             <Alignment>Left</Alignment>
             <Label>DeviceName</Label>
           </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>Name</Label>
+          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
-              <TableColumnItem>
-                <Alignment>Left</Alignment>
-                <ScriptBlock>$_.storageAccountCredential.Name</ScriptBlock>
-              </TableColumnItem>
-              <TableColumnItem>
-                <Alignment>Left</Alignment>
-                <ScriptBlock>$_.storageAccountCredential.UserName</ScriptBlock>
-              </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
                 <ScriptBlock>$_.storageAccountCredential.SslStatus</ScriptBlock>
@@ -139,6 +127,10 @@
               <TableColumnItem>
                 <Alignment>Left</Alignment>
                 <PropertyName>DeviceName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <PropertyName>Name</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -174,7 +166,7 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>StorageAccountName</Label>
+            <Label>Name</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
@@ -226,7 +218,19 @@
         <TableHeaders>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>DataBoxEdgeRole.Name</Label>
+            <Label>Name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>IotEdgeDeviceId</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>IotDeviceId</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>IotEdgeDeviceId</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
@@ -239,6 +243,18 @@
               <TableColumnItem>
                 <Alignment>Left</Alignment>
                 <ScriptBlock>$_.role.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.role.IoTEdgeDeviceDetails.DeviceId</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.role.IoTDeviceDetails.DeviceId</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.role.IoTDeviceDetails.IoTHostHub</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
@@ -318,38 +334,56 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDeviceExtendedInfo</TypeName>
       </ViewSelectedBy>
-      <ListControl>
-        <ListEntries>
-          <ListEntry>
-            <ListItems>
-              <ListItem>
-                <PropertyName>Name</PropertyName>
-                <Label>Name</Label>
-              </ListItem>
-              <ListItem>
-                <PropertyName>DeviceName</PropertyName>
-                <Label>DeviceName</Label>
-              </ListItem>
-              <ListItem>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>ResourceGroupName</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>DeviceName</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>EncryptionKeyThumbprint</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>ResourceKey</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>EncryptionKey</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
                 <PropertyName>ResourceGroupName</PropertyName>
-                <Label>ResourceGroupName</Label>
-              </ListItem>
-              <ListItem>
-                <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKey</ScriptBlock>
-                <Label>EncryptionKey</Label>
-              </ListItem>
-              <ListItem>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <PropertyName>DeviceName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
                 <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint</ScriptBlock>
-                <Label>EncryptionKeyThumbprint</Label>
-              </ListItem>
-              <ListItem>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
                 <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.ResourceKey</ScriptBlock>
-                <Label>ResourceKey</Label>
-              </ListItem>
-            </ListItems>
-          </ListEntry>
-        </ListEntries>
-      </ListControl>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKey</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
     </View>
     <View>
       <Name>Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule</Name>

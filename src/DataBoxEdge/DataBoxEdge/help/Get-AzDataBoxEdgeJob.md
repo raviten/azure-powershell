@@ -23,6 +23,12 @@ Get-AzDataBoxEdgeJob [-ResourceGroupName] <String> [-DeviceName] <String> [-Name
 Get-AzDataBoxEdgeJob -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### GetByParentObjectParameterSet
+```
+Get-AzDataBoxEdgeJob [-Name] <String> [-DefaultProfile <IAzureContextContainer>]
+ -TopLevelResourceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+```
+
 ## DESCRIPTION
 This **Get-AzDataBoxEdgeJob** gets the active jobs for a device
 
@@ -70,7 +76,7 @@ Name of the job
 
 ```yaml
 Type: System.String
-Parameter Sets: GetByNameParameterSet
+Parameter Sets: GetByNameParameterSet, GetByParentObjectParameterSet
 Aliases:
 
 Required: True
@@ -107,6 +113,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TopLevelResourceObject
+{{ Fill TopLevelResourceObject Description }}
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

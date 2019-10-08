@@ -20,7 +20,9 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Role, DefaultParameterSetName = DeleteByNameParameterSet
+    [Cmdlet(VerbsCommon.Remove, Constants.Role, 
+         DefaultParameterSetName = DeleteByNameParameterSet, 
+         SupportsShouldProcess = true
      ),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeRoleRemoveCmdletBase : AzureDataBoxEdgeCmdletBase

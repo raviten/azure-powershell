@@ -22,7 +22,8 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.User, DefaultParameterSetName = DeleteByNameParameterSet),
+    [Cmdlet(VerbsCommon.Remove, Constants.User, DefaultParameterSetName = DeleteByNameParameterSet,
+         SupportsShouldProcess = true),
      OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
     public class DataBoxEdgeUserRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
@@ -115,7 +116,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     WriteObject(removed);
                 }
             }
-
         }
     }
 }

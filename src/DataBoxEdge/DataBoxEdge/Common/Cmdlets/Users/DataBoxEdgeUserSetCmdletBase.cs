@@ -24,7 +24,8 @@ using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.User;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
-    [Cmdlet(VerbsCommon.Set, Constants.User, DefaultParameterSetName = SetByNameParameterSet),
+    [Cmdlet(VerbsCommon.Set, Constants.User, DefaultParameterSetName = SetByNameParameterSet,
+         SupportsShouldProcess = true),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeUserSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
@@ -76,6 +77,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [ValidateNotNullOrEmpty]
         public SecureString EncryptionKey { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
+        public SwitchParameter AsJob { get; set; }
+
+
         public override void ExecuteCmdlet()
         {
             if (this.IsParameterBound(c => c.ResourceId))
@@ -100,15 +105,22 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     this.EncryptionKey.ConvertToString()
                 );
             var results = new List<PSResourceModel>();
-            var user = new PSResourceModel(
-                UsersOperationsExtensions.CreateOrUpdate(
-                    this.DataBoxEdgeManagementClient.Users,
-                    this.DeviceName,
-                    this.Name,
-                    this.ResourceGroupName,
-                    encryptedSecret
-                ));
-            results.Add(user);
+
+            if (this.ShouldProcess(this.Name,
+                string.Format("Updating '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageUsers.ObjectName, this.DeviceName, this.Name)))
+            {
+
+                var user = new PSResourceModel(
+                    UsersOperationsExtensions.CreateOrUpdate(
+                        this.DataBoxEdgeManagementClient.Users,
+                        this.DeviceName,
+                        this.Name,
+                        this.ResourceGroupName,
+                        encryptedSecret
+                    ));
+                results.Add(user);
+            }
 
             WriteObject(results, true);
         }

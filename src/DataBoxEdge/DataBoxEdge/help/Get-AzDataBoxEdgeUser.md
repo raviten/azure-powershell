@@ -29,6 +29,12 @@ Get-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String> [-Nam
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### GetByParentObjectParameterSet
+```
+Get-AzDataBoxEdgeUser [[-Name] <String>] [-DefaultProfile <IAzureContextContainer>]
+ -TopLevelResourceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The **Get-AzDataBoxEdgeUser** will get the users for a device.
 If Name is provided along with ResourceGroupName and DeviceName, this will get the details by Name
@@ -90,6 +96,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+```yaml
+Type: System.String
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 Resource Group Name 
 
@@ -117,6 +135,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TopLevelResourceObject
+Please provide corresponding device object
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

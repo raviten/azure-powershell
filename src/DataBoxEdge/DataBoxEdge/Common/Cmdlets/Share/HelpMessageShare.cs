@@ -35,6 +35,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             "@{\"ClientId\"=\"192.168.10.10\";\"AccessRight\"=\"NoAccess\"}, " +
             "@{\"ClientId\"=\"192.168.10.11\";\"AccessRight\"=\"ReadOnly\"}" +
             ")";
+
+        internal const string NameHelpMessage = "Name of the Share";
         internal const string DataFormatHelpMessage = "Set Data Format ex: PageBlob, BlobBlob";
         internal const string ObjectName = "Share";
     }

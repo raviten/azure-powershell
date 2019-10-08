@@ -25,7 +25,10 @@ using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
-    [Cmdlet(VerbsCommon.New, Constants.Share, DefaultParameterSetName = SmbParameterSet),
+    [Cmdlet(VerbsCommon.New, Constants.Share, 
+         DefaultParameterSetName = SmbParameterSet, 
+         SupportsShouldProcess = true
+     ),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeShareNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
@@ -74,13 +77,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public Hashtable[] SetUserAccessRights { get; set; }
+        public Hashtable[] UserAccessRight { get; set; }
 
         [Parameter(Mandatory = false, 
             ParameterSetName = NfsParameterSet,
             HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public Hashtable[] SetClientAccessRights { get; set; }
+        public Hashtable[] ClientAccessRight { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
         [ValidateNotNullOrEmpty]
@@ -121,10 +124,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             
             var share = InitShareObject();
 
-            if (this.IsParameterBound(c => c.SetClientAccessRights))
+            if (this.IsParameterBound(c => c.ClientAccessRight))
             {
                 share.ClientAccessRights = new List<ClientAccessRight>();
-                foreach (var clientAccessRight in this.SetClientAccessRights)
+                foreach (var clientAccessRight in this.ClientAccessRight)
                 {
                     var accessRightPolicy =  HashtableToDictionary<string, string>(clientAccessRight);
                     share.ClientAccessRights.Add(
@@ -136,10 +139,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 }
             }
 
-            if (this.IsParameterBound(c => c.SetUserAccessRights))
+            if (this.IsParameterBound(c => c.UserAccessRight))
             {
                 share.UserAccessRights = new List<UserAccessRight>();
-                foreach (var userAccessRight in this.SetUserAccessRights)
+                foreach (var userAccessRight in this.UserAccessRight)
                 {
                     var accessRightPolicy = HashtableToDictionary<string, string>(userAccessRight);
 
@@ -152,14 +155,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             }
 
             share.AzureContainerInfo = new AzureContainerInfo(sac.Id, this.Name, this.DataFormat);
-            share = SharesOperationsExtensions.CreateOrUpdate(
-                DataBoxEdgeManagementClient.Shares,
-                this.DeviceName,
-                this.Name,
-                share,
-                this.ResourceGroupName);
-            results.Add(new PSResourceModel(share));
-            WriteObject(results, true);
+            if (this.ShouldProcess(this.Name,
+                string.Format("Creating '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageShare.ObjectName, this.DeviceName, this.Name)))
+            {
+
+                share = SharesOperationsExtensions.CreateOrUpdate(
+                    DataBoxEdgeManagementClient.Shares,
+                    this.DeviceName,
+                    this.Name,
+                    share,
+                    this.ResourceGroupName);
+                results.Add(new PSResourceModel(share));
+                WriteObject(results, true);
+            }
         }
     }
 }

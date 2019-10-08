@@ -19,6 +19,7 @@ using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.DataBoxEdgeDeviceExtendedInfo;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDeviceExtendedInfo;
+using PSTopLevelResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
@@ -30,6 +31,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
         private const string GetByInputObjectSet = "GetByInputObjectSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string GetByParentObjectParameterSet = "GetByParentObjectParameterSet";
 
         [Parameter(Mandatory = true, 
             ParameterSetName = GetByResourceIdParameterSet,
@@ -60,6 +62,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        [Parameter(Mandatory = true, ValueFromPipeline = true,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = Constants.PsDeviceObjectHelpMessage)]
+        [ValidateNotNull]
+        public PSTopLevelResourceModel TopLevelResourceObject;
+
         private ResourceModel GetResourceModel()
         {
             return DevicesOperationsExtensions.GetExtendedInformation(
@@ -76,6 +84,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         public override void ExecuteCmdlet()
         {
+            if (this.IsParameterBound(c => c.TopLevelResourceObject))
+            {
+                this.ResourceGroupName = TopLevelResourceObject.ResourceGroupName;
+                this.Name = TopLevelResourceObject.Name;
+
+            }
+
             if (this.IsParameterBound(c => c.ResourceId))
             {
                 var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);

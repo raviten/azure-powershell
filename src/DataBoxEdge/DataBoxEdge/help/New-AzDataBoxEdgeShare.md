@@ -15,15 +15,15 @@ Creates a new share in the device
 ### SmbParameterSet (Default)
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> [-Smb] [-SetUserAccessRights <Hashtable[]>] -DataFormat <String>
- [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-StorageAccountCredentialName] <String> [-Smb] [-UserAccessRight <Hashtable[]>] -DataFormat <String> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### NfsParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-StorageAccountCredentialName] <String> [-Nfs] [-SetClientAccessRights <Hashtable[]>] -DataFormat <String>
- [-AsJob] [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-StorageAccountCredentialName] <String> [-Nfs] [-ClientAccessRight <Hashtable[]>] -DataFormat <String>
+ [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,6 +48,21 @@ Run cmdlet in the background
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClientAccessRight
+Read/Write Access for clientIds, For ex:@(@{"ClientId"="192.168.10.10";"AccessRight"="NoAccess"}, @{"ClientId"="192.168.10.11";"AccessRight"="ReadOnly"})
+
+```yaml
+Type: System.Collections.Hashtable[]
+Parameter Sets: NfsParameterSet
 Aliases:
 
 Required: False
@@ -147,38 +162,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SetClientAccessRights
-Read/Write Access for clientIps
-To provide client access rights form an array of dictionaries
-
-```yaml
-Type: System.Collections.Hashtable[]
-Parameter Sets: NfsParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SetUserAccessRights
-provide access right along with existing usernames to access SMB Share types
-
-
-```yaml
-Type: System.Collections.Hashtable[]
-Parameter Sets: SmbParameterSet
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Smb
 AccessProtocol in the case of creating Share
 
@@ -204,6 +187,51 @@ Aliases:
 
 Required: True
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserAccessRight
+provide access right along with existing usernames to access SMB Share types, For ex: @(@{"Username"="user-name-1";"AccessRight"="Read"}, @{"Username"="user-name-2";"AccessRight"="Read"}, @{"Username"="user-name-3";"AccessRight"="Custom"})
+
+```yaml
+Type: System.Collections.Hashtable[]
+Parameter Sets: SmbParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

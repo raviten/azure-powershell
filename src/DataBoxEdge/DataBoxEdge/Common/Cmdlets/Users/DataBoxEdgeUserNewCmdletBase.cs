@@ -24,7 +24,8 @@ using Microsoft.WindowsAzure.Commands.Common;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
-    [Cmdlet(VerbsCommon.New, Constants.User, DefaultParameterSetName = NewParameterSet
+    [Cmdlet(VerbsCommon.New, Constants.User, DefaultParameterSetName = NewParameterSet,
+         SupportsShouldProcess = true
      ),
      OutputType(typeof(PSDataBoxEdgeDevice))]
     public class DataBoxEdgeUserNewCmdletBase : AzureDataBoxEdgeCmdletBase
@@ -64,7 +65,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         public override void ExecuteCmdlet()
         {
-                    
             var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                     this.DeviceName,
@@ -73,17 +73,23 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     this.EncryptionKey.ConvertToString()
                 );
             var results = new List<PSDataBoxEdgeUser>();
-            var user = new PSDataBoxEdgeUser(
-                UsersOperationsExtensions.CreateOrUpdate(
-                    this.DataBoxEdgeManagementClient.Users,
-                    this.DeviceName,
-                    this.Name,
-                    this.ResourceGroupName,
-                    encryptedSecret
-                ));
-            results.Add(user);
+            if (this.ShouldProcess(this.Name,
+                string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageUsers.ObjectName, this.DeviceName, this.Name)))
+            {
 
-            WriteObject(results, true);
+                var user = new PSDataBoxEdgeUser(
+                    UsersOperationsExtensions.CreateOrUpdate(
+                        this.DataBoxEdgeManagementClient.Users,
+                        this.DeviceName,
+                        this.Name,
+                        this.ResourceGroupName,
+                        encryptedSecret
+                    ));
+                results.Add(user);
+
+                WriteObject(results, true);
+            }
         }
     }
 }

@@ -9,8 +9,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeRole
     {
-        [Ps1Xml(Label = "DataBoxEdgeRole.Name", Target = ViewControl.Table,
+        [Ps1Xml(Label = "Name", Target = ViewControl.Table,
             ScriptBlock = "$_.role.Name")]
+        [Ps1Xml(Label = "IotEdgeDeviceId", Target = ViewControl.Table,
+            ScriptBlock = "$_.role.IoTEdgeDeviceDetails.DeviceId")]
+        [Ps1Xml(Label = "IotDeviceId", Target = ViewControl.Table,
+            ScriptBlock = "$_.role.IoTDeviceDetails.DeviceId")]
+        [Ps1Xml(Label = "IotEdgeDeviceId", Target = ViewControl.Table,
+            ScriptBlock = "$_.role.IoTDeviceDetails.IoTHostHub")]
         public Role Role;
 
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]

@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -26,7 +25,8 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
-    [Cmdlet(VerbsCommon.Set, Constants.Share, DefaultParameterSetName = SmbParameterSet),
+    [Cmdlet(VerbsCommon.Set, Constants.Share, DefaultParameterSetName = SmbParameterSet,
+         SupportsShouldProcess = true),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeShareSetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = UpdateByInputObjectSmbParameterSet,
             HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public Hashtable[] SetUserAccessRights { get; set; }
+        public Hashtable[] UserAccessRight { get; set; }
 
         [Parameter(Mandatory = true,
             ParameterSetName = NfsParameterSet,
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = UpdateByInputObjectNfsParameterSet,
             HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public Hashtable[] SetClientAccessRights { get; set; }
+        public Hashtable[] ClientAccessRight { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
@@ -170,10 +170,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             var results = new List<PSResourceModel>();
             var share = this.GetResourceModel();
 
-            if (this.IsParameterBound(c => c.SetClientAccessRights))
+            if (this.IsParameterBound(c => c.ClientAccessRight))
             {
                 share.ClientAccessRights = new List<ClientAccessRight>();
-                foreach (var clientAccessRight in this.SetClientAccessRights)
+                foreach (var clientAccessRight in this.ClientAccessRight)
                 {
                     var accessRightPolicy = HashtableToDictionary<string, string>(clientAccessRight);
                     share.ClientAccessRights.Add(
@@ -185,10 +185,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 }
             }
 
-            if (this.IsParameterBound(c => c.SetUserAccessRights))
+            if (this.IsParameterBound(c => c.UserAccessRight))
             {
                 share.UserAccessRights = new List<UserAccessRight>();
-                foreach (var userAccessRight in this.SetUserAccessRights)
+                foreach (var userAccessRight in this.UserAccessRight)
                 {
                     var accessRightPolicy = HashtableToDictionary<string, string>(userAccessRight);
 
@@ -200,14 +200,19 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 }
             }
 
-            share = SharesOperationsExtensions.CreateOrUpdate(
-                DataBoxEdgeManagementClient.Shares,
-                this.DeviceName,
-                this.Name,
-                share,
-                this.ResourceGroupName);
-            results.Add(new PSResourceModel(share));
-            WriteObject(results, true);
+            if (this.ShouldProcess(this.Name,
+                string.Format("Updating '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageShare.ObjectName, this.DeviceName, this.Name)))
+            {
+                share = SharesOperationsExtensions.CreateOrUpdate(
+                    DataBoxEdgeManagementClient.Shares,
+                    this.DeviceName,
+                    this.Name,
+                    share,
+                    this.ResourceGroupName);
+                results.Add(new PSResourceModel(share));
+                WriteObject(results, true);
+            }
         }
     }
 }
