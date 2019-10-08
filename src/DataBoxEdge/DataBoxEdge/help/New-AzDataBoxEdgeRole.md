@@ -15,17 +15,18 @@ Creates a new Iot Role for the device
 ### ConnectionStringParameterSet (Default)
 ```
 New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-ConnectionString]
- -IotDeviceConnectionString <String> -IotEdgeDeviceConnectionString <String> -EncryptionKey <SecureString>
- -Platform <String> -RoleStatus <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ -IotDeviceConnectionString <SecureString> -IotEdgeDeviceConnectionString <SecureString>
+ -EncryptionKey <SecureString> -Platform <String> -RoleStatus <String> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### IotParameterSet
 ```
 New-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-DeviceProperties]
- -IotDeviceId <String> -IotDeviceAccessKey <String> -IotEdgeDeviceId <String> -IotEdgeDeviceAccessKey <String>
- -IotHostHub <String> -EncryptionKey <SecureString> -Platform <String> -RoleStatus <String> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ -IotDeviceId <String> -IotDeviceAccessKey <SecureString> -IotEdgeDeviceId <String>
+ -IotEdgeDeviceAccessKey <SecureString> -IotHostHub <String> -EncryptionKey <SecureString> -Platform <String>
+ -RoleStatus <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -140,7 +141,7 @@ Accept wildcard characters: False
 Iot Device Access Key
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: IotParameterSet
 Aliases:
 
@@ -155,7 +156,7 @@ Accept wildcard characters: False
 Please provide connection string of IOT Device
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: ConnectionStringParameterSet
 Aliases:
 
@@ -185,7 +186,7 @@ Accept wildcard characters: False
 Access key of the Iot Edge device
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: IotParameterSet
 Aliases:
 
@@ -200,7 +201,7 @@ Accept wildcard characters: False
 Please provide connection string of Edge Device
 
 ```yaml
-Type: System.String
+Type: System.Security.SecureString
 Parameter Sets: ConnectionStringParameterSet
 Aliases:
 

@@ -38,7 +38,6 @@ This **Remove-AzDataBoxEdgeUser** will remove the User for the device.
 ### Example 1
 ```powershell
 PS C:\> Remove-AzDataBoxEdgeUser ResourceGroupName resource-group-name -DeviceName device-name -Name username
-true
 ```
 
 ## PARAMETERS

@@ -38,7 +38,6 @@ This **Remove-AzDataBoxEdgeDevice** will remove the device.
 ### Example 1
 ```powershell
 PS C:\> Remove-AzDataBoxEdgeDevice ResourceGroupName resource-group-name -Name device-name
-true
 ```
 
 ## PARAMETERS

@@ -39,7 +39,6 @@ This **Remove-AzDataBoxEdgeBandwidthStorageAccountCredential** will remove the S
 ### Example 1
 ```powershell
 PS C:\> Remove-AzDataBoxEdgeStorageAccountCredential ResourceGroupName resource-group-name -DeviceName device-name -Name storage-account-credential-name
-true
 ```
 
 ## PARAMETERS

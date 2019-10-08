@@ -55,6 +55,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         [Parameter(Mandatory = true,
             HelpMessage = HelpMessageStorageAccountCredential.StorageAccountTypeHelpMessage)]
         [ValidateNotNullOrEmpty]
+        [PSArgumentCompleter("GeneralPurposeStorage", "BlobStorage")]
         public string StorageAccountType { get; set; }
 
         [Parameter(Mandatory = true,

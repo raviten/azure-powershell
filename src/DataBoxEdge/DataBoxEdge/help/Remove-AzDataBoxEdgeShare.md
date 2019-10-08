@@ -38,7 +38,6 @@ This **Remove-AzDataBoxEdgeEdgeRole** will remove the assosciated Role for the d
 ### Example 1
 ```powershell
 PS C:\> Remove-AzDataBoxEdgeRole ResourceGroupName resource-group-name -DeviceName device-name -Name role-name
-true
 ```
 
 ## PARAMETERS
