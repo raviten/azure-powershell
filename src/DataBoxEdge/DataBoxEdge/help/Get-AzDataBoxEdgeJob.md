@@ -36,7 +36,10 @@ This **Get-AzDataBoxEdgeJob** gets the active jobs for a device
 
 ### Example 1
 ```powershell
-PS C:\> Get-AzDataBoxEdgeJob -ResourceGroupName resource-group-name -Name job-name -DeviceName device-name
+PS C:\> Get-AzDataBoxEdgeJob -ResourceGroupName resource-group-name -DeviceName device-name -Name 1f2d8f1b-9104-49c3-b780-76db9abe7bd1
+Name                                   Device-Name    status
+------------------                     -------------  -------
+1f2d8f1b-9104-49c3-b780-76db9abe7bd1   device-name    Scheduled
 ```
 
 ## PARAMETERS
