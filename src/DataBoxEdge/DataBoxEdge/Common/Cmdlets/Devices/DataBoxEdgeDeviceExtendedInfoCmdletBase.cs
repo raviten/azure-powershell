@@ -66,7 +66,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             ParameterSetName = GetByParentObjectParameterSet,
             HelpMessage = Constants.PsDeviceObjectHelpMessage)]
         [ValidateNotNull]
-        public PSTopLevelResourceModel TopLevelResourceObject;
+        public PSTopLevelResourceModel DeviceObject;
 
         private ResourceModel GetResourceModel()
         {
@@ -84,10 +84,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         public override void ExecuteCmdlet()
         {
-            if (this.IsParameterBound(c => c.TopLevelResourceObject))
+            if (this.IsParameterBound(c => c.DeviceObject))
             {
-                this.ResourceGroupName = TopLevelResourceObject.ResourceGroupName;
-                this.Name = TopLevelResourceObject.Name;
+                this.ResourceGroupName = DeviceObject.ResourceGroupName;
+                this.Name = DeviceObject.Name;
 
             }
 

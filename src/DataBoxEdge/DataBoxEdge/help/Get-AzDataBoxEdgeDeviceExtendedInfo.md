@@ -33,7 +33,7 @@ Get-AzDataBoxEdgeDeviceExtendedInfo -InputObject <PSDataBoxEdgeDeviceExtendedInf
 ### GetByParentObjectParameterSet
 ```
 Get-AzDataBoxEdgeDeviceExtendedInfo [-DefaultProfile <IAzureContextContainer>]
- -TopLevelResourceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+ -DeviceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,6 +63,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DeviceObject
+Please provide corresponding device object
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -123,21 +138,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -TopLevelResourceObject
-Please provide corresponding device object
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
-Parameter Sets: GetByParentObjectParameterSet
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

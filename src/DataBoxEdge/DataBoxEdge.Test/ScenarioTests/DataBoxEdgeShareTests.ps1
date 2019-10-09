@@ -58,7 +58,7 @@ function Test-CreateShare
 	$storageAccount = New-AzStorageAccount $rgname $staname $storageAccountSkuName -Location $storageAccountLocation
 
 	$storageAccountKeys = Get-AzStorageAccountKey $rgname $staname
-	$storageAccountKey = $storageAccountKeys[0]
+	$storageAccountKey = ConvertTo-SecureString $storageAccountKeys[0] -AsPlainText -Force
     $storageAccountCredential = New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
 		
 	# Test
@@ -97,7 +97,7 @@ function Test-RemoveShare
 	$storageAccount = New-AzStorageAccount $rgname $staname $storageAccountSkuName -Location $storageAccountLocation
 
 	$storageAccountKeys = Get-AzStorageAccountKey $rgname $staname
-	$storageAccountKey = $storageAccountKeys[0]
+	$storageAccountKey = ConvertTo-SecureString $storageAccountKeys[0] -AsPlainText -Force
     $storageAccountCredential = New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
 		
 	# Test

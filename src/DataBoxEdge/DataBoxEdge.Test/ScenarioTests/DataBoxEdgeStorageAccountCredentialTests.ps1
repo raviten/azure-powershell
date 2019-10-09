@@ -45,15 +45,14 @@ function Test-CreateStorageAccountCredential
 	$storageAccountType = 'GeneralPurposeStorage'
 	$storageAccountSkuName = 'Standard_LRS'
 	$storageAccountLocation = 'WestUS'
-	$storageAccountSslStatus = 'Enabled'
 	$storageAccount = New-AzStorageAccount $rgname $staname $storageAccountSkuName -Location $storageAccountLocation
 
 	$storageAccountKeys = Get-AzStorageAccountKey $rgname $staname
-	$storageAccountKey = $storageAccountKeys[0]
+	$storageAccountKey = ConvertTo-SecureString $storageAccountKeys[0] -AsPlainText -Force
     # Test
 	try
     {
-        $expected = New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountSslStatus $storageAccountSslStatus -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
+        $expected = New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
 		Assert-AreEqual $expected.Name $staname
 		
     }
@@ -66,7 +65,7 @@ function Test-CreateStorageAccountCredential
 
 <#
 .SYNOPSIS
-Tests Create New StorageAccountCredential
+Tests Remove StorageAccountCredential
 #>
 function Test-RemoveStorageAccountCredential
 {	
@@ -78,15 +77,14 @@ function Test-RemoveStorageAccountCredential
 	$storageAccountType = 'GeneralPurposeStorage'
 	$storageAccountSkuName = 'Standard_LRS'
 	$storageAccountLocation = 'WestUS'
-	$storageAccountSslStatus = 'Enabled'
 	$storageAccount = New-AzStorageAccount $rgname $staname $storageAccountSkuName -Location $storageAccountLocation
 
 	$storageAccountKeys = Get-AzStorageAccountKey $rgname $staname
-	$storageAccountKey = $storageAccountKeys[0]
+	$storageAccountKey = ConvertTo-SecureString $storageAccountKeys[0] -AsPlainText -Force
     # Test
 	try
     {
-        New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountSslStatus $storageAccountSslStatus -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
+        New-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname -StorageAccountType $storageAccountType -StorageAccountAccessKey $storageAccountKey -EncryptionKey $encryptionKey
 		Remove-AzDataBoxEdgeStorageAccountCredential $rgname $dfname $staname
     }
     finally
