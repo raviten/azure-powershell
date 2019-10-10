@@ -530,11 +530,15 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
+            <Label>Friendly name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
             <Label>Last Software Scan</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>Last Updated Date Time</Label>
+            <Label>Last Software Update</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
@@ -558,11 +562,15 @@
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <ScriptBlock>$_.updateSummary.DeviceLastScannedDateTime</ScriptBlock>
+                <ScriptBlock>$_.updateSummary.FriendlyDeviceVersionName</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <ScriptBlock>$_.updateSummary.lastCompletedInstallJobDateTime</ScriptBlock>
+                <ScriptBlock>$_.updateSummary.LastCompletedScanJobDateTime</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.updateSummary.LastCompletedInstallJobDateTime</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
