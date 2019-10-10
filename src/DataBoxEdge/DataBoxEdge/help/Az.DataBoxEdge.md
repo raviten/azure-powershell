@@ -17,9 +17,6 @@ Gets the information about Bandwidth schedules
 ### [Get-AzDataBoxEdgeDevice](Get-AzDataBoxEdgeDevice.md)
 Get the available devices
 
-### [Get-AzDataBoxEdgeDeviceExtendedInfo](Get-AzDataBoxEdgeDeviceExtendedInfo.md)
-Get the extended info for a device
-
 ### [Get-AzDataBoxEdgeJob](Get-AzDataBoxEdgeJob.md)
 Get job by Name
 
