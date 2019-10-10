@@ -17,6 +17,7 @@ using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.DataBoxEdgeDevice;
@@ -27,38 +28,102 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
     [Cmdlet(VerbsCommon.Get, Constants.Device, DefaultParameterSetName = ListByParameterSet
      ),
-     OutputType(typeof(PSResourceModel))]
+     OutputType(typeof(PSResourceModel)),
+     OutputType(typeof(PSDataBoxEdgeNetworkSetting), typeof(PSDataBoxEdgeNetworkAdapter)),
+     OutputType(typeof(PSDataBoxEdgeDeviceExtendedInfo)),
+     OutputType(typeof(PSDataBoxEdgeUpdateSummary))]
     public class DataBoxEdgeDeviceGetCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ListByParameterSet = "ListByParameterSet";
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
+        private const string GetExtendedInfoParameterSet = "GetExtendedInfoParameterSet";
+        private const string GetNetworkSettingParameterSet = "GetNetworkSettingParameterSet";
+        private const string GetSummaryUpdateParameterSet = "GetSummaryUpdateParameterSet";
+        private const string GetExtendedInfoByResourceIdParameterSet = "GetExtendedInfoByResourceIdParameterSet ";
+        private const string GetNetworkSettingByResourceIdParameterSet = "GetNetworkSettingByResourceIdParameterSet ";
+        private const string GetSummaryUpdateByResourceIdParameterSet = "GetSummaryUpdateByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, 
-            ParameterSetName = GetByResourceIdParameterSet, 
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByResourceIdParameterSet,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetExtendedInfoByResourceIdParameterSet,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetNetworkSettingByResourceIdParameterSet,
+            HelpMessage = Constants.ResourceIdHelpMessage)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetSummaryUpdateByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = false, 
+        [Parameter(Mandatory = false,
             ParameterSetName = ListByParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
-        [Parameter(Mandatory = true, 
-            ParameterSetName = GetByNameParameterSet, 
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetSummaryUpdateParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetNetworkSettingParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 0)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetExtendedInfoParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, 
-            ParameterSetName = GetByNameParameterSet, 
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 1)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetSummaryUpdateParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 1)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetNetworkSettingParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
+            Position = 1)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetExtendedInfoParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetExtendedInfoParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        [ResourceGroupCompleter]
+        public SwitchParameter ExtendedInfo { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetNetworkSettingParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        [ResourceGroupCompleter]
+        public SwitchParameter NetworkSetting { get; set; }
+
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetSummaryUpdateParameterSet,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        [ResourceGroupCompleter]
+        public SwitchParameter UpdateSummary { get; set; }
+
 
         private ResourceModel GetResourceModel()
         {
@@ -125,6 +190,22 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             return results;
         }
 
+        private PSDataBoxEdgeNetworkSetting GetNetworkSettings()
+        {
+            return new PSDataBoxEdgeNetworkSetting(DevicesOperationsExtensions.GetNetworkSettings(
+                this.DataBoxEdgeManagementClient.Devices,
+                this.Name,
+                this.ResourceGroupName));
+        }
+
+        private PSDataBoxEdgeDeviceExtendedInfo GetExtendedInfo()
+        {
+            return new PSDataBoxEdgeDeviceExtendedInfo(DevicesOperationsExtensions.GetExtendedInformation(
+                this.DataBoxEdgeManagementClient.Devices,
+                this.Name,
+                this.ResourceGroupName));
+        }
+
         public override void ExecuteCmdlet()
         {
             var results = new List<PSResourceModel>();
@@ -136,8 +217,26 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             }
 
             results = ListForEverything();
-
-            WriteObject(results, true);
+            if (this.ExtendedInfo.IsPresent)
+            {
+                WriteObject(GetExtendedInfo(), true);
+            }
+            else if (this.NetworkSetting.IsPresent)
+            {
+                WriteObject(GetNetworkSettings(), enumerateCollection: true);
+            }
+            else if (this.UpdateSummary.IsPresent)
+            {
+                var info = new PSDataBoxEdgeUpdateSummary(DevicesOperationsExtensions.GetUpdateSummary(
+                    this.DataBoxEdgeManagementClient.Devices,
+                    this.Name,
+                    this.ResourceGroupName));
+                WriteObject(info, enumerateCollection: true);
+            }
+            else
+            {
+                WriteObject(results, true);
+            }
         }
     }
 }
