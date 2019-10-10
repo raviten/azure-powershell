@@ -21,6 +21,8 @@ using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
+using PSTopLevelResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
+
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidth
 {
@@ -32,6 +34,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         private const string ListParameterSet = "ListParameterSet";
         private const string GetByNameParameterSet = "GetByNameParameterSet";
         private const string GetByResourceIdParameterSet = "GetByResourceIdParameterSet";
+        private const string GetByParentObjectParameterSet = "GetByParentObjectParameterSet";
 
         [Parameter(Mandatory = true, ParameterSetName = GetByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage)]
@@ -56,9 +59,18 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         [Parameter(Mandatory = true, ParameterSetName = GetByNameParameterSet, HelpMessage = Constants.NameHelpMessage,
             Position = 2)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = Constants.NameHelpMessage
+        )]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        [Parameter(Mandatory = true, ValueFromPipeline = true,
+            ParameterSetName = GetByParentObjectParameterSet,
+            HelpMessage = Constants.PsDeviceObjectHelpMessage)]
+        [ValidateNotNull]
+        public PSTopLevelResourceModel DeviceObject;
 
         private ResourceModel GetResourceModel()
         {
@@ -118,6 +130,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
                 this.DeviceName = resourceIdentifier.DeviceName;
                 this.Name = resourceIdentifier.ResourceName;
+            }
+
+            if (this.IsParameterBound(c => this.DeviceObject))
+            {
+                this.ResourceGroupName = this.DeviceObject.ResourceGroupName;
+                this.DeviceName = this.DeviceObject.Name;
             }
 
             var results = ListPSResourceModels();

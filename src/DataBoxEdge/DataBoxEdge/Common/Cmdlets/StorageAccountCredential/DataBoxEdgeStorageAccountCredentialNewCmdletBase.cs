@@ -12,22 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Net;
 using System.Security;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.StorageAccountCredential;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccountCredential;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageAccountCredential
 {
     [Cmdlet(VerbsCommon.New, Constants.Sac, DefaultParameterSetName = NewParameterSet,
          SupportsShouldProcess = true
      ),
-     OutputType(typeof(PSDataBoxEdgeStorageAccountCredential))]
+     OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeStorageAccountCredentialNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string NewParameterSet = "NewParameterSet";
@@ -71,6 +75,68 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
+
+        private ResourceModel GetResourceModel()
+        {
+            return StorageAccountCredentialsOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+        private string GetResourceNotFoundMessage()
+        {
+            return string.Format("'{0}'{1}{2}'.",
+                HelpMessageStorageAccountCredential.ObjectName, Constants.ResourceAlreadyExists, this.Name);
+        }
+
+        private bool DoesResourceExists()
+        {
+            try
+            {
+                var resource = GetResourceModel();
+                if (resource == null) return false;
+                var msg = GetResourceNotFoundMessage();
+                throw new Exception(msg);
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
+        private PSResourceModel CreateResourceModel()
+        {
+            var encryptedSecret =
+                DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
+                    this.DeviceName,
+                    this.ResourceGroupName,
+                    this.StorageAccountAccessKey.ConvertToString(),
+                    this.EncryptionKey.ConvertToString()
+                );
+
+            return new PSResourceModel(
+                StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
+                    this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                    this.DeviceName,
+                    this.Name,
+                    InitStorageAccountCredentialObject(
+                        name: this.Name,
+                        storageAccountName: this.Name,
+                        accountType: this.StorageAccountType,
+                        sslStatus: HelpMessageStorageAccountCredential.SslStatus,
+                        secret: encryptedSecret
+                    ),
+                    this.ResourceGroupName
+                ));
+        }
+
         private static ResourceModel InitStorageAccountCredentialObject(
             string name,
             string storageAccountName,
@@ -89,34 +155,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
 
         public override void ExecuteCmdlet()
         {
-            var encryptedSecret =
-                DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
-                    this.DeviceName,
-                    this.ResourceGroupName,
-                    this.StorageAccountAccessKey.ConvertToString(),
-                    this.EncryptionKey.ConvertToString()
-                );
-            var results = new List<PSDataBoxEdgeStorageAccountCredential>();
-
             if (this.ShouldProcess(this.Name,
                 string.Format("Creating '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageStorageAccountCredential.ObjectName, this.DeviceName, this.Name)))
             {
-                var user = new PSDataBoxEdgeStorageAccountCredential(
-                    StorageAccountCredentialsOperationsExtensions.CreateOrUpdate(
-                        this.DataBoxEdgeManagementClient.StorageAccountCredentials,
-                        this.DeviceName,
-                        this.Name,
-                        InitStorageAccountCredentialObject(
-                            name: this.Name,
-                            storageAccountName: this.Name,
-                            accountType: this.StorageAccountType,
-                            sslStatus: HelpMessageStorageAccountCredential.SslStatus,
-                            secret: encryptedSecret
-                        ),
-                        this.ResourceGroupName
-                    ));
-                results.Add(user);
+                DoesResourceExists();
+                var results = new List<PSResourceModel>()
+                {
+                    CreateResourceModel()
+                };
 
                 WriteObject(results, true);
             }

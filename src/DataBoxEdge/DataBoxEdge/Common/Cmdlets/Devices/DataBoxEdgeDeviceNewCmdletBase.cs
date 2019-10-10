@@ -12,12 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Net;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Rest.Azure;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.DataBoxEdgeDevice;
 
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
@@ -32,25 +36,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
     {
         private const string CreateByNewParameterSet = "CreateByNewParameterSet";
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ResourceGroupCompleter]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             HelpMessage = Constants.NameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             HelpMessage = HelpMessageDevice.LocationHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
-        
-        [Parameter(Mandatory = true, 
+
+        [Parameter(Mandatory = true,
             HelpMessage = HelpMessageDevice.SkuHelpMessage)]
         [ValidateNotNullOrEmpty]
         [PSArgumentCompleter("Edge", "Gateway")]
@@ -58,6 +62,41 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
+
+        private ResourceModel GetResourceModel()
+        {
+            return DevicesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Devices,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+        private string GetResourceNotFoundMessage()
+        {
+            return string.Format("'{0}'{1}{2}'.",
+                HelpMessageDevice.ObjectName, Constants.ResourceAlreadyExists, this.Name);
+        }
+
+        private bool DoesResourceExists()
+        {
+            try
+            {
+                var resource = GetResourceModel();
+                if (resource == null) return false;
+                var msg = GetResourceNotFoundMessage();
+                throw new Exception(msg);
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
 
         private PSResourceModel CreateResourceModel()
         {
@@ -78,7 +117,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
                 string.Format("Creating '{0}' with name '{1}'.",
                     HelpMessageDevice.ObjectName, this.Name)))
             {
-
+                DoesResourceExists();
                 var results = new List<PSResourceModel>
                 {
                     CreateResourceModel()

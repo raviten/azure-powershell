@@ -14,9 +14,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Management.Automation;
+using System.Net;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.BandwidthSchedule;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeBandWidthSchedule;
@@ -35,16 +38,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         private const string UnlimitedBandwidthParameterSet = "UnlimitedBandwidthParameterSet";
 
 
-        [Parameter(Mandatory = true, 
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ResourceGroupCompleter]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
 
-        [Parameter(Mandatory = true, 
-            HelpMessage = Constants.DeviceNameHelpMessage, 
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
@@ -52,8 +55,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         public string DeviceName { get; set; }
 
 
-        [Parameter(Mandatory = true, 
-            HelpMessage = Constants.NameHelpMessage, 
+        [Parameter(Mandatory = true,
+            HelpMessage = Constants.NameHelpMessage,
             Position = 2)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -84,13 +87,48 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
+        private ResourceModel GetResourceModel()
+        {
+            return BandwidthSchedulesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.BandwidthSchedules,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+        private string GetResourceNotFoundMessage()
+        {
+            return string.Format("'{0}'{1}{2}'.",
+                HelpMessageBandwidthSchedule.ObjectName, Constants.ResourceAlreadyExists, this.Name);
+        }
+
+        private bool DoesResourceExists()
+        {
+            try
+            {
+                var resource = GetResourceModel();
+                if (resource == null) return false;
+                var msg = GetResourceNotFoundMessage();
+                throw new Exception(msg);
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
         private PSResourceModel CreateResourceModel()
         {
             if (this.IsParameterBound(c => c.UnlimitedBandwidth))
             {
                 Bandwidth = UnlimitedBandwidth ? 0 : 20;
             }
-            
+
 
             var days = new List<string>(this.DaysOfWeek);
             var resourceModel = new ResourceModel(
@@ -116,6 +154,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
                 string.Format("Creating a new '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageBandwidthSchedule.ObjectName, this.DeviceName, this.Name)))
             {
+                DoesResourceExists();
                 var results = new List<PSResourceModel>
                 {
                     CreateResourceModel()

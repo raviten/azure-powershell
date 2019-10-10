@@ -42,15 +42,11 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
         }
 
 
-        
-         [Fact]
+        [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestRemoveDevice()
         {
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveDevice");
         }
-
     }
-
 }
-

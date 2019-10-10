@@ -12,15 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Net;
 using System.Security;
 using Microsoft.Azure.Commands.DataBoxEdge.Common;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Common;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.User;
+using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeUser;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
@@ -63,7 +68,44 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
-        public override void ExecuteCmdlet()
+
+        private ResourceModel GetResourceModel()
+        {
+            return UsersOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Users,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+
+        private string GetResourceNotFoundMessage()
+        {
+            return string.Format("'{0}'{1}{2}'.",
+                HelpMessageUsers.ObjectName, Constants.ResourceAlreadyExists, this.Name);
+        }
+
+        private bool DoesResourceExists()
+        {
+            try
+            {
+                var resource = GetResourceModel();
+                if (resource == null) return false;
+                var msg = GetResourceNotFoundMessage();
+                throw new Exception(msg);
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
+        private PSResourceModel CreateResourceModel()
         {
             var encryptedSecret =
                 DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
@@ -72,21 +114,28 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     this.Password.ConvertToString(),
                     this.EncryptionKey.ConvertToString()
                 );
-            var results = new List<PSDataBoxEdgeUser>();
+            return new PSResourceModel(
+                UsersOperationsExtensions.CreateOrUpdate(
+                    this.DataBoxEdgeManagementClient.Users,
+                    this.DeviceName,
+                    this.Name,
+                    this.ResourceGroupName,
+                    encryptedSecret
+                ));
+        }
+
+        public override void ExecuteCmdlet()
+        {
             if (this.ShouldProcess(this.Name,
                 string.Format("Removing '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageUsers.ObjectName, this.DeviceName, this.Name)))
             {
+                DoesResourceExists();
 
-                var user = new PSDataBoxEdgeUser(
-                    UsersOperationsExtensions.CreateOrUpdate(
-                        this.DataBoxEdgeManagementClient.Users,
-                        this.DeviceName,
-                        this.Name,
-                        this.ResourceGroupName,
-                        encryptedSecret
-                    ));
-                results.Add(user);
+                var results = new List<PSResourceModel>()
+                {
+                    CreateResourceModel()
+                };
 
                 WriteObject(results, true);
             }

@@ -13,7 +13,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
 
         //Device Comands
         internal const string Device = AzurePrefix + ServiceName + "Device";
-        internal const string ExtendedInfo = AzurePrefix + ServiceName + "Device" + "ExtendedInfo";
         internal const string Action = AzurePrefix + ServiceName + "Device" + "Action";
         internal const string User = AzurePrefix + ServiceName + "User";
         internal const string Sac = AzurePrefix + ServiceName + "StorageAccountCredential";
@@ -21,6 +20,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string Share = AzurePrefix + ServiceName + "Share";
         internal const string BandwidthSchedule = AzurePrefix + ServiceName + "BandwidthSchedule";
         internal const string Test = AzurePrefix + ServiceName + "Test";
+        internal const string ResourceAlreadyExists = " already exists with name ";
 
 
         //Job Comands
@@ -41,5 +41,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string PsDeviceObjectHelpMessage = "Please provide corresponding device object";
 
         internal const string EncryptionKeyHelpMessage = "Encryption key of the Edge device";
+
+        internal const string NotFoundStringInException = "could not find";
+
+        
     }
 }

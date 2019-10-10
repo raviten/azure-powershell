@@ -11,14 +11,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
     {
         [Ps1Xml(Label = "Current Version", Target = ViewControl.Table,
             ScriptBlock = "$_.updateSummary.DeviceVersionNumber", Position = 1)]
+        [Ps1Xml(Label = "Friendly name", Target = ViewControl.Table,
+            ScriptBlock = "$_.updateSummary.FriendlyDeviceVersionName", Position = 2)]
         [Ps1Xml(Label = "Last Software Scan", Target = ViewControl.Table,
-            ScriptBlock = "$_.updateSummary.DeviceLastScannedDateTime", Position = 2)]
-        [Ps1Xml(Label = "Last Updated Date Time", Target = ViewControl.Table,
-            ScriptBlock = "$_.updateSummary.lastCompletedInstallJobDateTime", Position = 3)]
+            ScriptBlock = "$_.updateSummary.LastCompletedScanJobDateTime", Position = 3)]
+        [Ps1Xml(Label = "Last Software Update", Target = ViewControl.Table,
+            ScriptBlock = "$_.updateSummary.LastCompletedInstallJobDateTime", Position = 4)]
         [Ps1Xml(Label = "Pending Updates", Target = ViewControl.Table,
-            ScriptBlock = "$_.updateSummary.TotalNumberOfUpdatesAvailable", Position = 4)]
+            ScriptBlock = "$_.updateSummary.TotalNumberOfUpdatesAvailable", Position = 5)]
         [Ps1Xml(Label = "Pending Update Titles", Target = ViewControl.Table,
-            ScriptBlock = "$_.updateSummary.UpdateTitles", Position = 5)]
+            ScriptBlock = "$_.updateSummary.UpdateTitles", Position = 6)]
 
         public UpdateSummary UpdateSummary;
 

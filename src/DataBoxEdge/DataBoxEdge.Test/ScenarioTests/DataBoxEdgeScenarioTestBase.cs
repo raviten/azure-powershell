@@ -53,16 +53,18 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
             var storageManagementClient = GetStorageManagementClient(context);
 
             _helper.SetupManagementClients(
-                dataBoxEdgeManagementClient, 
-                resourceManagementClient, 
+                dataBoxEdgeManagementClient,
+                resourceManagementClient,
                 storageManagementClient);
         }
+
         /// <summary>
         /// Methods for invoking PowerShell scripts
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="scripts"></param>
-        public void RunPowerShellTest(ServiceManagement.Common.Models.XunitTracingInterceptor logger, params string[] scripts)
+        public void RunPowerShellTest(ServiceManagement.Common.Models.XunitTracingInterceptor logger,
+            params string[] scripts)
         {
             var sf = new StackTrace().GetFrame(1);
             var callingClassType = sf.GetMethod().ReflectedType?.ToString();
@@ -83,7 +85,6 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
             string callingClassType,
             string mockName)
         {
-
             var d = new Dictionary<string, string>
             {
                 {"Microsoft.Resources", null},
@@ -105,7 +106,8 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
 
                 _helper.SetupEnvironment(AzureModule.AzureResourceManager);
                 var azDBPath = _helper.GetRMModulePath("Az.DataBoxEdge.psd1");
-                var callingClassName = callingClassType.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries).Last();
+                var callingClassName =
+                    callingClassType.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).Last();
                 _helper.SetupModules(AzureModule.AzureResourceManager,
                     "ScenarioTests\\Common.ps1",
                     "ScenarioTests\\" + callingClassName + ".ps1",

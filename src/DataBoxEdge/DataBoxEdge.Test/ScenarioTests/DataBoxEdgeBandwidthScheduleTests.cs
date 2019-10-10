@@ -12,8 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.Azure.ServiceManagement.Common.Models;
+
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Xunit;
 
@@ -63,10 +62,5 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
         {
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveBandwidthSchedule");
         }
-
     }
-
-
-
 }
-

@@ -16,27 +16,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using System.Net;
 using System.Security;
 using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.Management.WebSites.Version2016_09_01.Models;
+using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Common;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole;
+using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Role;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
     [Cmdlet(VerbsCommon.New, Constants.Role, DefaultParameterSetName = ConnectionStringParameterSet,
          SupportsShouldProcess = true
-         ),
+     ),
      OutputType(typeof(PSResourceModel))]
     public class DataBoxEdgeRoleNewCmdletBase : AzureDataBoxEdgeCmdletBase
     {
         private const string ConnectionStringParameterSet = "ConnectionStringParameterSet";
         private const string IotParameterSet = "IotParameterSet";
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -60,13 +63,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             HelpMessage = HelpMessageRoles.ConnectionStringHelpMessage)]
         public SwitchParameter ConnectionString { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = ConnectionStringParameterSet,
             HelpMessage = HelpMessageRoles.IotDeviceConnectionStringHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString IotDeviceConnectionString { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = ConnectionStringParameterSet,
             HelpMessage = HelpMessageRoles.IotEdgeDeviceConnectionStringHelpMessage)]
         [ValidateNotNullOrEmpty]
@@ -78,34 +81,35 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             HelpMessage = HelpMessageRoles.DeviceProperties)]
         public SwitchParameter DeviceProperties { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
             HelpMessage = HelpMessageRoles.IotDeviceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string IotDeviceId { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
-            HelpMessage =  HelpMessageRoles.IotDeviceAccessKeyHelpMessage)]
+            HelpMessage = HelpMessageRoles.IotDeviceAccessKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString IotDeviceAccessKey { get; set; }
 
         private string iotDeviceAccessKey;
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
-            HelpMessage =  HelpMessageRoles.IotEdgeDeviceId)]
+            HelpMessage = HelpMessageRoles.IotEdgeDeviceId)]
         [ValidateNotNullOrEmpty]
         public string IotEdgeDeviceId { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
             HelpMessage = HelpMessageRoles.IotEdgeDeviceAccessKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString IotEdgeDeviceAccessKey { get; set; }
+
         private string iotEdegeDeviceAccessKey { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
             HelpMessage = HelpMessageRoles.IotHostHubHelpMessage)]
         [ValidateNotNullOrEmpty]
@@ -129,6 +133,43 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         public static string HostName = "HostName";
         public static string DeviceId = "DeviceId";
         public static string SharedAccessKey = "SharedAccessKey";
+
+        private ResourceModel GetResourceModel()
+        {
+            return RolesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Roles,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+
+        private string GetResourceNotFoundMessage()
+        {
+            return string.Format("'{0}'{1}{2}'.",
+                HelpMessageRoles.ObjectName, Constants.ResourceAlreadyExists, this.Name);
+        }
+
+        private bool DoesResourceExists()
+        {
+            try
+            {
+                var resource = GetResourceModel();
+                if (resource == null) return false;
+                var msg = GetResourceNotFoundMessage();
+                throw new Exception(msg);
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
 
         public static IoTRole GetIoTRoleObject(
             string deviceId,
@@ -198,6 +239,38 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             this.IotHostHub = deviceProperties.Properties.GetOrNull(HostName);
         }
 
+        private PSResourceModel CreateResourceModel()
+        {
+            var iotDeviceSecret = DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
+                this.DeviceName,
+                this.ResourceGroupName,
+                this.iotDeviceAccessKey,
+                this.EncryptionKey.ConvertToString()
+            );
+
+            var iotEdgeDeviceSecret = DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
+                this.DeviceName,
+                this.ResourceGroupName,
+                this.iotEdegeDeviceAccessKey,
+                this.EncryptionKey.ConvertToString()
+            );
+
+            var iotRole = GetIoTRoleObject(
+                this.IotDeviceId,
+                this.IotEdgeDeviceId,
+                this.IotHostHub,
+                this.Platform,
+                iotDeviceSecret,
+                iotEdgeDeviceSecret,
+                this.RoleStatus
+            );
+            return new PSResourceModel(
+                DataBoxEdgeManagementClient.Roles.CreateOrUpdate(
+                    this.DeviceName, this.Name, iotRole,
+                    this.ResourceGroupName)
+            );
+        }
+
 
         public override void ExecuteCmdlet()
         {
@@ -222,43 +295,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                         nameof(this.DeviceProperties)));
             }
 
-            var iotDeviceSecret = DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
-                this.DeviceName,
-                this.ResourceGroupName,
-                this.iotDeviceAccessKey,
-                this.EncryptionKey.ConvertToString()
-            );
-
-            var iotEdgeDeviceSecret = DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
-                this.DeviceName,
-                this.ResourceGroupName,
-                this.iotEdegeDeviceAccessKey,
-                this.EncryptionKey.ConvertToString()
-            );
-
-            var results = new List<PSResourceModel>();
-            var iotRole = GetIoTRoleObject(
-                this.IotDeviceId,
-                this.IotEdgeDeviceId,
-                this.IotHostHub,
-                this.Platform,
-                iotDeviceSecret,
-                iotEdgeDeviceSecret,
-                this.RoleStatus
-            );
 
             if (this.ShouldProcess(this.Name,
                 string.Format("Creating '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageRoles.ObjectName, this.DeviceName, this.Name)))
             {
-
-                var psRole = new PSResourceModel(
-                    DataBoxEdgeManagementClient.Roles.CreateOrUpdate(
-                        this.DeviceName, this.Name, iotRole,
-                        this.ResourceGroupName)
-                );
-
-                results.Add(psRole);
+                DoesResourceExists();
+                var results = new List<PSResourceModel>()
+                {
+                    CreateResourceModel()
+                };
 
                 WriteObject(results, true);
             }

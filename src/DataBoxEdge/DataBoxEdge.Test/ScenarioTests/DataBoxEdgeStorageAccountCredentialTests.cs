@@ -31,7 +31,8 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetNonExistingStorageAccountCredential()
         {
-            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-GetStorageAccountCredentialNonExistent");
+            DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger,
+                "Test-GetStorageAccountCredentialNonExistent");
         }
 
         [Fact]
@@ -40,14 +41,12 @@ namespace Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.ScenarioTests
         {
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-CreateStorageAccountCredential");
         }
+
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestRemoveStorageAccountCredential()
         {
             DataBoxEdgeScenarioTestBase.NewInstance.RunPowerShellTest(_logger, "Test-RemoveStorageAccountCredential");
         }
-
     }
-
 }
-

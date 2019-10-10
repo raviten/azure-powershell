@@ -12,21 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Net;
 using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare;
 using ResourceModel = Microsoft.Azure.Management.EdgeGateway.Models.Share;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
-    [Cmdlet(VerbsCommon.New, Constants.Share, 
-         DefaultParameterSetName = SmbParameterSet, 
+    [Cmdlet(VerbsCommon.New, Constants.Share,
+         DefaultParameterSetName = SmbParameterSet,
          SupportsShouldProcess = true
      ),
      OutputType(typeof(PSResourceModel))]
@@ -65,7 +68,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter Smb{ get; set; }
+        public SwitchParameter Smb { get; set; }
 
         [Parameter(Mandatory = false,
             ParameterSetName = NfsParameterSet,
@@ -73,13 +76,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public SwitchParameter Nfs { get; set; }
 
-        [Parameter(Mandatory = false, 
+        [Parameter(Mandatory = false,
             ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
         public Hashtable[] UserAccessRight { get; set; }
 
-        [Parameter(Mandatory = false, 
+        [Parameter(Mandatory = false,
             ParameterSetName = NfsParameterSet,
             HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
@@ -92,6 +95,54 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
+
+        private ResourceModel share;
+
+        private ResourceModel GetResourceModel()
+        {
+            return SharesOperationsExtensions.Get(
+                this.DataBoxEdgeManagementClient.Shares,
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+        private string GetResourceNotFoundMessage()
+        {
+            return string.Format("'{0}'{1}{2}'.",
+                HelpMessageShare.ObjectName, Constants.ResourceAlreadyExists, this.Name);
+        }
+
+        private bool DoesResourceExists()
+        {
+            try
+            {
+                var resource = GetResourceModel();
+                if (resource == null) return false;
+                var msg = GetResourceNotFoundMessage();
+                throw new Exception(msg);
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
+        private PSResourceModel CreateResourceModel()
+        {
+            return new PSResourceModel(SharesOperationsExtensions.CreateOrUpdate(
+                DataBoxEdgeManagementClient.Shares,
+                this.DeviceName,
+                this.Name,
+                share,
+                this.ResourceGroupName));
+        }
+
 
         private ResourceModel InitShareObject()
         {
@@ -115,21 +166,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         public override void ExecuteCmdlet()
         {
-            var results = new List<PSResourceModel>();
             var sac = StorageAccountCredentialsOperationsExtensions.Get(
                 this.DataBoxEdgeManagementClient.StorageAccountCredentials,
                 this.DeviceName,
                 this.StorageAccountCredentialName,
                 this.ResourceGroupName);
-            
-            var share = InitShareObject();
+
+            share = InitShareObject();
 
             if (this.IsParameterBound(c => c.ClientAccessRight))
             {
                 share.ClientAccessRights = new List<ClientAccessRight>();
                 foreach (var clientAccessRight in this.ClientAccessRight)
                 {
-                    var accessRightPolicy =  HashtableToDictionary<string, string>(clientAccessRight);
+                    var accessRightPolicy = HashtableToDictionary<string, string>(clientAccessRight);
                     share.ClientAccessRights.Add(
                         new ClientAccessRight(
                             accessRightPolicy.GetOrNull("ClientId"),
@@ -159,14 +209,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 string.Format("Creating '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageShare.ObjectName, this.DeviceName, this.Name)))
             {
+                DoesResourceExists();
+                var results = new List<PSResourceModel>()
+                {
+                    CreateResourceModel()
+                };
 
-                share = SharesOperationsExtensions.CreateOrUpdate(
-                    DataBoxEdgeManagementClient.Shares,
-                    this.DeviceName,
-                    this.Name,
-                    share,
-                    this.ResourceGroupName);
-                results.Add(new PSResourceModel(share));
                 WriteObject(results, true);
             }
         }
