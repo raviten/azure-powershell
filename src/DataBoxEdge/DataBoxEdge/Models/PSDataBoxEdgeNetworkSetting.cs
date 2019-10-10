@@ -46,7 +46,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.Name = dataBoxEdgeResourceIdentifier.Name;
             this.NetworkAdapters = 
                  networkSettings.NetworkAdapters.Select(t =>
-                    new PSDataBoxEdgeNetworkAdapter(t)).ToList();
+                    new PSDataBoxEdgeNetworkAdapter(this.DeviceName, t)).ToList();
         }
     }
 }

@@ -190,12 +190,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             return results;
         }
 
-        private PSDataBoxEdgeNetworkSetting GetNetworkSettings()
+        private IList<PSDataBoxEdgeNetworkAdapter> GetNetworkSettings()
         {
-            return new PSDataBoxEdgeNetworkSetting(DevicesOperationsExtensions.GetNetworkSettings(
+            var networkSettings = new PSDataBoxEdgeNetworkSetting(DevicesOperationsExtensions.GetNetworkSettings(
                 this.DataBoxEdgeManagementClient.Devices,
                 this.Name,
                 this.ResourceGroupName));
+            return networkSettings.NetworkAdapters;
         }
 
         private PSDataBoxEdgeDeviceExtendedInfo GetExtendedInfo()

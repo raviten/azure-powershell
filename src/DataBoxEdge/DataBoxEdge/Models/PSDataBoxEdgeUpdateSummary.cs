@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
-using Microsoft.Azure.Commands.DataBoxEdge.Common;
-using Microsoft.Azure.Management.EdgeGateway.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
-using NetworkSettings = Microsoft.Azure.Management.EdgeGateway.Models.NetworkSettings;
+using UpdateSummary = Microsoft.Azure.Management.EdgeGateway.Models.UpdateSummary;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
@@ -15,10 +13,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             ScriptBlock = "$_.updateSummary.DeviceVersionNumber", Position = 1)]
         [Ps1Xml(Label = "Last Software Scan", Target = ViewControl.Table,
             ScriptBlock = "$_.updateSummary.DeviceLastScannedDateTime", Position = 2)]
-        [Ps1Xml(Label = "On Going Update Operation", Target = ViewControl.Table,
-            ScriptBlock = "$_.updateSummary.OngoingUpdateOperation", Position = 3)]
-        public UpdateSummary UpdateSummary;
+        [Ps1Xml(Label = "Last Updated Date Time", Target = ViewControl.Table,
+            ScriptBlock = "$_.updateSummary.lastCompletedInstallJobDateTime", Position = 3)]
+        [Ps1Xml(Label = "Pending Updates", Target = ViewControl.Table,
+            ScriptBlock = "$_.updateSummary.TotalNumberOfUpdatesAvailable", Position = 4)]
+        [Ps1Xml(Label = "Pending Update Titles", Target = ViewControl.Table,
+            ScriptBlock = "$_.updateSummary.UpdateTitles", Position = 5)]
 
+        public UpdateSummary UpdateSummary;
 
         public string ResourceGroupName { get; set; }
 
@@ -49,4 +51,5 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.Name = dataBoxEdgeResourceIdentifier.Name;
         }
     }
+
 }
