@@ -23,9 +23,42 @@ Get-AzDataBoxEdgeDevice [[-ResourceGroupName] <String>] [-DefaultProfile <IAzure
 Get-AzDataBoxEdgeDevice -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
+### GetExtendedInfoByResourceIdParameterSet 
+```
+Get-AzDataBoxEdgeDevice -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetNetworkSettingByResourceIdParameterSet 
+```
+Get-AzDataBoxEdgeDevice -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetSummaryUpdateByResourceIdParameterSet
+```
+Get-AzDataBoxEdgeDevice -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
 ### GetByNameParameterSet
 ```
 Get-AzDataBoxEdgeDevice [-ResourceGroupName] <String> [-Name] <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetSummaryUpdateParameterSet
+```
+Get-AzDataBoxEdgeDevice [-ResourceGroupName] <String> [-Name] <String> [-UpdateSummary]
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetNetworkSettingParameterSet
+```
+Get-AzDataBoxEdgeDevice [-ResourceGroupName] <String> [-Name] <String> [-NetworkSetting]
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### GetExtendedInfoParameterSet
+```
+Get-AzDataBoxEdgeDevice [-ResourceGroupName] <String> [-Name] <String> [-ExtendedInfo]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
@@ -62,17 +95,47 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ExtendedInfo
+Resource Group Name
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: GetExtendedInfoParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
 Device Name
 
 
 ```yaml
 Type: System.String
-Parameter Sets: GetByNameParameterSet
+Parameter Sets: GetByNameParameterSet, GetSummaryUpdateParameterSet, GetNetworkSettingParameterSet, GetExtendedInfoParameterSet
 Aliases:
 
 Required: True
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NetworkSetting
+Resource Group Name
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: GetNetworkSettingParameterSet
+Aliases:
+
+Required: True
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -96,7 +159,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: GetByNameParameterSet
+Parameter Sets: GetByNameParameterSet, GetSummaryUpdateParameterSet, GetNetworkSettingParameterSet, GetExtendedInfoParameterSet
 Aliases:
 
 Required: True
@@ -111,7 +174,22 @@ Azure Resource Id
 
 ```yaml
 Type: System.String
-Parameter Sets: GetByResourceIdParameterSet
+Parameter Sets: GetByResourceIdParameterSet, GetExtendedInfoByResourceIdParameterSet , GetNetworkSettingByResourceIdParameterSet , GetSummaryUpdateByResourceIdParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdateSummary
+Resource Group Name
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: GetSummaryUpdateParameterSet
 Aliases:
 
 Required: True
