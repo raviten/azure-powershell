@@ -22,7 +22,6 @@ using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.EdgeGateway;
 using Microsoft.Azure.Management.EdgeGateway.Models;
-using Microsoft.Azure.Management.WebSites.Version2016_09_01.Models;
 using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Common;
 using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeRole;
@@ -50,6 +49,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true,
@@ -93,7 +93,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         [ValidateNotNullOrEmpty]
         public SecureString IotDeviceAccessKey { get; set; }
 
-        private string iotDeviceAccessKey;
 
         [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
@@ -101,13 +100,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         [ValidateNotNullOrEmpty]
         public string IotEdgeDeviceId { get; set; }
 
+        private string iotDeviceAccessKey;
+
+
         [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
             HelpMessage = HelpMessageRoles.IotEdgeDeviceAccessKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString IotEdgeDeviceAccessKey { get; set; }
 
-        private string iotEdegeDeviceAccessKey { get; set; }
+        private string iotEdgeDeviceAccessKey { get; set; }
 
         [Parameter(Mandatory = true,
             ParameterSetName = IotParameterSet,
@@ -115,24 +117,29 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         [ValidateNotNullOrEmpty]
         public string IotHostHub { get; set; }
 
+        private string iotDeviceHostHub { get; set; }
+        private string iotEdgeDeviceHostHub { get; set; }
+
         [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString EncryptionKey { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageRoles.PlatformHelpMessage)]
         [ValidateNotNullOrEmpty]
+        [PSArgumentCompleter("Windows", "Linux")]
         public string Platform { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageRoles.RoleStatusHelpMessage)]
         [ValidateNotNullOrEmpty]
+        [PSArgumentCompleter("Enabled", "Disabled")]
         public string RoleStatus { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
-        public static string HostName = "HostName";
-        public static string DeviceId = "DeviceId";
-        public static string SharedAccessKey = "SharedAccessKey";
+        private const string HostName = "HostName";
+        private const string DeviceId = "DeviceId";
+        private const string SharedAccessKey = "SharedAccessKey";
 
         private ResourceModel GetResourceModel()
         {
@@ -188,34 +195,36 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             var ioTEdgeDeviceInfo = new IoTDeviceInfo(edgeDeviceId, ioTHostHub, edgeAuthentication);
 
             var ioTRole = new IoTRole(platform, ioTDeviceInfo, ioTEdgeDeviceInfo, roleStatus);
+
             return ioTRole;
         }
+
 
         private static void ThrowInvalidConnection(string message = "Invalid connection string")
         {
             throw new PSInvalidOperationException(message);
         }
 
-        private static StringDictionary GetIotDeviceProperties(string connectionString)
+        private static Dictionary<string, string> GetIotDeviceProperties(string connectionString)
         {
-            var deviceProperties = new StringDictionary();
+            var deviceProperties = new Dictionary<string, string>();
             var iotProps = connectionString.Split(';');
             foreach (var iotProp in iotProps)
             {
-                var deviceProperty = iotProp.Split('=');
-                if (deviceProperty.Length != 2)
+                var keyPos = iotProp.IndexOf('=');
+                if (keyPos < 0 || keyPos >= iotProp.Length)
                 {
                     ThrowInvalidConnection();
                 }
-                else
-                {
-                    deviceProperties.Properties.Add(deviceProperty[0], deviceProperty[1]);
-                }
+
+                var k = iotProp.Substring(0, keyPos);
+                var v = iotProp.Substring(keyPos + 1);
+                deviceProperties.Add(k, v);
             }
 
             var keys = new List<string> {HostName, DeviceId, SharedAccessKey};
 
-            foreach (var key in keys.Where(key => !deviceProperties.Properties.ContainsKey(key)))
+            foreach (var key in keys.Where(key => !deviceProperties.ContainsKey(key)))
             {
                 ThrowInvalidConnection("Missing property " + key + " in connection string");
             }
@@ -226,17 +235,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         private void ParseIotDeviceConnectionString()
         {
             var deviceProperties = GetIotDeviceProperties(this.IotDeviceConnectionString.ConvertToString());
-            this.IotDeviceId = deviceProperties.Properties.GetOrNull(DeviceId);
-            this.iotEdegeDeviceAccessKey = deviceProperties.Properties.GetOrNull(SharedAccessKey);
-            this.IotHostHub = deviceProperties.Properties.GetOrNull(HostName);
+            this.IotDeviceId = deviceProperties.GetOrNull(DeviceId);
+            this.iotDeviceAccessKey = deviceProperties.GetOrNull(SharedAccessKey);
+            this.iotDeviceHostHub = deviceProperties.GetOrNull(HostName);
         }
 
         private void ParseEdgeDeviceConnectionString()
         {
             var deviceProperties = GetIotDeviceProperties(this.IotEdgeDeviceConnectionString.ConvertToString());
-            this.IotEdgeDeviceId = deviceProperties.Properties.GetOrNull(DeviceId);
-            this.iotEdegeDeviceAccessKey = deviceProperties.Properties.GetOrNull(SharedAccessKey);
-            this.IotHostHub = deviceProperties.Properties.GetOrNull(HostName);
+            this.IotEdgeDeviceId = deviceProperties.GetOrNull(DeviceId);
+            this.iotEdgeDeviceAccessKey = deviceProperties.GetOrNull(SharedAccessKey);
+            this.iotEdgeDeviceHostHub = deviceProperties.GetOrNull(HostName);
         }
 
         private PSResourceModel CreateResourceModel()
@@ -251,7 +260,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             var iotEdgeDeviceSecret = DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
                 this.DeviceName,
                 this.ResourceGroupName,
-                this.iotEdegeDeviceAccessKey,
+                this.iotEdgeDeviceAccessKey,
                 this.EncryptionKey.ConvertToString()
             );
 
@@ -278,11 +287,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             {
                 ParseIotDeviceConnectionString();
                 ParseEdgeDeviceConnectionString();
+                int c = string.Compare(this.iotDeviceHostHub, this.iotEdgeDeviceHostHub);
+                if ( c!= 0)
+                {
+                    ThrowInvalidConnection(HelpMessageRoles.ShouldBeFromSameHostHub);
+                }
+                else
+                {
+                    this.IotHostHub = this.iotDeviceHostHub;
+                }
             }
 
             if (DeviceProperties.IsPresent)
             {
-                this.iotEdegeDeviceAccessKey = this.IotEdgeDeviceAccessKey.ConvertToString();
+                this.iotEdgeDeviceAccessKey = this.IotEdgeDeviceAccessKey.ConvertToString();
                 this.iotDeviceAccessKey = this.IotDeviceAccessKey.ConvertToString();
             }
 

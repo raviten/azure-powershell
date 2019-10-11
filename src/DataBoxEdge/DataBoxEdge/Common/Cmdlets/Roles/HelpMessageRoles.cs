@@ -30,6 +30,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         internal const string IotEdgeDeviceId = "Id of the Iot Edge Device";
         internal const string IotDeviceIdHelpMessage = "Device Id of the Iot Device";
         internal const string IotEdgeDeviceAccessKeyHelpMessage = "Access key of the Iot Edge device";
-        
+        internal const string ShouldBeFromSameHostHub = "Connection strings must come from same Iot Hosthub";
+
+
     }
 }

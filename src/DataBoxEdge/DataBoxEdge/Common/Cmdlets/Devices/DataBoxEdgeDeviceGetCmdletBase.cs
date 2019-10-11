@@ -29,8 +29,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
     [Cmdlet(VerbsCommon.Get, Constants.Device, DefaultParameterSetName = ListByParameterSet
      ),
      OutputType(typeof(PSResourceModel)),
-     OutputType(typeof(PSDataBoxEdgeNetworkSetting), typeof(PSDataBoxEdgeNetworkAdapter)),
-     OutputType(typeof(PSDataBoxEdgeDeviceExtendedInfo))]
+    ]
+    [OutputType(typeof(PSDataBoxEdgeNetworkAdapter), ParameterSetName =
+        new[] {GetExtendedInfoParameterSet, GetExtendedInfoByResourceIdParameterSet})]
+    [OutputType(typeof(PSDataBoxEdgeDeviceExtendedInfo), ParameterSetName =
+        (new[] {GetExtendedInfoParameterSet, GetExtendedInfoByResourceIdParameterSet}))]
     [OutputType(typeof(PSDataBoxEdgeUpdateSummary), ParameterSetName =
         (new[] {GetSummaryUpdateByResourceIdParameterSet, GetSummaryUpdateParameterSet}))]
     public class DataBoxEdgeDeviceGetCmdletBase : AzureDataBoxEdgeCmdletBase
