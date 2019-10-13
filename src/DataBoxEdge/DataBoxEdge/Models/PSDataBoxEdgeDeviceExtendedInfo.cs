@@ -7,7 +7,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeDeviceExtendedInfo
     {
-        [Ps1Xml(Label = "EncryptionKeyThumbprint", Target = ViewControl.Table,
+        [Ps1Xml(Label = "EncryptedCIK Thumbprint", Target = ViewControl.Table,
             ScriptBlock = "$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKeyThumbprint")]
         [Ps1Xml(Label = "ResourceKey", Target = ViewControl.Table,
             ScriptBlock = "$_.dataBoxEdgeDeviceExtendedInfo.ResourceKey")]
@@ -22,7 +22,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         public string Name;
 
         public string Id;
-        [Ps1Xml(Label = "EncryptionKey", Target = ViewControl.Table,
+        [Ps1Xml(Label = "EncryptedCIK", Target = ViewControl.Table,
             ScriptBlock = "$_.dataBoxEdgeDeviceExtendedInfo.EncryptionKey")]
         public string EncryptionKey;
 

@@ -194,9 +194,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
                 {SymmetricKey = new SymmetricKey(iotEdgeDeviceSecret)};
             var ioTEdgeDeviceInfo = new IoTDeviceInfo(edgeDeviceId, ioTHostHub, edgeAuthentication);
 
-            var ioTRole = new IoTRole(platform, ioTDeviceInfo, ioTEdgeDeviceInfo, roleStatus);
-
-            return ioTRole;
+            return new IoTRole(platform, ioTDeviceInfo, ioTEdgeDeviceInfo, roleStatus);
         }
 
 
@@ -286,9 +284,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             if (ConnectionString.IsPresent)
             {
                 ParseIotDeviceConnectionString();
+                WriteVerbose(this.IotDeviceConnectionString.ConvertToString());
+                WriteVerbose(this.IotEdgeDeviceConnectionString.ConvertToString());
                 ParseEdgeDeviceConnectionString();
                 int c = string.Compare(this.iotDeviceHostHub, this.iotEdgeDeviceHostHub);
-                if ( c!= 0)
+                if (c != 0)
                 {
                     ThrowInvalidConnection(HelpMessageRoles.ShouldBeFromSameHostHub);
                 }

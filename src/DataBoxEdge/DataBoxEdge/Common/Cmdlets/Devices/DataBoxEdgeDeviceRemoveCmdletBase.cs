@@ -30,31 +30,31 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
         private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = DeleteByResourceIdParameterSet,
             HelpMessage = Constants.ResourceIdHelpMessage,
             ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = DeleteByInputObjectParameterSet,
             HelpMessage = Constants.InputObjectHelpMessage,
             ValueFromPipeline = true)]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.ResourceGroupNameHelpMessage, 
+            HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ResourceGroupCompleter]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            HelpMessage = Constants.NameHelpMessage, 
+            HelpMessage = Constants.NameHelpMessage,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]

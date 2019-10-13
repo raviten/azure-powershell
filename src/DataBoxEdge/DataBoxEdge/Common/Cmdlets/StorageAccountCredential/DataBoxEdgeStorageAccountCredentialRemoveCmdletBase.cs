@@ -24,7 +24,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
 {
     [Cmdlet(VerbsCommon.Remove, Constants.Sac, DefaultParameterSetName = DeleteByNameParameterSet,
          SupportsShouldProcess = true
-         ),
+     ),
      OutputType(typeof(bool))]
     public class DataBoxEdgeStorageAccountCredentialRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
@@ -50,7 +50,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         )]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
-
 
         [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
@@ -118,7 +117,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     WriteObject(removed);
                 }
             }
-
         }
     }
 }

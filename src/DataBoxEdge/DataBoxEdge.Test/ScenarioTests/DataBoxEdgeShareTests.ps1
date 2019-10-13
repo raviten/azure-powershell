@@ -86,7 +86,6 @@ function Test-RemoveShare
     $dfname = Get-DeviceName
 	$sharename = Get-ShareName
 	$dataFormat = 'BlockBlob'
-	$accessProtocol = 'SMB'
 
 
 	$staname = Get-StorageAccountCredentialName
@@ -103,7 +102,7 @@ function Test-RemoveShare
 	# Test
 	try
     {
-        $expected = New-AzDataBoxEdgeShare $rgname $dfname $sharename $storageAccountCredential.Name -AccessProtocol $accessProtocol -DataFormat $dataFormat
+        $expected = New-AzDataBoxEdgeShare $rgname $dfname $sharename $storageAccountCredential.Name -Smb -DataFormat $dataFormat
 		Remove-AzDataBoxEdgeShare $rgname $dfname $sharename
 		Assert-ThrowsContains { Get-AzDataBoxEdgeShare $rgname $dfname $sharename  } "not find"    
 

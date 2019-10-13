@@ -75,6 +75,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
+        private string GetKeyForEncryption()
+        {
+            return this.EncryptionKey.ConvertToString();
+        }
 
         private ResourceModel GetResourceModel()
         {
@@ -118,7 +122,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.StorageA
                     this.DeviceName,
                     this.ResourceGroupName,
                     this.StorageAccountAccessKey.ConvertToString(),
-                    this.EncryptionKey.ConvertToString()
+                    GetKeyForEncryption()
                 );
 
             return new PSResourceModel(

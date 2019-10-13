@@ -163,13 +163,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             if (!string.IsNullOrEmpty(this.StartTime))
             {
                 resourceModel.Start = this.StartTime;
-
             }
 
             if (!string.IsNullOrEmpty(this.StartTime))
             {
                 resourceModel.Stop = this.StopTime;
-
             }
 
             return new PSResourceModel(

@@ -20,8 +20,8 @@ using PSResourceModel = Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PS
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 {
-    [Cmdlet(VerbsCommon.Remove, Constants.Role, 
-         DefaultParameterSetName = DeleteByNameParameterSet, 
+    [Cmdlet(VerbsCommon.Remove, Constants.Role,
+         DefaultParameterSetName = DeleteByNameParameterSet,
          SupportsShouldProcess = true
      ),
      OutputType(typeof(PSResourceModel))]
@@ -31,17 +31,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         private const string DeleteByInputObjectParameterSet = "DeleteByInputObjectParameterSet";
         private const string DeleteByResourceIdParameterSet = "DeleteByResourceIdParameterSet";
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = DeleteByResourceIdParameterSet,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, 
-            ValueFromPipeline = true, 
+        [Parameter(Mandatory = true,
+            ValueFromPipeline = true,
             ParameterSetName = DeleteByInputObjectParameterSet,
-           HelpMessage = Constants.InputObjectHelpMessage
+            HelpMessage = Constants.InputObjectHelpMessage
         )]
         [ValidateNotNull]
         public PSResourceModel InputObject { get; set; }
@@ -108,6 +108,4 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             }
         }
     }
-
-    
 }

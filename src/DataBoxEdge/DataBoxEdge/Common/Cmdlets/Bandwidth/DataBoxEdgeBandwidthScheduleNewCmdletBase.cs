@@ -37,7 +37,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
         private const string BandwidthParameterSet = "BandwidthParameterSet";
         private const string UnlimitedBandwidthParameterSet = "UnlimitedBandwidthParameterSet";
 
-
         [Parameter(Mandatory = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
@@ -82,7 +81,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
             HelpMessage = HelpMessageBandwidthSchedule.NewUnlimitedBandwidth)]
         [ValidateNotNullOrEmpty]
         public Boolean UnlimitedBandwidth { get; set; }
-
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }

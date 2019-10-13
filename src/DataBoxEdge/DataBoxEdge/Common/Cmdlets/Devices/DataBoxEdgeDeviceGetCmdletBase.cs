@@ -128,7 +128,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         [ResourceGroupCompleter]
         public SwitchParameter UpdateSummary { get; set; }
 
-
         private ResourceModel GetResourceModel()
         {
             return DevicesOperationsExtensions.Get(
@@ -211,6 +210,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
                 this.ResourceGroupName));
         }
 
+        private PSDataBoxEdgeUpdateSummary GetUpdatedSummary()
+        {
+            return new PSDataBoxEdgeUpdateSummary(DevicesOperationsExtensions.GetUpdateSummary(
+                this.DataBoxEdgeManagementClient.Devices,
+                this.Name,
+                this.ResourceGroupName));
+        }
+
         public override void ExecuteCmdlet()
         {
             var results = new List<PSResourceModel>();
@@ -232,10 +239,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             }
             else if (this.UpdateSummary.IsPresent)
             {
-                var info = new PSDataBoxEdgeUpdateSummary(DevicesOperationsExtensions.GetUpdateSummary(
-                    this.DataBoxEdgeManagementClient.Devices,
-                    this.Name,
-                    this.ResourceGroupName));
+                var info = GetUpdatedSummary();
                 WriteObject(info, enumerateCollection: true);
             }
             else

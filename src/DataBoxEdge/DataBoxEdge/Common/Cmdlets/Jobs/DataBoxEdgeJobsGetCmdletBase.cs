@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Microsoft.Azure.Management.EdgeGateway;
@@ -40,35 +39,34 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
-        [Parameter(Mandatory = true, 
-            ParameterSetName = GetByNameParameterSet, 
+        [Parameter(Mandatory = true,
+            ParameterSetName = GetByNameParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            HelpMessage = HelpMessageJobs.DeviceName, 
+            HelpMessage = HelpMessageJobs.DeviceName,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
         public string DeviceName { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            HelpMessage = HelpMessageJobs.Name, 
+            HelpMessage = HelpMessageJobs.Name,
             Position = 2)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByParentObjectParameterSet,
             HelpMessage = HelpMessageJobs.Name
-            )]
+        )]
         [ValidateNotNullOrEmpty]
-
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipeline = true, 
+        [Parameter(Mandatory = true, ValueFromPipeline = true,
             ParameterSetName = GetByParentObjectParameterSet,
             HelpMessage = Constants.PsDeviceObjectHelpMessage)]
         [ValidateNotNull]

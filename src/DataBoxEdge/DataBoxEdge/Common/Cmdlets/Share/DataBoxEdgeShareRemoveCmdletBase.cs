@@ -23,7 +23,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 {
     [Cmdlet(VerbsCommon.Remove, Constants.Share, DefaultParameterSetName = DeleteByNameParameterSet,
          SupportsShouldProcess = true
-         ),
+     ),
      OutputType(typeof(bool))]
     public class DataBoxEdgeShareRemoveCmdletBase : AzureDataBoxEdgeCmdletBase
     {
@@ -118,7 +118,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                     WriteObject(removed);
                 }
             }
-
         }
     }
 }

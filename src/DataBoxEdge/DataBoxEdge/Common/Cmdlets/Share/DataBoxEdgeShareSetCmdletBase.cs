@@ -167,7 +167,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 this.Name = resource.Name;
             }
 
-            var results = new List<PSResourceModel>();
             var share = this.GetResourceModel();
 
             if (this.IsParameterBound(c => c.ClientAccessRight))
@@ -210,7 +209,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                     this.Name,
                     share,
                     this.ResourceGroupName);
-                results.Add(new PSResourceModel(share));
+                var results = new List<PSResourceModel>()
+                {
+                    new PSResourceModel(share)
+                };
                 WriteObject(results, true);
             }
         }

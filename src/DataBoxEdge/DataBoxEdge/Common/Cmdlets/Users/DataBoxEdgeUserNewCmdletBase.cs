@@ -68,6 +68,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
+        private string GetKeyForEncryption()
+        {
+            return this.EncryptionKey.ConvertToString();
+        }
 
         private ResourceModel GetResourceModel()
         {
@@ -77,7 +81,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                 this.Name,
                 this.ResourceGroupName);
         }
-
 
         private string GetResourceNotFoundMessage()
         {
@@ -112,7 +115,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     this.DeviceName,
                     this.ResourceGroupName,
                     this.Password.ConvertToString(),
-                    this.EncryptionKey.ConvertToString()
+                    this.GetKeyForEncryption()
                 );
             return new PSResourceModel(
                 UsersOperationsExtensions.CreateOrUpdate(

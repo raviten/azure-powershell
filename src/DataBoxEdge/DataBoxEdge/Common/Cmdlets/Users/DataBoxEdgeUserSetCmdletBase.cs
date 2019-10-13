@@ -80,6 +80,30 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
+        private string GetKeyForEncryption()
+        {
+            return this.EncryptionKey.ConvertToString();
+        }
+
+        private PSResourceModel SetResourceModel()
+        {
+            var encryptedSecret =
+                DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
+                    this.DeviceName,
+                    this.ResourceGroupName,
+                    this.Password.ConvertToString(),
+                    this.GetKeyForEncryption()
+                );
+
+            return new PSResourceModel(
+                UsersOperationsExtensions.CreateOrUpdate(
+                    this.DataBoxEdgeManagementClient.Users,
+                    this.DeviceName,
+                    this.Name,
+                    this.ResourceGroupName,
+                    encryptedSecret
+                ));
+        }
 
         public override void ExecuteCmdlet()
         {
@@ -97,32 +121,18 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                 this.DeviceName = this.InputObject.DeviceName;
                 this.ResourceGroupName = this.InputObject.ResourceGroupName;
             }
-            var encryptedSecret =
-                DataBoxEdgeManagementClient.Devices.GetAsymmetricEncryptedSecret(
-                    this.DeviceName,
-                    this.ResourceGroupName,
-                    this.Password.ConvertToString(),
-                    this.EncryptionKey.ConvertToString()
-                );
-            var results = new List<PSResourceModel>();
 
             if (this.ShouldProcess(this.Name,
                 string.Format("Updating '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageUsers.ObjectName, this.DeviceName, this.Name)))
             {
+                var results = new List<PSResourceModel>()
+                {
+                    SetResourceModel()
+                };
 
-                var user = new PSResourceModel(
-                    UsersOperationsExtensions.CreateOrUpdate(
-                        this.DataBoxEdgeManagementClient.Users,
-                        this.DeviceName,
-                        this.Name,
-                        this.ResourceGroupName,
-                        encryptedSecret
-                    ));
-                results.Add(user);
+                WriteObject(results, true);
             }
-
-            WriteObject(results, true);
         }
     }
 }

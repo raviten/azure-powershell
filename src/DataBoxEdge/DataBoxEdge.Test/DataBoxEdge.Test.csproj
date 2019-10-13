@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="SessionRecords\" />
+    <Folder Include="SessionRecords\Microsoft.Azure.Commands.DataBoxEdge.Test.ScenarioTests.DataBoxEdgeBandwidthScheduleTests\" />
   </ItemGroup>
 
 </Project>
