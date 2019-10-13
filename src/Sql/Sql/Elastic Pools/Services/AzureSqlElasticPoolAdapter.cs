@@ -25,6 +25,7 @@ using System.Linq;
 using Microsoft.Azure.Commands.ResourceManager.Common.Tags;
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using System.Globalization;
+using Microsoft.Azure.Commands.Sql.Common;
 
 namespace Microsoft.Azure.Commands.Sql.ElasticPool.Services
 {
@@ -44,18 +45,12 @@ namespace Microsoft.Azure.Commands.Sql.ElasticPool.Services
         public IAzureContext Context { get; set; }
 
         /// <summary>
-        /// Gets or sets the Azure Subscription
-        /// </summary>
-        private IAzureSubscription _subscription { get; set; }
-
-        /// <summary>
         /// Constructs a database adapter
         /// </summary>
         /// <param name="profile">The current azure profile</param>
         /// <param name="subscription">The current azure subscription</param>
         public AzureSqlElasticPoolAdapter(IAzureContext context)
         {
-            _subscription = context.Subscription;
             Context = context;
             Communicator = new AzureSqlElasticPoolCommunicator(Context);
         }
@@ -178,6 +173,17 @@ namespace Microsoft.Azure.Commands.Sql.ElasticPool.Services
         {
             var resp = Communicator.GetDatabase(resourceGroupName, serverName, databaseName);
             return AzureSqlDatabaseAdapter.CreateDatabaseModelFromResponse(resourceGroupName, serverName, resp);
+        }
+
+        /// <summary>
+        /// Failovers an elastic pool
+        /// </summary>
+        /// <param name="resourceGroupName">The resource group the server is in</param>
+        /// <param name="serverName">The name of the Azure Sql Database Server</param>
+        /// <param name="databaseName">The name of the Azure Sql Database to failover</param>
+        public void FailoverElasticPool(string resourceGroupName, string serverName, string databaseName)
+        {
+            Communicator.Failover(resourceGroupName, serverName, databaseName);
         }
 
         /// <summary>
@@ -426,17 +432,11 @@ namespace Microsoft.Azure.Commands.Sql.ElasticPool.Services
         public static string GetPoolSkuName(string tier)
         {
             if (string.IsNullOrWhiteSpace(tier))
-                return null;
-
-            switch (tier.ToLowerInvariant())
             {
-                case "generalpurpose":
-                    return "GP";
-                case "businesscritical":
-                    return "BC";
-                default:
-                    return string.Format("{0}Pool", tier);
+                return null;
             }
+
+            return SqlSkuUtils.GetVcoreSkuPrefix(tier) ?? string.Format("{0}Pool", tier);
         }
     }
 }

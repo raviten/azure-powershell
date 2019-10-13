@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.ProviderModel
         ServiceClientAdapter ServiceClientAdapter { get; set; }
 
         /// <summary>
-        /// Initializes the provider with the data recieved from the cmdlet layer
+        /// Initializes the provider with the data received from the cmdlet layer
         /// </summary>
         /// <param name="providerData">Data from the cmdlet layer intended for the provider</param>
         /// <param name="serviceClientAdapter">Service client adapter for communicating with the backend service</param>
@@ -46,12 +46,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.ProviderModel
             ServiceClientAdapter = serviceClientAdapter;
         }
 
-        public RestAzureNS.AzureOperationResponse EnableProtection()
+        public RestAzureNS.AzureOperationResponse<ProtectedItemResource> EnableProtection()
         {
             throw new NotImplementedException();
         }
 
-        public RestAzureNS.AzureOperationResponse DisableProtection()
+        public RestAzureNS.AzureOperationResponse<ProtectedItemResource> DisableProtection()
+        {
+            throw new NotImplementedException();
+        }
+
+        public RestAzureNS.AzureOperationResponse DisableProtectionWithDeleteData()
         {
             throw new NotImplementedException();
         }
@@ -154,6 +159,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.ProviderModel
         }
 
         public List<ItemBase> ListProtectedItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterContainer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<PointInTimeBase> GetLogChains()
         {
             throw new NotImplementedException();
         }

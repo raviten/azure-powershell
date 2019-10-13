@@ -14,18 +14,23 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
 {
+    using Microsoft.WindowsAzure.Commands.Common;
     using Microsoft.WindowsAzure.Commands.Storage.Common;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.File;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.Azure.Storage;
+    using Microsoft.Azure.Storage.File;
+    using System;
     using System.Globalization;
     using System.IO;
     using System.Management.Automation;
     using System.Net;
     using System.Threading.Tasks;
     using LocalConstants = Microsoft.WindowsAzure.Commands.Storage.File.Constants;
+    using System.Runtime.InteropServices;
+    using Microsoft.Azure.Storage.DataMovement;
 
     [Cmdlet("Set", Azure.Commands.ResourceManager.Common.AzureRMConstants.AzurePrefix + "StorageFileContent", SupportsShouldProcess = true, DefaultParameterSetName = LocalConstants.ShareNameParameterSetName), OutputType(typeof(CloudFile))]
-    public class SetAzureStorageFileContent : StorageFileDataManagementCmdletBase
+    public class SetAzureStorageFileContent : StorageFileDataManagementCmdletBase, IDynamicParameters
     {
         [Parameter(
            Position = 0,
@@ -71,10 +76,30 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
         [Parameter(HelpMessage = "Returns an object representing the downloaded cloud file. By default, this cmdlet does not generate any output.")]
         public SwitchParameter PassThru { get; set; }
 
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                Source = this.GetUnresolvedProviderPathFromPSPath(Source);
+                Validate.ValidateInternetConnection();
+                InitChannelCurrentSubscription();
+                this.ExecuteSynchronouslyOrAsJob();
+            }
+            catch (Exception ex) when (!IsTerminatingError(ex))
+            {
+                WriteExceptionError(ex);
+            }
+        }
+
         public override void ExecuteCmdlet()
         {
-            // Step 1: Validate source file.
-            FileInfo localFile = new FileInfo(this.GetUnresolvedProviderPathFromPSPath(this.Source));
+            if (AsJob.IsPresent)
+            {
+                DoBeginProcessing();
+            }
+
+            string filePath = this.Source;
+            FileInfo localFile = new FileInfo(filePath);
             if (!localFile.Exists)
             {
                 throw new FileNotFoundException(string.Format(CultureInfo.CurrentCulture, Resources.SourceFileNotFound, this.Source));
@@ -106,7 +131,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
                     this.TransferManager.UploadAsync(
                             localFile.FullName,
                             cloudFileToBeUploaded,
-                            null,
+                            new UploadOptions
+                            {
+                                PreserveSMBAttributes = context is null ? false : context.PreserveSMBAttribute.IsPresent
+                            },
                             this.GetTransferContext(progressRecord, localFile.Length),
                             this.CmdletCancellationToken),
                         progressRecord,
@@ -118,6 +146,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
                         this.OutputStream.WriteObject(taskId, cloudFileToBeUploaded);
                     }
                 });
+            }
+
+            if (AsJob.IsPresent)
+            {
+                DoEndProcessing();
             }
         }
 
@@ -166,7 +199,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
                 if (e.RequestInformation != null &&
                     e.RequestInformation.HttpStatusCode == (int)HttpStatusCode.Forbidden)
                 {
-                    //Forbidden to check directory existance, might caused by a write only SAS
+                    //Forbidden to check directory existence, might caused by a write only SAS
                     //Don't report error here since should not block upload with write only SAS
                     //If the directory not exist, Error will be reported when upload with DMlib later
                     directoryExists = true;
@@ -199,5 +232,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
                 return baseDirectory.GetFileReferenceByPath(path);
             }
         }
+
+        public object GetDynamicParameters()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                context = new WindowsOnlyParameters();
+                return context;
+            }
+            else return null;
+        }
+        private WindowsOnlyParameters context;
     }
 }

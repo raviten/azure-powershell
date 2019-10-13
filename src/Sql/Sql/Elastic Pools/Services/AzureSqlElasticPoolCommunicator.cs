@@ -59,9 +59,9 @@ namespace Microsoft.Azure.Commands.Sql.ElasticPool.Services
         public AzureSqlElasticPoolCommunicator(IAzureContext context)
         {
             Context = context;
-            if (context.Subscription != Subscription)
+            if (context?.Subscription != Subscription)
             {
-                Subscription = context.Subscription;
+                Subscription = context?.Subscription;
                 SqlClient = null;
             }
         }
@@ -159,6 +159,14 @@ namespace Microsoft.Azure.Commands.Sql.ElasticPool.Services
         public void CancelOperation(string resourceGroupName, string serverName, string elasticPoolName, Guid operationId)
         {
             GetCurrentSqlClient().ElasticPoolOperations.Cancel(resourceGroupName, serverName, elasticPoolName, operationId);
+        }
+
+        /// <summary>
+        /// Failovers an Elastic Pool
+        /// </summary>
+        public void Failover(string resourceGroupName, string serverName, string elasticPoolName)
+        {
+            GetCurrentSqlClient().ElasticPools.Failover(resourceGroupName, serverName, elasticPoolName);
         }
 
         /// <summary>

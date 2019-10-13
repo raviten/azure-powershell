@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
 
         #endregion private Variables
 
-        #region Input Paramters
+        #region Input Parameters
 
         [Parameter(Mandatory = true, HelpMessage = "The targeted resource group for the workflow.",
             ValueFromPipelineByPropertyName = true)]
@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
 
             if (!string.IsNullOrEmpty(this.State))
             {
-                workflow.State = (WorkflowState) Enum.Parse(typeof(WorkflowState), this.State);
+                workflow.State = this.State;
             }
 
             if (UseConsumptionModel.IsPresent)
@@ -165,7 +165,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
                 var servicePlan = WebsitesClient.GetAppServicePlan(this.ResourceGroupName, this.AppServicePlan);
                 workflow.Sku = new Sku
                 {
-                    Name = (SkuName) Enum.Parse(typeof(SkuName), servicePlan.Sku.Tier),
+                    Name = servicePlan.Sku.Tier,
                     Plan = new ResourceReference(id: servicePlan.Id)
                 };
             }

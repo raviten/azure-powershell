@@ -40,6 +40,14 @@ The **Set-AzWebApp** cmdlet sets an Azure Web App.
 
 ### Example 1
 ```
+PS C:\> Set-AzWebApp -ResourceGroupName "Default-Web-WestUS" -Name "ContosoWebApp" -AppServicePlan "ContosoPlan"
+```
+
+This command changes the appservice plan associated with the Web App ContosoWebApp associated with the resource group Default-Web-WestUS. Use the link to learn more about changing the appservice plan and constraints associated with it.
+https://docs.microsoft.com/en-us/azure/app-service/app-service-plan-manage#move-an-app-to-another-app-service-plan
+
+### Example 2
+```
 PS C:\> Set-AzWebApp -ResourceGroupName "Default-Web-WestUS" -Name "ContosoWebApp" -HttpLoggingEnabled $true
 ```
 
@@ -63,7 +71,7 @@ Accept wildcard characters: False
 ```
 
 ### -AppSettings
-App Settings HashTable
+App Settings HashTable. Existing App Settings will be replaced, removing any settings that are not provided.
 
 ```yaml
 Type: System.Collections.Hashtable

@@ -107,7 +107,8 @@ function Test-VirtualMachineScaleSetProfile
     Assert-AreEqual $publisher $vmss.VirtualMachineProfile.ExtensionProfile.Extensions[0].Publisher;
     Assert-AreEqual $exttype $vmss.VirtualMachineProfile.ExtensionProfile.Extensions[0].Type;
     Assert-AreEqual $extver $vmss.VirtualMachineProfile.ExtensionProfile.Extensions[0].TypeHandlerVersion;
-    Assert-AreEqual $true $vmss.VirtualMachineProfile.ExtensionProfile.Extensions[0].AutoUpgradeMinorVersion;
+    Assert-True { $vmss.VirtualMachineProfile.ExtensionProfile.Extensions[0].AutoUpgradeMinorVersion };
+    Assert-Null $vmss.VirtualMachineProfile.ExtensionProfile.Extensions[0].ProvisionAfterExtensions;
 
     # IdentityIds
     Assert-AreEqual 2 $vmss.Identity.UserAssignedIdentities.Keys.Count;
@@ -117,14 +118,35 @@ function Test-VirtualMachineScaleSetProfile
     # AdditionalCapabilities
     Assert-Null $vmss.VirtualMachineProfile.AdditionalCapabilities;
 
-    $vmss2 = New-AzVmssConfig -Location $loc -SkuCapacity 2 -SkuName 'Standard_A0' -UpgradePolicyMode 'Automatic' -DisableAutoRollback $false;
+    $extname2 = 'catextension';
+    $publisher2 = 'Microsoft.AzureCAT.AzureEnhancedMonitoring';
+    $exttype2 = 'AzureCATExtensionHandler';
+    $extver2 = '2.2';
+
+    $vmss2 = New-AzVmssConfig -Location $loc -SkuCapacity 2 -SkuName 'Standard_A0' -UpgradePolicyMode 'Automatic' -DisableAutoRollback $false `
+           | Add-AzVmssExtension -Name $extname -Publisher $publisher -Type $exttype -TypeHandlerVersion $extver -AutoUpgradeMinorVersion $false `
+           | Add-AzVmssExtension -Name $extname2 -Publisher $publisher2 -Type $exttype2 -TypeHandlerVersion $extver2 -AutoUpgradeMinorVersion $false -ProvisionAfterExtension $extname;
+
     Assert-False { $vmss2.UpgradePolicy.AutomaticOSUpgradePolicy.DisableAutomaticRollback };
 
-    $vmss3 = New-AzVmssConfig -Location $loc -SkuCapacity 2 -SkuName 'Standard_A0' -UpgradePolicyMode 'Automatic' -DisableAutoRollback $true -EnableUltraSSD;
-    Assert-True { $vmss3.UpgradePolicy.AutomaticOSUpgradePolicy.DisableAutomaticRollback };
-    Assert-True { $vmss3.VirtualMachineProfile.AdditionalCapabilities.UltraSSDEnabled };
+    Assert-AreEqual $extname $vmss2.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name;
+    Assert-False { $vmss2.VirtualMachineProfile.ExtensionProfile.Extensions[0].AutoUpgradeMinorVersion };
+    Assert-Null $vmss.VirtualMachineProfile.ExtensionProfile.Extensions[0].ProvisionAfterExtensions;
 
-    $vmss4 = New-AzVmssConfig -Location $loc -SkuCapacity $skuCapacity -SkuName $skuName -UpgradePolicyMode $upgradePolicy ;
+    Assert-AreEqual $extname2 $vmss2.VirtualMachineProfile.ExtensionProfile.Extensions[1].Name;
+    Assert-False { $vmss2.VirtualMachineProfile.ExtensionProfile.Extensions[1].AutoUpgradeMinorVersion };
+    Assert-AreEqual 1 $vmss2.VirtualMachineProfile.ExtensionProfile.Extensions[1].ProvisionAfterExtensions.Count;
+    Assert-AreEqual $extname $vmss2.VirtualMachineProfile.ExtensionProfile.Extensions[1].ProvisionAfterExtensions[0];
+
+    $vmss3 = New-AzVmssConfig -Location $loc -SkuCapacity 2 -SkuName 'Standard_A0' -UpgradePolicyMode 'Automatic' -DisableAutoRollback $true -EnableUltraSSD `
+                              -TerminateScheduledEvents -TerminateScheduledEventNotBeforeTimeoutInMinutes 15;
+    Assert-True { $vmss3.UpgradePolicy.AutomaticOSUpgradePolicy.DisableAutomaticRollback };
+    Assert-True { $vmss3.AdditionalCapabilities.UltraSSDEnabled };
+    Assert-True { $vmss3.VirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile.Enable };
+    Assert-AreEqual "PT15M" $vmss3.VirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile.NotBeforeTimeout;
+
+    $ppgid = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgname/providers/Microsoft.Compute/proximityPlacementGroups/ppgname"
+    $vmss4 = New-AzVmssConfig -Location $loc -SkuCapacity $skuCapacity -SkuName $skuName -UpgradePolicyMode $upgradePolicy -ProximityPlacementGroupId $ppgid;
     Assert-Null $vmss4.Identity;
 
     $vmss4 = $vmss4 | Set-AzVmssStorageProfile -OsDiskCreateOption 'FromImage' -OsDiskCaching 'None' `
@@ -140,4 +162,5 @@ function Test-VirtualMachineScaleSetProfile
     Assert-AreEqual $imgRef.PublisherName $vmss4.VirtualMachineProfile.StorageProfile.ImageReference.Publisher;
     Assert-AreEqual "Premium_LRS" $vmss4.VirtualMachineProfile.StorageProfile.OsDisk.ManagedDisk.StorageAccountType;
     Assert-AreEqual "Local" $vmss4.VirtualMachineProfile.StorageProfile.OsDisk.DiffDiskSettings.Option;
+    Assert-AreEqual $ppgid $vmss4.ProximityPlacementGroup.Id;
 }

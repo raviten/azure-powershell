@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Compute.Common;
-using Microsoft.Azure.Commands.Compute.Models;
-using Microsoft.Azure.Management.Compute.Models;
-using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.Compute.Common;
+using Microsoft.Azure.Commands.Compute.Models;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using Microsoft.Azure.Management.Compute.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Compute
 {
@@ -83,6 +83,38 @@ namespace Microsoft.Azure.Commands.Compute
         public string [] Zone { get; set; }
 
         [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Id of ProximityPlacementGroup")]
+        public string ProximityPlacementGroupId { get; set; }
+
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Id of Host")]
+        public string HostId { get; set; }
+
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Id of virtual machine scale set")]
+        public string VmssId { get; set; }
+
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The max price of the billing of a low priority virtual machine.")]
+        public double MaxPrice { get; set; }
+
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The eviction policy for the low priority virtual machine.  Only supported value is 'Deallocate'.")]
+        [PSArgumentCompleter("Deallocate")]
+        public string EvictionPolicy { get; set; }
+
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The priority for the virtual machine.  Only supported values are 'Regular' and 'Low'.")]
+        [PSArgumentCompleter("Regular", "Low")]
+        public string Priority { get; set; }
+
+        [Parameter(
            Mandatory = false,
            ValueFromPipelineByPropertyName = true)]
 		[Alias("Tag")]
@@ -111,14 +143,16 @@ namespace Microsoft.Azure.Commands.Compute
                 Identity = this.AssignIdentity.IsPresent ? new VirtualMachineIdentity(null, null, ResourceIdentityType.SystemAssigned) : null,
                 Tags = this.Tags != null ? this.Tags.ToDictionary() : null,
                 Zones = this.Zone,
+                EvictionPolicy = this.EvictionPolicy,
+                Priority = this.Priority
             };
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("IdentityType"))
+            if (this.IsParameterBound(c => c.IdentityType))
             {
                 vm.Identity = new VirtualMachineIdentity(null, null, this.IdentityType);
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("IdentityId"))
+            if (this.IsParameterBound(c => c.IdentityId))
             {
                 if (vm.Identity == null)
                 {
@@ -142,6 +176,26 @@ namespace Microsoft.Azure.Commands.Compute
             if (this.EnableUltraSSD.IsPresent)
             {
                 vm.AdditionalCapabilities = new AdditionalCapabilities(true);
+            }
+
+            if (this.IsParameterBound(c => c.ProximityPlacementGroupId))
+            {
+                vm.ProximityPlacementGroup = new SubResource(this.ProximityPlacementGroupId);
+            }
+
+            if (this.IsParameterBound(c => c.HostId))
+            {
+                vm.Host = new SubResource(this.HostId);
+            }
+
+            if (this.IsParameterBound(c => c.VmssId))
+            {
+                vm.VirtualMachineScaleSet = new SubResource(this.VmssId);
+            }
+
+            if (this.IsParameterBound(c => c.MaxPrice))
+            {
+                vm.BillingProfile = new BillingProfile(this.MaxPrice);
             }
 
             WriteObject(vm);

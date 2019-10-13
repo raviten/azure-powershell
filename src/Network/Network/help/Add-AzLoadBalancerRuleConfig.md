@@ -40,10 +40,12 @@ The **Add-AzLoadBalancerRuleConfig** cmdlet adds a rule configuration to an Azur
 ```
 PS C:\>$slb = Get-AzLoadBalancer -Name "MyLoadBalancer" -ResourceGroupName "MyResourceGroup"
 PS C:\> $slb | Add-AzLoadBalancerRuleConfig -Name "NewRule" -FrontendIPConfiguration $slb.FrontendIpConfigurations[0] -Protocol "Tcp" -FrontendPort 3350 -BackendPort 3350 -EnableFloatingIP
+PS C:\>$slb | Set-AzLoadBalancer
 ```
 
 The first command gets the load balancer named MyLoadBalancer, and then stores it in the variable $slb.
 The second command uses the pipeline operator to pass the load balancer in $slb to **Add-AzLoadBalancerRuleConfig**, which adds the rule configuration named NewRule.
+The third command will update the load balancer in azure with the new Load Balancer Rule Config.
 
 ## PARAMETERS
 
@@ -289,7 +291,7 @@ Accept wildcard characters: False
 ```
 
 ### -Protocol
-Specfies the protocol that is matched by a load balancer rule.
+Specifies the protocol that is matched by a load balancer rule.
 The acceptable values for this parameter are: Tcp or Udp.
 
 ```yaml

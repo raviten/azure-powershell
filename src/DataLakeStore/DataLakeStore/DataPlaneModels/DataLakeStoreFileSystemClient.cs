@@ -14,7 +14,15 @@
 
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Commands.DataLakeStore.Properties;
+using Microsoft.Azure.DataLake.Store;
+using Microsoft.Azure.DataLake.Store.Acl;
+using Microsoft.Azure.DataLake.Store.AclTools;
+using Microsoft.Azure.DataLake.Store.FileTransfer;
+using Microsoft.Azure.DataLake.Store.MockAdlsFileSystem;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,14 +32,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.DataLake.Store;
-using Microsoft.Azure.DataLake.Store.Acl;
-using Microsoft.Azure.DataLake.Store.AclTools;
-using Microsoft.Azure.DataLake.Store.FileTransfer;
-using Microsoft.Azure.DataLake.Store.MockAdlsFileSystem;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
+
 namespace Microsoft.Azure.Commands.DataLakeStore.Models
 {
     public class DataLakeStoreFileSystemClient
@@ -682,7 +683,7 @@ namespace Microsoft.Azure.Commands.DataLakeStore.Models
                     // powershell defect protection. If, through some defect in
                     // our progress tracking, the number is outside of 0 - 100,
                     // powershell will crash if it is set to that value. Instead
-                    // just keep the value unchanged in that case.
+                    // just ke ep the value unchanged in that case.
                     if (toSet < 0 || toSet > 100)
                     {
                         progress.PercentComplete = progress.PercentComplete;
@@ -764,11 +765,54 @@ namespace Microsoft.Azure.Commands.DataLakeStore.Models
             {
                 WaitForTask(exportTask, cmdletCancellationToken);
             }
-            
-
         }
 
         #endregion
+
+        #region Deleted item operations
+        /// <summary>
+        /// Get items in trash matching query string
+        /// </summary>
+        /// <param name="accountName">Account name</param>
+        /// <param name="filter">Query to match items in trash</param>
+        /// <param name="count">Minimum number of entries to search for</param>
+        /// <param name="cmdletCancellationToken">CancellationToken</param>
+        public IEnumerable<TrashEntry> EnumerateDeletedItems(string accountName, string filter, int count, Cmdlet cmdlet, CancellationToken cmdletCancellationToken = default(CancellationToken))
+        {
+            var client = AdlsClientFactory.GetAdlsClient(accountName, _context);
+            if (_isDebugEnabled)
+            {
+                IEnumerable<TrashEntry> result = null;
+                // Api call below consists of multiple rest calls so multiple debug statements will be posted
+                // so since we want to the debug lines to be updated while the command runs, we have to flush the debug statements in queue and thats why we want to do it this way
+                var enumerateTask = Task.Run(() => {
+                result = client.EnumerateDeletedItems(filter, "", count, null, cmdletCancellationToken);
+                }, cmdletCancellationToken);
+                TrackTaskProgress(enumerateTask, cmdlet, null, cmdletCancellationToken);
+                return result;
+            }
+            else
+            {
+                return client.EnumerateDeletedItems(filter, "", count, null, cmdletCancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Restore a stream or directory from trash to user space. This is a synchronous operation.
+        /// Not threadsafe when Restore is called for same path from different threads. 
+        /// </summary>
+        /// <param name="path">The trash directory path in enumeratedeleteditems response</param>
+        /// <param name="destination">Path to where the entry should be restored</param>
+        /// <param name="type">Type of the entry which is being restored. "file" or "folder"</param>
+        /// <param name="restoreAction">Action to take during destination name conflicts - "overwrite" or "copy"</param>
+        /// <param name="cmdletCancellationToken">CancellationToken</param>
+        public void RestoreDeletedItem(string accountName, string path, string destination, string type, string restoreAction, CancellationToken cmdletCancellationToken = default(CancellationToken))
+        {
+            AdlsClientFactory.GetAdlsClient(accountName, _context).RestoreDeletedItems(path, destination, type, restoreAction, cmdletCancellationToken);
+        }
+
+        #endregion
+
 
         #region private helpers
         /// <summary>
@@ -805,7 +849,7 @@ namespace Microsoft.Azure.Commands.DataLakeStore.Models
                     }
                 }
 
-                // If debug is enabled then flush debug messsages 
+                // If debug is enabled then flush debug messages 
                 if (_isDebugEnabled)
                 {
                     if (!token.IsCancellationRequested &&

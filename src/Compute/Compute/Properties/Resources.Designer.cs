@@ -316,7 +316,7 @@ namespace Microsoft.Azure.Commands.Compute.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Since the VM is created using premium storage, new standard storage account, {0}, is created for boot diagnostics..
+        ///   Looks up a localized string similar to Since there is no standard storage account in the same region as the VM, new standard storage account, {0}, is created for boot diagnostics..
         /// </summary>
         internal static string CreatingStorageAccountForBootDiagnostics {
             get {
@@ -793,7 +793,7 @@ namespace Microsoft.Azure.Commands.Compute.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Network disruption occured, retrying..
+        ///   Looks up a localized string similar to Network disruption occurred, retrying..
         /// </summary>
         internal static string PSSyncOutputEventsRetryingAfterANetworkDisruption {
             get {
@@ -1230,7 +1230,7 @@ namespace Microsoft.Azure.Commands.Compute.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The RDP file cannot be generated because the network interface of the virtual machine does not reference a PublicIP or an InboungNatRule of the load balancer..
+        ///   Looks up a localized string similar to The RDP file cannot be generated because the network interface of the virtual machine does not reference a PublicIP or an InboundNatRule of the load balancer..
         /// </summary>
         internal static string VirtualMachineReferencesInternalNetworkInterface {
             get {

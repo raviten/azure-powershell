@@ -19,15 +19,16 @@
 // Changes to this file may cause incorrect behavior and will be lost if the
 // code is regenerated.
 
-using Microsoft.Azure.Commands.Compute.Automation.Models;
-using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.Compute.Models;
-using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.Compute.Automation.Models;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
+using Microsoft.Azure.Management.Compute.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.Compute.Automation
 {
@@ -187,6 +188,26 @@ namespace Microsoft.Azure.Commands.Compute.Automation
         public string EvictionPolicy { get; set; }
 
         [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public double MaxPrice { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public SwitchParameter TerminateScheduledEvents { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public int TerminateScheduledEventNotBeforeTimeoutInMinutes { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public string ProximityPlacementGroupId { get; set; }
+
+        [Parameter(
             Mandatory = true,
             ParameterSetName = "ExplicitIdentityParameterSet",
             ValueFromPipelineByPropertyName = true)]
@@ -220,10 +241,16 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             // VirtualMachineProfile
             VirtualMachineScaleSetVMProfile vVirtualMachineProfile = null;
 
+            // ProximityPlacementGroup
+            SubResource vProximityPlacementGroup = null;
+
+            // AdditionalCapabilities
+            AdditionalCapabilities vAdditionalCapabilities = null;
+
             // Identity
             VirtualMachineScaleSetIdentity vIdentity = null;
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("SkuName"))
+            if (this.IsParameterBound(c => c.SkuName))
             {
                 if (vSku == null)
                 {
@@ -232,7 +259,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vSku.Name = this.SkuName;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("SkuTier"))
+            if (this.IsParameterBound(c => c.SkuTier))
             {
                 if (vSku == null)
                 {
@@ -241,7 +268,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vSku.Tier = this.SkuTier;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("SkuCapacity"))
+            if (this.IsParameterBound(c => c.SkuCapacity))
             {
                 if (vSku == null)
                 {
@@ -250,7 +277,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vSku.Capacity = this.SkuCapacity;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("PlanName"))
+            if (this.IsParameterBound(c => c.PlanName))
             {
                 if (vPlan == null)
                 {
@@ -259,7 +286,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vPlan.Name = this.PlanName;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("PlanPublisher"))
+            if (this.IsParameterBound(c => c.PlanPublisher))
             {
                 if (vPlan == null)
                 {
@@ -268,7 +295,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vPlan.Publisher = this.PlanPublisher;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("PlanProduct"))
+            if (this.IsParameterBound(c => c.PlanProduct))
             {
                 if (vPlan == null)
                 {
@@ -277,7 +304,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vPlan.Product = this.PlanProduct;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("PlanPromotionCode"))
+            if (this.IsParameterBound(c => c.PlanPromotionCode))
             {
                 if (vPlan == null)
                 {
@@ -286,7 +313,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vPlan.PromotionCode = this.PlanPromotionCode;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("UpgradePolicyMode"))
+            if (this.IsParameterBound(c => c.UpgradePolicyMode))
             {
                 if (vUpgradePolicy == null)
                 {
@@ -295,7 +322,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vUpgradePolicy.Mode = this.UpgradePolicyMode;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("RollingUpgradePolicy"))
+            if (this.IsParameterBound(c => c.RollingUpgradePolicy))
             {
                 if (vUpgradePolicy == null)
                 {
@@ -314,7 +341,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             }
             vUpgradePolicy.AutomaticOSUpgradePolicy.EnableAutomaticOSUpgrade = this.AutoOSUpgrade.IsPresent;
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("DisableAutoRollback"))
+            if (this.IsParameterBound(c => c.DisableAutoRollback))
             {
                 if (vUpgradePolicy == null)
                 {
@@ -327,7 +354,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vUpgradePolicy.AutomaticOSUpgradePolicy.DisableAutomaticRollback = this.DisableAutoRollback;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("OsProfile"))
+            if (this.IsParameterBound(c => c.OsProfile))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -336,7 +363,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.OsProfile = this.OsProfile;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("StorageProfile"))
+            if (this.IsParameterBound(c => c.StorageProfile))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -345,19 +372,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.StorageProfile = this.StorageProfile;
             }
 
-            if (this.EnableUltraSSD.IsPresent)
-            {
-                if (vVirtualMachineProfile == null)
-                {
-                    vVirtualMachineProfile = new VirtualMachineScaleSetVMProfile();
-                }
-                if (vVirtualMachineProfile.AdditionalCapabilities == null)
-                {
-                    vVirtualMachineProfile.AdditionalCapabilities = new AdditionalCapabilities(true);
-                }
-            }
-
-            if (this.MyInvocation.BoundParameters.ContainsKey("HealthProbeId"))
+            if (this.IsParameterBound(c => c.HealthProbeId))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -374,7 +389,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.NetworkProfile.HealthProbe.Id = this.HealthProbeId;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("NetworkInterfaceConfiguration"))
+            if (this.IsParameterBound(c => c.NetworkInterfaceConfiguration))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -387,7 +402,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations = this.NetworkInterfaceConfiguration;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("BootDiagnostic"))
+            if (this.IsParameterBound(c => c.BootDiagnostic))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -400,7 +415,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.DiagnosticsProfile.BootDiagnostics = this.BootDiagnostic;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("Extension"))
+            if (this.IsParameterBound(c => c.Extension))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -413,7 +428,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.ExtensionProfile.Extensions = this.Extension;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("LicenseType"))
+            if (this.IsParameterBound(c => c.LicenseType))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -422,7 +437,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.LicenseType = this.LicenseType;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("Priority"))
+            if (this.IsParameterBound(c => c.Priority))
             {
                 if (vVirtualMachineProfile == null)
                 {
@@ -431,13 +446,77 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vVirtualMachineProfile.Priority = this.Priority;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("EvictionPolicy"))
+            if (this.IsParameterBound(c => c.EvictionPolicy))
             {
                 if (vVirtualMachineProfile == null)
                 {
                     vVirtualMachineProfile = new VirtualMachineScaleSetVMProfile();
                 }
                 vVirtualMachineProfile.EvictionPolicy = this.EvictionPolicy;
+            }
+
+            if (this.IsParameterBound(c => c.MaxPrice))
+            {
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new VirtualMachineScaleSetVMProfile();
+                }
+                if (vVirtualMachineProfile.BillingProfile == null)
+                {
+                    vVirtualMachineProfile.BillingProfile = new BillingProfile();
+                }
+                vVirtualMachineProfile.BillingProfile.MaxPrice = this.MaxPrice;
+            }
+
+            if (this.TerminateScheduledEvents.IsPresent)
+            {
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new VirtualMachineScaleSetVMProfile();
+                }
+                if (vVirtualMachineProfile.ScheduledEventsProfile == null)
+                {
+                    vVirtualMachineProfile.ScheduledEventsProfile = new ScheduledEventsProfile();
+                }
+                if (vVirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile == null)
+                {
+                    vVirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile = new TerminateNotificationProfile();
+                }
+                vVirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile.Enable = this.TerminateScheduledEvents.IsPresent;
+            }
+
+            if (this.IsParameterBound(c => c.TerminateScheduledEventNotBeforeTimeoutInMinutes))
+            {
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new VirtualMachineScaleSetVMProfile();
+                }
+                if (vVirtualMachineProfile.ScheduledEventsProfile == null)
+                {
+                    vVirtualMachineProfile.ScheduledEventsProfile = new ScheduledEventsProfile();
+                }
+                if (vVirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile == null)
+                {
+                    vVirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile = new TerminateNotificationProfile();
+                }
+                vVirtualMachineProfile.ScheduledEventsProfile.TerminateNotificationProfile.NotBeforeTimeout = XmlConvert.ToString(new TimeSpan(0, this.TerminateScheduledEventNotBeforeTimeoutInMinutes, 0));
+            }
+
+            if (this.IsParameterBound(c => c.ProximityPlacementGroupId))
+            {
+                if (vProximityPlacementGroup == null)
+                {
+                    vProximityPlacementGroup = new SubResource();
+                }
+                vProximityPlacementGroup.Id = this.ProximityPlacementGroupId;
+            }
+
+            if (this.EnableUltraSSD.IsPresent)
+            {
+                if (vAdditionalCapabilities == null)
+                {
+                    vAdditionalCapabilities = new AdditionalCapabilities(true);
+                }
             }
 
             if (this.AssignIdentity.IsPresent)
@@ -449,7 +528,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vIdentity.Type = ResourceIdentityType.SystemAssigned;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("IdentityType"))
+            if (this.IsParameterBound(c => c.IdentityType))
             {
                 if (vIdentity == null)
                 {
@@ -458,7 +537,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                 vIdentity.Type = this.IdentityType;
             }
 
-            if (this.MyInvocation.BoundParameters.ContainsKey("IdentityId"))
+            if (this.IsParameterBound(c => c.IdentityId))
             {
                 if (vIdentity == null)
                 {
@@ -475,17 +554,19 @@ namespace Microsoft.Azure.Commands.Compute.Automation
 
             var vVirtualMachineScaleSet = new PSVirtualMachineScaleSet
             {
-                Overprovision = this.MyInvocation.BoundParameters.ContainsKey("Overprovision") ? this.Overprovision : (bool?)null,
-                SinglePlacementGroup = this.MyInvocation.BoundParameters.ContainsKey("SinglePlacementGroup") ? this.SinglePlacementGroup : (bool?)null,
+                Overprovision = this.IsParameterBound(c => c.Overprovision) ? this.Overprovision : (bool?)null,
+                SinglePlacementGroup = this.IsParameterBound(c => c.SinglePlacementGroup) ? this.SinglePlacementGroup : (bool?)null,
                 ZoneBalance = this.ZoneBalance.IsPresent ? true : (bool?)null,
-                PlatformFaultDomainCount = this.MyInvocation.BoundParameters.ContainsKey("PlatformFaultDomainCount") ? this.PlatformFaultDomainCount : (int?)null,
-                Zones = this.MyInvocation.BoundParameters.ContainsKey("Zone") ? this.Zone : null,
-                Location = this.MyInvocation.BoundParameters.ContainsKey("Location") ? this.Location : null,
-                Tags = this.MyInvocation.BoundParameters.ContainsKey("Tag") ? this.Tag.Cast<DictionaryEntry>().ToDictionary(ht => (string)ht.Key, ht => (string)ht.Value) : null,
+                PlatformFaultDomainCount = this.IsParameterBound(c => c.PlatformFaultDomainCount) ? this.PlatformFaultDomainCount : (int?)null,
+                Zones = this.IsParameterBound(c => c.Zone) ? this.Zone : null,
+                Location = this.IsParameterBound(c => c.Location) ? this.Location : null,
+                Tags = this.IsParameterBound(c => c.Tag) ? this.Tag.Cast<DictionaryEntry>().ToDictionary(ht => (string)ht.Key, ht => (string)ht.Value) : null,
                 Sku = vSku,
                 Plan = vPlan,
                 UpgradePolicy = vUpgradePolicy,
                 VirtualMachineProfile = vVirtualMachineProfile,
+                ProximityPlacementGroup = vProximityPlacementGroup,
+                AdditionalCapabilities = vAdditionalCapabilities,
                 Identity = vIdentity,
             };
 

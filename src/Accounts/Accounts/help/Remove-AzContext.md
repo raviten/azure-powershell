@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Accounts.dll-Help.xml
 Module Name: Az.Accounts
 online version: https://docs.microsoft.com/en-us/powershell/module/az.accounts/remove-azcontext
@@ -54,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-Remove context even if it is the defualt
+Remove context even if it is the default
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -90,7 +90,6 @@ The name of the context
 Type: System.String
 Parameter Sets: RemoveByName
 Aliases:
-Accepted values:
 
 Required: True
 Position: 0

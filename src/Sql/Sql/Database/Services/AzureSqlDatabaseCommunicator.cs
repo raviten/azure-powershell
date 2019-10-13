@@ -57,9 +57,9 @@ namespace Microsoft.Azure.Commands.Sql.Database.Services
         public AzureSqlDatabaseCommunicator(IAzureContext context)
         {
             Context = context;
-            if (context.Subscription != Subscription)
+            if (context?.Subscription != Subscription)
             {
-                Subscription = context.Subscription;
+                Subscription = context?.Subscription;
                 LegacySqlClient = null;
             }
         }
@@ -126,6 +126,14 @@ namespace Microsoft.Azure.Commands.Sql.Database.Services
         public void Remove(string resourceGroupName, string serverName, string databaseName)
         {
             GetCurrentSqlClient().Databases.Delete(resourceGroupName, serverName, databaseName);
+        }
+
+        /// <summary>
+        /// Failovers a database
+        /// </summary>
+        public void Failover(string resourceGroupName, string serverName, string databaseName)
+        {
+            GetCurrentSqlClient().Databases.Failover(resourceGroupName, serverName, databaseName);
         }
 
         /// <summary>

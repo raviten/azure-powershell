@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.LogicApp.dll-Help.xml
 Module Name: Az.LogicApp
 ms.assetid: 7EF87BE5-FB10-4E5D-A12F-7F50EE6DAD57
@@ -34,7 +34,7 @@ If you omit a required template parameter, the cmdlet prompts you for the value.
 ### Example 1: Modify an integration account map
 ```
 PS C:\>Set-AzIntegrationAccountMap -ResourceGroupName "ResourceGroup11" -Name "IntegrationAccount31" -MapName "IntegrationAccountMap47" -MapDefinition $MapContent
-Id          : /subscriptions/<SusbcriptionId>/resourceGroups/ResourceGroup11/providers/Microsoft.Logic/integrationAccounts/IntegartionAccount31/maps/IntegrationAccountMap47
+Id          : /subscriptions/<SubscriptionId>/resourceGroups/ResourceGroup11/providers/Microsoft.Logic/integrationAccounts/IntegrationAccount31/maps/IntegrationAccountMap47
 Name        : IntegrationAccountMap47
 Type        : Microsoft.Logic/integrationAccounts/maps
 CreatedTime : 3/26/2016 7:12:22 PM
@@ -150,7 +150,7 @@ This cmdlet supports Xslt as a map type.
 Type: System.String
 Parameter Sets: (All)
 Aliases:
-Accepted values: Xslt
+Accepted values: Xslt, Xslt20, Xslt30, Liquid
 
 Required: False
 Position: Named

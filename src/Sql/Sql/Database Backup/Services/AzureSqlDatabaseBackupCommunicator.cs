@@ -57,9 +57,9 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Services
         public AzureSqlDatabaseBackupCommunicator(IAzureContext context)
         {
             Context = context;
-            if (context.Subscription != Subscription)
+            if (context?.Subscription != Subscription)
             {
-                Subscription = context.Subscription;
+                Subscription = context?.Subscription;
                 LegacyClient = null;
             }
         }
@@ -255,13 +255,22 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Services
         /// <param name="serverName">The server name.</param>
         /// <param name="databaseName">The database name.</param>
         /// <param name="backupName">The backup name.</param>
+        /// <param name="resourceGroupName">The resource group name</param>
         public Management.Sql.Models.LongTermRetentionBackup GetDatabaseLongTermRetentionBackup(
             string locationName,
             string serverName,
             string databaseName,
-            string backupName)
+            string backupName,
+            string resourceGroupName)
         {
-            return GetCurrentSqlClient().LongTermRetentionBackups.Get(locationName, serverName, databaseName, backupName);
+            if (string.IsNullOrWhiteSpace(resourceGroupName))
+            {
+                return GetCurrentSqlClient().LongTermRetentionBackups.Get(locationName, serverName, databaseName, backupName);
+            }
+            else
+            {
+                return GetCurrentSqlClient().LongTermRetentionBackups.GetByResourceGroup(resourceGroupName, locationName, serverName, databaseName, backupName);
+            }
         }
 
         /// <summary>
@@ -270,26 +279,49 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Services
         /// <param name="locationName">The location name.</param>
         /// <param name="serverName">The server name.</param>
         /// <param name="databaseName">The database name.</param>
+        /// <param name="resourceGroupName">The resource group name</param>
         /// <param name="onlyLatestPerDatabase">Whether or not to only get the latest backup per database.</param>
         /// <param name="databaseState">The state of databases to get backups for: All, Live, Deleted.</param>
         public Rest.Azure.IPage<Management.Sql.Models.LongTermRetentionBackup> GetDatabaseLongTermRetentionBackups(
             string locationName,
             string serverName,
             string databaseName,
+            string resourceGroupName,
             bool? onlyLatestPerDatabase,
             string databaseState)
         {
             if (!string.IsNullOrWhiteSpace(databaseName))
             {
-                return GetCurrentSqlClient().LongTermRetentionBackups.ListByDatabase(locationName, serverName, databaseName, onlyLatestPerDatabase, databaseState);
+                if(string.IsNullOrWhiteSpace(resourceGroupName))
+                {
+                    return GetCurrentSqlClient().LongTermRetentionBackups.ListByDatabase(locationName, serverName, databaseName, onlyLatestPerDatabase, databaseState);
+                }
+                else
+                {
+                    return GetCurrentSqlClient().LongTermRetentionBackups.ListByResourceGroupDatabase(resourceGroupName, locationName, serverName, databaseName, onlyLatestPerDatabase, databaseState);
+                }
             }
             else if (!string.IsNullOrWhiteSpace(serverName))
             {
-                return GetCurrentSqlClient().LongTermRetentionBackups.ListByServer(locationName, serverName, onlyLatestPerDatabase, databaseState);
+                if (string.IsNullOrWhiteSpace(resourceGroupName))
+                {
+                    return GetCurrentSqlClient().LongTermRetentionBackups.ListByServer(locationName, serverName, onlyLatestPerDatabase, databaseState);
+                }
+                else
+                {
+                    return GetCurrentSqlClient().LongTermRetentionBackups.ListByResourceGroupServer(resourceGroupName, locationName, serverName, onlyLatestPerDatabase, databaseState);
+                }
             }
             else
             {
-                return GetCurrentSqlClient().LongTermRetentionBackups.ListByLocation(locationName, onlyLatestPerDatabase, databaseState);
+                if (string.IsNullOrWhiteSpace(resourceGroupName))
+                {
+                    return GetCurrentSqlClient().LongTermRetentionBackups.ListByLocation(locationName, onlyLatestPerDatabase, databaseState);
+                }
+                else
+                {
+                    return GetCurrentSqlClient().LongTermRetentionBackups.ListByResourceGroupLocation(resourceGroupName, locationName, onlyLatestPerDatabase, databaseState);
+                }
             }
         }
 
@@ -300,13 +332,22 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Services
         /// <param name="serverName">The server name.</param>
         /// <param name="databaseName">The database name.</param>
         /// <param name="backupName">The backup name.</param>
+        /// <param name="resourceGroupName">The resource group name</param>
         public void RemoveDatabaseLongTermRetentionBackup(
             string locationName,
             string serverName,
             string databaseName,
-            string backupName)
+            string backupName,
+            string resourceGroupName)
         {
-            GetCurrentSqlClient().LongTermRetentionBackups.Delete(locationName, serverName, databaseName, backupName);
+            if (string.IsNullOrWhiteSpace(resourceGroupName))
+            {
+                GetCurrentSqlClient().LongTermRetentionBackups.Delete(locationName, serverName, databaseName, backupName);
+            }
+            else
+            {
+                GetCurrentSqlClient().LongTermRetentionBackups.DeleteByResourceGroup(resourceGroupName, locationName, serverName, databaseName, backupName);
+            }
         }
 
         /// <summary>
@@ -371,6 +412,41 @@ namespace Microsoft.Azure.Commands.Sql.Backup.Services
         public Management.Sql.Models.Database RestoreDatabase(string resourceGroupName, string serverName, string databaseName, Management.Sql.Models.Database model)
         {
             return GetCurrentSqlClient().Databases.CreateOrUpdate(resourceGroupName, serverName, databaseName, model);
+        }
+
+        /// <summary>
+        /// Get the ShortTermRetention policy for a Azure SQL Database
+        /// </summary>
+        /// <param name="resourceGroupName">The name of the resource group</param>
+        /// <param name="serverName">The name of the Azure SQL Server</param>
+        /// <param name="databaseName">The name of the Azure SQL Database</param>
+        /// <returns>A BackupShortTermRetention policy</returns>
+        public Management.Sql.Models.BackupShortTermRetentionPolicy GetDatabaseBackupShortTermRetentionPolicy(
+            string resourceGroupName,
+            string serverName,
+            string databaseName)
+        {
+            return GetCurrentSqlClient().BackupShortTermRetentionPolicies.Get(
+                resourceGroupName,
+                serverName,
+                databaseName);
+        }
+
+        /// <summary>
+        /// Sets a database's backup Short Term Retention policy.
+        /// </summary>
+        /// <param name="resourceGroup">The resource group name.</param>
+        /// <param name="serverName">The server name.</param>
+        /// <param name="databaseName">The database name.</param>
+        /// <param name="policy">The Long Term Retention policy to apply.</param>
+        /// <returns>A backup ShortTermRetention policy</returns>
+        public Management.Sql.Models.BackupShortTermRetentionPolicy SetDatabaseBackupShortTermRetentionPolicy(
+            string resourceGroup,
+            string serverName,
+            string databaseName,
+            Management.Sql.Models.BackupShortTermRetentionPolicy policy)
+        {
+            return GetCurrentSqlClient().BackupShortTermRetentionPolicies.CreateOrUpdate(resourceGroup, serverName, databaseName, policy);
         }
 
         /// <summary>

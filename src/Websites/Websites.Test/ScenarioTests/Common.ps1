@@ -13,7 +13,7 @@
 # ----------------------------------------------------------------------------------
 
 $TestOutputRoot = [System.AppDomain]::CurrentDomain.BaseDirectory;
-$ResourcesPath = Join-Path $TestOutputRoot "ScenarioTests" "Resources"
+$ResourcesPath = Join-Path (Join-Path $TestOutputRoot "ScenarioTests") "Resources"
 
 <#
 .SYNOPSIS
@@ -109,7 +109,7 @@ function Get-WebLocation
 		}
 	}
 
-	return "WestUS"
+	return "West US"
 }
 
 <#
@@ -133,7 +133,7 @@ function Get-SecondaryLocation
 		}
 	}
 
-	return "WestUS"
+	return "West US"
 }
 
 <#
@@ -152,6 +152,9 @@ function PingWebApp($webApp)
 {
 	if ((Get-WebsitesTestMode) -ne 'Playback') 
 	{
+		# Give the app time to stabilize
+		Start-Sleep -Seconds 30
+
 		try 
 		{
 			$result = Invoke-WebRequest $webApp.HostNames[0] -UseBasicParsing

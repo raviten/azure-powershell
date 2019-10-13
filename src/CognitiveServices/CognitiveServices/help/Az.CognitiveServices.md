@@ -1,4 +1,4 @@
-﻿---
+---
 Module Name: Az.CognitiveServices
 Module Guid: 66c566b4-950c-4a2b-9f3b-199d92f0df1a
 Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.cognitiveservices
@@ -11,13 +11,19 @@ Locale: en-US
 This topic displays help topics for the Azure Cognitive Services cmdlets.
 
 ## Az.CognitiveServices Cmdlets
+### [Add-AzCognitiveServicesAccountNetworkRule](Add-AzCognitiveServicesAccountNetworkRule.md)
+Add IpRules or VirtualNetworkRules to the NetworkRule property of a Cognitive Services account
+
 ### [Get-AzCognitiveServicesAccount](Get-AzCognitiveServicesAccount.md)
 Gets an account.
 
 ### [Get-AzCognitiveServicesAccountKey](Get-AzCognitiveServicesAccountKey.md)
 Gets the API keys for an account.
 
-### [Get-AzCognitiveServicesAccountSkus](Get-AzCognitiveServicesAccountSkus.md)
+### [Get-AzCognitiveServicesAccountNetworkRuleSet](Get-AzCognitiveServicesAccountNetworkRuleSet.md)
+Get the NetworkRule property of a Cognitive Services account
+
+### [Get-AzCognitiveServicesAccountSku](Get-AzCognitiveServicesAccountSku.md)
 Gets the available SKUs for an account.
 
 ### [Get-AzCognitiveServicesAccountType](Get-AzCognitiveServicesAccountType.md)
@@ -35,6 +41,12 @@ Regenerates an account key.
 ### [Remove-AzCognitiveServicesAccount](Remove-AzCognitiveServicesAccount.md)
 Deletes a Cognitive Services account.
 
+### [Remove-AzCognitiveServicesAccountNetworkRule](Remove-AzCognitiveServicesAccountNetworkRule.md)
+Remove IpRules or VirtualNetworkRules from the NetWorkRule property of a Cognitive Services account
+
 ### [Set-AzCognitiveServicesAccount](Set-AzCognitiveServicesAccount.md)
 Modifies an account.
+
+### [Update-AzCognitiveServicesAccountNetworkRuleSet](Update-AzCognitiveServicesAccountNetworkRuleSet.md)
+Update the NetworkRule property of a Cognitive Services account
 

@@ -71,19 +71,21 @@ function EventHubsTests
 	$createdEventHub.MessageRetentionInDays = 4	
 	$createdEventHub.CaptureDescription = New-Object -TypeName Microsoft.Azure.Commands.EventHub.Models.PSCaptureDescriptionAttributes
 	$createdEventHub.CaptureDescription.Enabled = $true
+	$createdEventHub.CaptureDescription.SkipEmptyArchives = $true
 	$createdEventHub.CaptureDescription.IntervalInSeconds  = 120
 	$createdEventHub.CaptureDescription.Encoding  = "Avro"
 	$createdEventHub.CaptureDescription.SizeLimitInBytes = 10485763
 	$createdEventHub.CaptureDescription.Destination.Name = "EventHubArchive.AzureBlockBlob"
 	$createdEventHub.CaptureDescription.Destination.BlobContainer = "container01"
 	$createdEventHub.CaptureDescription.Destination.ArchiveNameFormat = "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"
-	$createdEventHub.CaptureDescription.Destination.StorageAccountResourceId = "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/v-ajnavtest/providers/Microsoft.Storage/storageAccounts/testingsdkeventhub"
+	$createdEventHub.CaptureDescription.Destination.StorageAccountResourceId = "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/v-ajnavtest/providers/Microsoft.Storage/storageAccounts/testingsdkeventhub11"
 		
 	$result = Set-AzEventHub -ResourceGroup $resourceGroupName -Namespace $namespaceName -Name $createdEventHub.Name  -InputObject $createdEventHub
 	
 	# Assert
 	Assert-AreEqual $result.MessageRetentionInDays $createdEventHub.MessageRetentionInDays
 	Assert-AreEqual $result.CaptureDescription.Destination.BlobContainer "container01"
+	Assert-True { $result.CaptureDescription.SkipEmptyArchives }
 
 	# Create New EventHub with InputObject
 	$resultNew = New-AzEventHub -ResourceGroup $resourceGroupName -Namespace $namespaceName -Name $createdEventHub.Name  -InputObject $result
@@ -99,10 +101,10 @@ function EventHubsTests
 	{
 		$delete1 = Remove-AzEventHub -ResourceGroup $resourceGroupName -Namespace $namespaceName -Name $createdEventHubList[$i].Name		
 	}
-	Write-Debug " Delete namespaces"
+	Write-Debug "Delete namespaces"
 	Remove-AzEventHubNamespace -ResourceGroup $resourceGroupName -Namespace $namespaceName
 
-	Write-Debug " Delete resourcegroup"
+	Write-Debug "Delete resourcegroup"
 	#Remove-AzResourceGroup -Name $resourceGroupName -Force
 }
 
@@ -118,6 +120,10 @@ function EventHubsAuthTests
 	$namespaceName = getAssetName "Eventhub-Namespace-"
 	$eventHubName = getAssetName "EventHub-"
 	$authRuleName = getAssetName "Eventhub-Namespace-AuthorizationRule"
+    $authRuleName = getAssetName "authorule-"
+	$authRuleNameListen = getAssetName "authorule-"
+	$authRuleNameSend = getAssetName "authorule-"
+	$authRuleNameAll = getAssetName "authorule-"
 
 	# Create ResourceGroup
 	Write-Debug " Create resource group"    
@@ -161,6 +167,23 @@ function EventHubsAuthTests
 	Assert-AreEqual 2 $result.Rights.Count
 	Assert-True { $result.Rights -Contains "Listen" }
 	Assert-True { $result.Rights -Contains "Send" }
+
+	$resultListen = New-AzEventHubAuthorizationRule -ResourceGroupName $resourceGroupName -Namespace $namespaceName -EventHub $eventHubName -Name $authRuleNameListen -Rights @("Listen")
+	Assert-AreEqual $authRuleNameListen $resultListen.Name
+    Assert-AreEqual 1 $resultListen.Rights.Count
+    Assert-True { $resultListen.Rights -Contains "Listen" }
+
+	$resultSend = New-AzEventHubAuthorizationRule -ResourceGroupName $resourceGroupName -Namespace $namespaceName -EventHub $eventHubName -Name $authRuleNameSend -Rights @("Send")
+	Assert-AreEqual $authRuleNameSend $resultSend.Name
+    Assert-AreEqual 1 $resultSend.Rights.Count
+    Assert-True { $resultSend.Rights -Contains "Send" }
+
+	$resultall3 = New-AzEventHubAuthorizationRule -ResourceGroupName $resourceGroupName -Namespace $namespaceName -EventHub $eventHubName -Name $authRuleNameAll -Rights @("Listen","Send","Manage")
+	Assert-AreEqual $authRuleNameAll $resultall3.Name
+    Assert-AreEqual 3 $resultall3.Rights.Count
+    Assert-True { $resultall3.Rights -Contains "Send" }
+	Assert-True { $resultall3.Rights -Contains "Listen" }
+	Assert-True { $resultall3.Rights -Contains "Manage" }
 
 	# Get Created Eventhub Authorization Rule
 	Write-Debug "Get created authorizationRule"
@@ -215,8 +238,12 @@ function EventHubsAuthTests
 	Write-Debug "Get Eventhub authorizationRules connectionStrings"
 	$namespaceListKeys = Get-AzEventHubKey -ResourceGroup $resourceGroupName -Namespace $namespaceName -EventHub $eventHubName -Name $authRuleName
 
-	Assert-True {$namespaceListKeys.PrimaryConnectionString.Contains($updatedAuthRule.PrimaryKey)}
-	Assert-True {$namespaceListKeys.SecondaryConnectionString.Contains($updatedAuthRule.SecondaryKey)}
+	Assert-True {$namespaceListKeys.PrimaryConnectionString -like "*$($updatedAuthRule.PrimaryKey)*"}
+	Assert-True {$namespaceListKeys.SecondaryConnectionString -like "*$($updatedAuthRule.SecondaryKey)*"}
+	
+	$StartTime = Get-Date
+	$EndTime = $StartTime.AddHours(2.0)
+	$SasToken = New-AzEventHubAuthorizationRuleSASToken -ResourceId $updatedAuthRule.Id -KeyType Primary -ExpiryTime $EndTime -StartTime $StartTime
 	
 	# Regentrate the Keys 
 	$policyKey = "PrimaryKey"

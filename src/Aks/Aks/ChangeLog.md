@@ -18,6 +18,13 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+
+## Version 1.0.2
+* Fixed miscellaneous typos across module
+* Fix issue with output for `Get-AzAks`
+    * More information here: https://github.com/Azure/azure-powershell/issues/9847
+
+## Version 1.0.1
 * Update incorrect online help URLs
 
 ## Version 1.0.0

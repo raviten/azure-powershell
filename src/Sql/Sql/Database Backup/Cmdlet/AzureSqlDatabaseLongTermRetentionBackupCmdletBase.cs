@@ -28,16 +28,10 @@ namespace Microsoft.Azure.Commands.Sql.Database_Backup.Cmdlet
         AzureSqlCmdletBase<IEnumerable<AzureSqlDatabaseLongTermRetentionBackupModel>, AzureSqlDatabaseBackupAdapter>
     {
         /// <summary>
-        /// Override to remove from parameters.
-        /// </summary>
-        public override string ResourceGroupName { get; set; }
-
-        /// <summary>
         /// Initializes the adapter
         /// </summary>
-        /// <param name="subscription">The subscription to operate on</param>
         /// <returns></returns>
-        protected override AzureSqlDatabaseBackupAdapter InitModelAdapter(IAzureSubscription subscription)
+        protected override AzureSqlDatabaseBackupAdapter InitModelAdapter()
         {
             return new AzureSqlDatabaseBackupAdapter(DefaultProfile.DefaultContext);
         }

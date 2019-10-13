@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.Backup.dll-Help.xml
 Module Name: Az.RecoveryServices
 ms.assetid: 04D7317E-2089-4197-909D-89F0CEC4851A
@@ -9,29 +9,35 @@ schema: 2.0.0
 # Backup-AzRecoveryServicesBackupItem
 
 ## SYNOPSIS
+
 Starts a backup for a Backup item.
 
 ## SYNTAX
 
 ```
-Backup-AzRecoveryServicesBackupItem -Item <ItemBase> [-ExpiryDateTimeUTC <DateTime>] [-VaultId <String>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Backup-AzRecoveryServicesBackupItem -Item <ItemBase> [-ExpiryDateTimeUTC <DateTime>] [-BackupType <BackupType>]
+ [-EnableCompression] [-VaultId <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
+
 The **Backup-AzRecoveryServicesBackupItem** cmdlet starts a backup for a protected Azure Backup item that is not tied to the backup schedule.
 You can do an initial backup immediately after you enable protection or start a backup after a scheduled backup fails.
-Set the vault context by using the Set-AzRecoveryServicesVaultContext cmdlet before you use the current cmdlet.
+Set the vault context by using the -VaultId parameter.
 
 ## EXAMPLES
 
 ### Example 1: Start a backup for a Backup item
-```
-PS C:\> $NamedContainer = Get-AzRecoveryServicesBackupContainer -ContainerType AzureVM -Status Registered -Name "pstestv2vm1" 
-PS C:\> $Item = Get-AzRecoveryServicesBackupItem -Container $NamedContainer -WorkloadType AzureVM 
-PS C:\> $Job = Backup-AzRecoveryServicesItem -Item $Item
-Operation        Status               StartTime            EndTime                   JOBID                           
-------------     ---------            ------               ---------                 -------                                         
+
+```powershell
+PS C:\> $vault = Get-AzRecoveryServicesVault -ResourceGroupName "resourceGroup" -Name "vaultName"
+PS C:\> $NamedContainer = Get-AzRecoveryServicesBackupContainer -ContainerType AzureVM -Status Registered -FriendlyName "pstestv2vm1" -VaultId $vault.ID
+PS C:\> $Item = Get-AzRecoveryServicesBackupItem -Container $NamedContainer -WorkloadType AzureVM -VaultId $vault.ID
+PS C:\> $Job = Backup-AzRecoveryServicesBackupItem -Item $Item -VaultId $vault.ID
+PS C:\> $Job
+Operation        Status               StartTime            EndTime                   JOBID
+------------     ---------            ------               ---------                 -------
 pstestv2vm1      Backup               InProgress           4/23/2016 5:00:30 PM      cf4b3ef5-2fac-4c8e-a215-d2eba4124f27
 ```
 
@@ -41,7 +47,25 @@ The last command triggers the backup job for the Backup item in $Item.
 
 ## PARAMETERS
 
+### -BackupType
+
+Type of backup to be performed
+
+```yaml
+Type: Microsoft.Azure.Commands.RecoveryServices.Backup.Cmdlets.Models.BackupType
+Parameter Sets: (All)
+Aliases:
+Accepted values: Full, Differential, Log, CopyOnlyFull
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultProfile
+
 The credentials, account, tenant, and subscription used for communication with azure.
 
 ```yaml
@@ -56,7 +80,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EnableCompression
+
+If enabling compression is required
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ExpiryDateTimeUTC
+
 Specifies an expiry time as a **DateTime** object.
 
 ```yaml
@@ -72,6 +113,7 @@ Accept wildcard characters: False
 ```
 
 ### -Item
+
 Specifies a Backup item for which this cmdlet starts a backup operation.
 
 ```yaml
@@ -87,6 +129,7 @@ Accept wildcard characters: False
 ```
 
 ### -VaultId
+
 ARM ID of the Recovery Services Vault.
 
 ```yaml
@@ -102,6 +145,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
+
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
@@ -117,6 +161,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
+
 Shows what would happen if the cmdlet runs. The cmdlet is not run.
 
 ```yaml
@@ -131,8 +176,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+### -CommonParameters
+
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -155,5 +201,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 [Get-AzRecoveryServicesBackupItem](./Get-AzRecoveryServicesBackupItem.md)
 
 [Restore-AzRecoveryServicesBackupItem](./Restore-AzRecoveryServicesBackupItem.md)
-
-

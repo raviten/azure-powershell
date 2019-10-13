@@ -52,9 +52,9 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Services
         public AzureSqlManagedInstanceCommunicator(IAzureContext context)
         {
             Context = context;
-            if (context.Subscription != Subscription)
+            if (context?.Subscription != Subscription)
             {
-                Subscription = context.Subscription;
+                Subscription = context?.Subscription;
                 SqlClient = null;
             }
         }
@@ -73,6 +73,14 @@ namespace Microsoft.Azure.Commands.Sql.ManagedInstance.Services
         public IList<Management.Sql.Models.ManagedInstance> ListByResourceGroup(string resourceGroupName)
         {
             return GetCurrentSqlClient().ManagedInstances.ListByResourceGroup(resourceGroupName).ToList();
+        }
+
+        /// <summary>
+        /// Lists managed instances in an instance pool
+        /// </summary>
+        public IList<Management.Sql.Models.ManagedInstance> ListByInstancePool(string resourceGroupName, string instancePoolName)
+        {
+            return GetCurrentSqlClient().ManagedInstances.ListByInstancePool(resourceGroupName, instancePoolName).ToList();
         }
 
         /// <summary>

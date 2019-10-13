@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
 
         #endregion private Variables
 
-        #region Input Paramters
+        #region Input Parameters
 
         [Parameter(Mandatory = true, HelpMessage = "The targeted resource group for the workflow.",
             ValueFromPipelineByPropertyName = true)]
@@ -124,7 +124,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
                 IntegrationAccount = string.IsNullOrEmpty(this.IntegrationAccountId)
                     ? null
                     : new ResourceReference(this.IntegrationAccountId),
-                State = (WorkflowState)Enum.Parse(typeof(WorkflowState), this.State)
+                State = this.State
             }), true);
         }
     }

@@ -212,7 +212,51 @@ function Test-VirtualMachine
         Assert-NotNull $a
         Assert-True{$a.Contains("NIC");}
         Assert-AreNotEqual $vms $null;
-
+        
+        $wildcardRgQuery = ($rgname -replace ".$") + "*"
+        $wildcardNameQuery = ($vmname -replace ".$") + "*"
+        
+        $vms = Get-AzVM;
+        $a = $vms | Out-String;
+        Assert-NotNull $a
+        Assert-AreNotEqual $vms $null;
+        
+        $vms = Get-AzVM -ResourceGroupName $wildcardRgQuery;
+        $a = $vms | Out-String;
+        Assert-NotNull $a
+        Assert-True{$a.Contains("NIC");}
+        Assert-AreNotEqual $vms $null;
+        
+        $vms = Get-AzVM -Name $vmname;
+        $a = $vms | Out-String;
+        Assert-NotNull $a
+        Assert-True{$a.Contains("NIC");}
+        Assert-AreNotEqual $vms $null;
+        
+        $vms = Get-AzVM -Name $wildcardNameQuery;
+        $a = $vms | Out-String;
+        Assert-NotNull $a
+        Assert-True{$a.Contains("NIC");}
+        Assert-AreNotEqual $vms $null;
+        
+        $vms = Get-AzVM -ResourceGroupName $wildcardRgQuery -Name $vmname;
+        $a = $vms | Out-String;
+        Assert-NotNull $a
+        Assert-True{$a.Contains("NIC");}
+        Assert-AreNotEqual $vms $null;
+        
+        $vms = Get-AzVM -ResourceGroupName $wildcardRgQuery -Name $wildcardNameQuery;
+        $a = $vms | Out-String;
+        Assert-NotNull $a
+        Assert-True{$a.Contains("NIC");}
+        Assert-AreNotEqual $vms $null;
+        
+        $vms = Get-AzVM -ResourceGroupName $rgname -Name $wildcardNameQuery;
+        $a = $vms | Out-String;
+        Assert-NotNull $a
+        Assert-True{$a.Contains("NIC");}
+        Assert-AreNotEqual $vms $null;
+        
         Assert-NotNull $vms[0]
         # VM Compact output
         $a = $vms[0] | Format-Custom | Out-String;
@@ -581,7 +625,7 @@ function Test-VirtualMachineImageList
                         $skus = $s3 | select -ExpandProperty Skus;
                         foreach ($sku in $skus)
                         {
-                            $s4 = Get-AzVMImage -Location $locStr -PublisherName $pub -Offer $offer -Sku $sku;
+                            $s4 = Get-AzVMImage -Location $locStr -PublisherName $pub -Offer $offer -Sku $sku -Version "*";
                             if ($s4.Count -gt 0)
                             {
                                 $versions = $s4 | select -ExpandProperty Version;
@@ -624,7 +668,7 @@ function Test-VirtualMachineImageList
             {
                 foreach ($type in $types)
                 {
-                    $s2 = Get-AzVMExtensionImage -Location $locStr -PublisherName $pub -Type $type -FilterExpression "startswith(name,'1')";
+                    $s2 = Get-AzVMExtensionImage -Location $locStr -PublisherName $pub -Type $type -FilterExpression "startswith(name,'1')" -Version "*";
                     $versions = $s2 | select -ExpandProperty Version;
                     foreach ($ver in $versions)
                     {
@@ -2505,7 +2549,8 @@ function Test-VirtualMachineWithBYOL
     try
     {
         # Common
-        $loc = "Central US";
+        [string]$loc = Get-ComputeVMLocation;
+        $loc = $loc.Replace(' ', '');
         New-AzResourceGroup -Name $rgname -Location $loc -Force;
 
         # VM Profile & Hardware
@@ -3095,7 +3140,7 @@ function Test-VirtualMachinePerformanceMaintenance
 
 <#
 .SYNOPSIS
-Test Virtual Machine Performance Maintenance
+Test Virtual Machine Identity
 #>
 function Test-VirtualMachineIdentity
 {
@@ -3173,7 +3218,7 @@ function Test-VirtualMachineIdentity
 
 <#
 .SYNOPSIS
-Test Virtual Machine Performance Maintenance
+Test Virtual Machine Identity Update
 #>
 function Test-VirtualMachineIdentityUpdate
 {
@@ -3183,7 +3228,8 @@ function Test-VirtualMachineIdentityUpdate
     try
     {
         # Common
-        $loc = Get-ComputeVMLocation;
+        [string]$loc = Get-ComputeVMLocation;
+        $loc = $loc.Replace(' ', '');
 
         New-AzResourceGroup -Name $rgname -Location $loc -Force;
 
@@ -3274,7 +3320,8 @@ function Test-VirtualMachineWriteAcceleratorUpdate
     try
     {
         # Common
-        $loc = 'WestEurope';
+        [string]$loc = Get-ComputeVMLocation;
+        $loc = $loc.Replace(' ', '');
 
         New-AzResourceGroup -Name $rgname -Location $loc -Force;
 
@@ -3326,6 +3373,10 @@ function Test-VirtualMachineWriteAcceleratorUpdate
     }
 }
 
+<#
+.SYNOPSIS
+Test Virtual Machine Managed Disk
+#>
 function Test-VirtualMachineManagedDisk
 {
     # Setup
@@ -3446,6 +3497,283 @@ function Test-VirtualMachineManagedDisk
         Assert-AreEqual 'Standard_LRS' $vm.StorageProfile.OsDisk.ManagedDisk.StorageAccountType;
         Assert-AreEqual $datadisk.Id $vm.StorageProfile.DataDisks[0].ManagedDisk.Id;
         Assert-AreEqual 'Standard_LRS' $vm.StorageProfile.DataDisks[0].ManagedDisk.StorageAccountType;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine Reimage
+#>
+function Test-VirtualMachineReimage
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName
+
+    try
+    {
+        # Common
+        $loc = Get-ComputeVMLocation;
+
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_DS1_v2';
+        $vmname = 'vm' + $rgname;
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel ('pubip' + $rgname);
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nicId = $nic.Id;
+
+        # OS & Image
+        $user = "Foo12";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize `
+             | Add-AzVMNetworkInterface -Id $nicId -Primary `
+             | Set-AzVMOperatingSystem -Windows -ComputerName $computerName -Credential $cred `
+             | Set-AzVMOSDisk -DiffDiskSetting "Local" -Caching 'ReadOnly' -CreateOption FromImage;
+
+        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $imgRef | Set-AzVMSourceImage -VM $p | New-AzVM -ResourceGroupName $rgname -Location $loc;
+
+        # Get VM
+        $vm = Get-AzVM -Name $vmname -ResourceGroupName $rgname;
+        $vm_output = $vm | Out-String;
+        Write-Verbose($vm_output);
+
+        Invoke-AzVMReimage -ResourceGroupName $rgname -Name $vmname -TempDisk;
+        $vm = Get-AzVM -Name $vmname -ResourceGroupName $rgname;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine Managed Disk
+#>
+function Test-VirtualMachineStop
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName
+
+    try
+    {
+        $loc = Get-ComputeVMLocation;
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_DS1';
+        $vmname = 'vm' + $rgname;
+
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize;
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel ('pubip' + $rgname);
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId;
+
+        # OS & Image
+        $user = "Foo2";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
+
+        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $p = ($imgRef | Set-AzVMSourceImage -VM $p);
+
+        # Virtual Machine
+        New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p;
+
+        # Get VM
+        $vm = Get-AzVM -ResourceGroupName $rgname -Name $vmname;
+        $vmstate = Get-AzVM -ResourceGroupName $rgname -Name $vmname -Status;
+        Assert-AreEqual "PowerState/running" $vmstate.Statuses[1].Code
+
+        # Stop the VM
+        Stop-AzVM -ResourceGroupName $rgname -Name $vmname -StayProvisioned -SkipShutdown -Force;
+        $vm = Get-AzVM -ResourceGroupName $rgname -Name $vmname;
+        $vmstate = Get-AzVM -ResourceGroupName $rgname -Name $vmname -Status;
+        Assert-AreEqual "PowerState/stopped" $vmstate.Statuses[1].Code
+
+        Remove-AzVM -ResourceGroupName $rgname -Name $vmname -Force;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Virtual Machine Managed Disk
+#>
+function Test-VirtualMachineRemoteDesktop
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName
+
+    try
+    {
+        $loc = Get-ComputeVMLocation;
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_DS2_v2';
+        $vmname = 'vm' + $rgname;
+
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize -EnableUltraSSD -Zone "1";
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId;
+
+        # OS & Image
+        $user = "Foo2";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
+
+        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $p = ($imgRef | Set-AzVMSourceImage -VM $p);
+
+        # Virtual Machine
+        Assert-ThrowsContains { `
+            New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p; } `
+            "'Microsoft.Compute/UltraSSD' feature is not enabled for this subscription.";
+
+        $p.AdditionalCapabilities.UltraSSDEnabled = $false;
+        New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p;
+
+        # Get VM
+        $vm = Get-AzVM -ResourceGroupName $rgname -Name $vmname;
+        Assert-False {$vm.AdditionalCapabilities.UltraSSDEnabled};
+        $vmstate = Get-AzVM -ResourceGroupName $rgname -Name $vmname -Status;
+
+        Assert-ThrowsContains { `
+            Get-AzRemoteDesktopFile -ResourceGroupName $rgname -Name $vmname -LocalPath ".\file.rdp"; } `
+            "The RDP file cannot be generated because the network interface of the virtual machine does not reference a PublicIP or an InboundNatRule of a public load balancer.";
+
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -Zone "1" -Sku "Standard" -AllocationMethod "Static" -DomainNameLabel ('pubip' + $rgname);
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nic | Set-AzNetworkInterfaceIpConfig -Name 'ipconfig1' -SubnetId $subnetId -PublicIpAddressId $pubip.Id | Set-AzNetworkInterface;
+
+        # Get VM
+        $vm = Get-AzVM -ResourceGroupName $rgname -Name $vmname;
+        $vmstate = Get-AzVM -ResourceGroupName $rgname -Name $vmname -Status;
+
+        Get-AzRemoteDesktopFile -ResourceGroupName $rgname -Name $vmname -LocalPath ".\file.rdp";
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Test Low Priority Virtual Machine
+#>
+function Test-LowPriorityVirtualMachine
+{
+# Setup
+    $rgname = Get-ComputeTestResourceName
+
+    try
+    {
+        $loc = Get-ComputeVMLocation;
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_DS2_v2';
+        $vmname = 'vm' + $rgname;
+
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize -Priority 'Low' -EvictionPolicy 'Deallocate' -MaxPrice 0.1538;
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId;
+
+        # OS & Image
+        $user = "Foo2";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
+
+        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $p = ($imgRef | Set-AzVMSourceImage -VM $p);
+
+        # Create a Virtual Machine
+        New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p;
+
+        # Get VM
+        $vm = Get-AzVM -ResourceGroupName $rgname -Name $vmname -DisplayHint Expand;
+        Assert-AreEqual "Low" $vm.Priority;
+        Assert-AreEqual "Deallocate" $vm.EvictionPolicy;
+        Assert-AreEqual 0.1538 $vm.BillingProfile.MaxPrice;
+        $vmstate = Get-AzVM -ResourceGroupName $rgname -Name $vmname -Status;
+
+        # Update the max price of the VM
+        Update-AzVM -ResourceGroupName $rgname -VM $vm -MaxPrice 0.2
+
+        $vm = Get-AzVM -ResourceGroupName $rgname -Name $vmname;
+        Assert-AreEqual "Low" $vm.Priority;
+        Assert-AreEqual "Deallocate" $vm.EvictionPolicy;
+        Assert-AreEqual 0.2 $vm.BillingProfile.MaxPrice;
+        $vmstate = Get-AzVM -ResourceGroupName $rgname -Name $vmname -Status;
     }
     finally
     {

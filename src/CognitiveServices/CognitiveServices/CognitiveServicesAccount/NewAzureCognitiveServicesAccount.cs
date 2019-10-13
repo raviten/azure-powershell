@@ -13,10 +13,13 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.Management.CognitiveServices.ArgumentCompleters;
+using Microsoft.Azure.Commands.Management.CognitiveServices.Models;
 using Microsoft.Azure.Commands.Management.CognitiveServices.Properties;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.CognitiveServices;
 using Microsoft.Azure.Management.CognitiveServices.Models;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Globalization;
 using System.Management.Automation;
@@ -84,6 +87,20 @@ namespace Microsoft.Azure.Commands.Management.CognitiveServices
         [AllowEmptyCollection]
         public Hashtable[] Tag { get; set; }
 
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "Cognitive Services Account Subdomain Name.")]
+        [ValidateNotNull]
+        [AllowEmptyCollection]
+        public string CustomSubdomainName { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            HelpMessage = "NetworkRuleSet is used to define a set of configuration rules for firewalls and virtual networks, as well as to set values for network properties such as how to handle requests that don't match any of the defined rules")]
+        [ValidateNotNull]
+        [AllowEmptyCollection]
+        public PSNetworkRuleSet NetworkRuleSet { get; set; }
+
         [Parameter(Mandatory = false, HelpMessage = "Don't ask for confirmation.")]
         public SwitchParameter Force { get; set; }
 
@@ -93,39 +110,59 @@ namespace Microsoft.Azure.Commands.Management.CognitiveServices
 
             RunCmdLet(() =>
             {
+                var properties = new JObject();
+                if (!string.IsNullOrWhiteSpace(CustomSubdomainName))
+                {
+                    properties["customSubDomainName"] = CustomSubdomainName;
+                }
+                if (NetworkRuleSet != null)
+                {
+                    properties["networkAcls"] = JToken.FromObject(NetworkRuleSet);
+                }
+
                 CognitiveServicesAccountCreateParameters createParameters = new CognitiveServicesAccountCreateParameters()
                 {
-                    Location = this.Location,
-                    Kind = this.Type, // must have value, mandatory parameter
-                    Sku = new Sku(this.SkuName),
+                    Location = Location,
+                    Kind = Type, // must have value, mandatory parameter
+                    Sku = new Sku(SkuName),
                     Tags = TagsConversionHelper.CreateTagDictionary(Tag),
-                    Properties = new object(), // Must not be null according to Azure RM spec. Also there is no actual properties to pass, so not exposing it through cmdlet
+                    Properties = properties
                 };
 
                 if (ShouldProcess(
-                    this.Name, string.Format(CultureInfo.CurrentCulture, Resources.NewAccount_ProcessMessage, this.Name, this.Type, this.SkuName, this.Location)))
+                    Name, string.Format(CultureInfo.CurrentCulture, Resources.NewAccount_ProcessMessage, Name, Type, SkuName, Location)))
                 {
-                    if (Force.IsPresent)
+                    if (Type.StartsWith("Bing.", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        WriteWarning(Resources.NewAccount_Notice);
-                    }
-                    else
-                    {
-                        bool yesToAll = false, noToAll = false;
-                        if (!ShouldContinue(Resources.NewAccount_Notice, "Notice", true, ref yesToAll, ref noToAll))
+                        if (Force.IsPresent)
                         {
-                            return;
+                            WriteWarning(Resources.NewAccount_Notice);
+                        }
+                        else
+                        {
+                            bool yesToAll = false, noToAll = false;
+                            if (!ShouldContinue(Resources.NewAccount_Notice, "Notice", true, ref yesToAll, ref noToAll))
+                            {
+                                return;
+                            }
                         }
                     }
+                    try
+                    {
+                        CognitiveServicesAccount createAccountResponse = CognitiveServicesClient.Accounts.Create(
+                                        ResourceGroupName,
+                                        Name,
+                                        createParameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Give users a specific message says `Failed to create Cognitive Services account.`
+                        // Details should able be found in the exception.
+                        throw new Exception("Failed to create Cognitive Services account.", ex);
+                    }
 
-                    var createAccountResponse = this.CognitiveServicesClient.Accounts.Create(
-                                    this.ResourceGroupName,
-                                    this.Name,
-                                    createParameters);
-
-                    var cognitiveServicesAccount = this.CognitiveServicesClient.Accounts.GetProperties(this.ResourceGroupName, this.Name);
-
-                    this.WriteCognitiveServicesAccount(cognitiveServicesAccount);
+                    CognitiveServicesAccount cognitiveServicesAccount = CognitiveServicesClient.Accounts.GetProperties(ResourceGroupName, Name);
+                    WriteCognitiveServicesAccount(cognitiveServicesAccount);
                 }
             });
         }

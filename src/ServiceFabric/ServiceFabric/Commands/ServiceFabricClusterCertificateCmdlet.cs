@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Commands.ServiceFabric.Models;
 using Microsoft.Azure.Commands.Common.Authentication;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Microsoft.Azure.Commands.ServiceFabric.Common;
 using Microsoft.WindowsAzure.Commands.Common;
 using ServiceFabricProperties = Microsoft.Azure.Commands.ServiceFabric.Properties;
@@ -50,6 +51,8 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
         protected const string ByDefaultArmTemplate = "ByDefaultArmTemplate";
 
         private string keyVaultCertificateName { get; set; }
+
+        private const string BasicConstraintsExtensionName = "Basic Constraints";
 
         /// <summary>
         /// Resource group name
@@ -79,7 +82,8 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
         [Parameter(Mandatory = false, ValueFromPipeline = true, ParameterSetName = ByExistingPfxAndVaultName,
             HelpMessage = "Azure key vault resource group name, if not given it will be defaulted to resource group name")]
         [ValidateNotNullOrEmpty]
-        public virtual string KeyVaultResouceGroupName { get; set; }
+        [Alias("KeyVaultResouceGroupName")]
+        public virtual string KeyVaultResourceGroupName { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipeline = true, ParameterSetName = ByNewPfxAndVaultName,
                    HelpMessage = "Azure key vault name, if not given it will be defaulted to the resource group name")]
@@ -156,7 +160,7 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
             get { return resourceManagerClient.Value; }
         }
 
-        public virtual string KeyVaultResouceGroupLocation
+        public virtual string KeyVaultResourceGroupLocation
         {
             get
             {
@@ -323,9 +327,9 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
         internal List<CertificateInformation> GetOrCreateCertificateInformation()
         {
             var certificateInformations = new List<CertificateInformation>();
-            if (string.IsNullOrEmpty(this.KeyVaultResouceGroupName))
+            if (string.IsNullOrEmpty(this.KeyVaultResourceGroupName))
             {
-                this.KeyVaultResouceGroupName = this.ResourceGroupName;
+                this.KeyVaultResourceGroupName = this.ResourceGroupName;
             }
 
             if (string.IsNullOrEmpty(this.KeyVaultName))
@@ -337,16 +341,16 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
             {
                 var resourceGroup = SafeGetResource(
                     () => this.ResourceManagerClient.ResourceGroups.Get(
-                        this.KeyVaultResouceGroupName),
+                        this.KeyVaultResourceGroupName),
                         true);
 
                 if (resourceGroup == null)
                 {
                     this.ResourceManagerClient.ResourceGroups.CreateOrUpdate(
-                        this.KeyVaultResouceGroupName,
+                        this.KeyVaultResourceGroupName,
                         new ResourceGroup()
                         {
-                            Location = this.KeyVaultResouceGroupLocation
+                            Location = this.KeyVaultResourceGroupLocation
                         });
                 }
             }
@@ -434,84 +438,119 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
             }
         }
 
-        internal Task AddCertToVmssTask(VirtualMachineScaleSet vmss, CertificateInformation certInformation)
+        internal List<Task> CreateAddOrRemoveCertVMSSTasks(CertificateInformation certInformation, string clusterId, bool isClusterCert = true, bool addCert = true)
         {
-            var secretGroup = vmss.VirtualMachineProfile.OsProfile.Secrets.SingleOrDefault(
-                s => s.SourceVault.Id.Equals(certInformation.KeyVault.Id, StringComparison.OrdinalIgnoreCase));
+            var allTasks = new List<Task>();
+            var vmssPages = this.ComputeClient.VirtualMachineScaleSets.List(this.ResourceGroupName);
 
-
-            string configStore = null;
-            if (vmss.VirtualMachineProfile.OsProfile.WindowsConfiguration != null)
+            if (vmssPages == null || !vmssPages.Any())
             {
-                configStore = Constants.DefaultCertificateStore;
+                throw new PSArgumentException(string.Format(
+                    ServiceFabricProperties.Resources.NoVMSSFoundInRG,
+                    this.ResourceGroupName));
             }
 
-            if (secretGroup == null)
+            do
             {
-                vmss.VirtualMachineProfile.OsProfile.Secrets.Add(
-                    new VaultSecretGroup()
-                    {
-                        SourceVault = new Azure.Commands.Common.Compute.Version_2018_04.Models.SubResource()
-                        {
-                            Id = certInformation.KeyVault.Id
-                        },
-                        VaultCertificates = new List<VaultCertificate>()
-                        {
-                          new VaultCertificate()
-                          {
-                          CertificateStore = configStore,
-                          CertificateUrl = certInformation.SecretUrl
-                          }
-                        }
-                    });
-            }
-            else
-            {
-                if (secretGroup.VaultCertificates != null)
+                if (!vmssPages.Any())
                 {
-                    var exsit =
-                        secretGroup.VaultCertificates.Any(
-                            cert =>
-                                cert.CertificateUrl.Equals(certInformation.SecretUrl,
-                                    StringComparison.OrdinalIgnoreCase));
+                    break;
+                }
 
-                    if (!exsit)
+                foreach (var vmss in vmssPages)
+                {
+                    VirtualMachineScaleSetExtension sfExt;
+                    if (TryGetFabricVmExt(vmss.VirtualMachineProfile.ExtensionProfile?.Extensions, out sfExt))
                     {
-                        secretGroup.VaultCertificates.Add(
-                            new VaultCertificate()
+                        if (!string.Equals(GetClusterIdFromExtension(sfExt), clusterId, StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        WriteVerboseWithTimestamp(string.Format("Found VMSS: {0}, id: {1} for cluster {2}", vmss.Name, vmss.Id, clusterId));
+
+                        var extConfig = (JObject)sfExt.Settings;
+
+                        if (addCert)
+                        {
+                            if (isClusterCert)
                             {
-                                CertificateStore = configStore,
-                                CertificateUrl = certInformation.SecretUrl
-                            });
+                                if (this.CertificateCommonName != null)
+                                {
+                                    JArray newCommonNames = (JArray)extConfig.SelectToken("certificate.commonNames");
+                                    newCommonNames.Add(this.CertificateCommonName);
+
+                                    extConfig["certificate"]["commonNames"] = newCommonNames;
+                                }
+                                else
+                                {
+                                    var input = string.Format(
+                                        @"{{""thumbprint"":""{0}"",""x509StoreName"":""{1}""}}",
+                                        certInformation.CertificateThumbprint,
+                                        Constants.DefaultCertificateStore);
+
+                                    extConfig["certificateSecondary"] = JObject.Parse(input);
+                                }
+
+                                vmss.VirtualMachineProfile.ExtensionProfile.Extensions.Single(
+                                    extension =>
+                                    extension.Name.Equals(sfExt.Name, StringComparison.OrdinalIgnoreCase)).Settings = extConfig;
+                            }
+
+                            allTasks.Add(AddCertToVmssTask(vmss, certInformation));
+                        }
+                        else
+                        {
+                            if (isClusterCert)
+                            {
+                                if (this.CertificateCommonName != null)
+                                {
+                                    JArray commonNames = (JArray)extConfig.SelectToken("certificate.commonNames");
+                                    var commonNameToRemove = commonNames.FirstOrDefault(commonName => (string)commonName == this.CertificateCommonName);
+                                    if (commonNameToRemove != null)
+                                    {
+                                        commonNames.Remove(commonNameToRemove);
+                                    }
+                                }
+                                else
+                                {
+                                    string secondaryThumbprint = (string)extConfig["certificateSecondary"]["thumbprint"];
+                                    if (certInformation.CertificateThumbprint.Equals(secondaryThumbprint, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        extConfig.Remove("certificateSecondary");
+                                    }
+                                }
+
+                                vmss.VirtualMachineProfile.ExtensionProfile.Extensions.Single(
+                                    extension =>
+                                    extension.Name.Equals(sfExt.Name, StringComparison.OrdinalIgnoreCase)).Settings = extConfig;
+                            }
+
+                            allTasks.Add(RemoveCertFromVmssTask(vmss, certInformation));
+                        }
                     }
                 }
-                else
-                {
-                    secretGroup.VaultCertificates = new List<VaultCertificate>()
-                    {
-                        new VaultCertificate()
-                        {
-                            CertificateStore = configStore,
-                            CertificateUrl = certInformation.SecretUrl
-                        }
-                   };
-                }
+
+
+            } while (!string.IsNullOrEmpty(vmssPages.NextPageLink) &&
+                     (vmssPages = this.ComputeClient.VirtualMachineScaleSets.ListNext(vmssPages.NextPageLink)) != null);
+
+            if (allTasks.Count() == 0)
+            {
+                throw new ItemNotFoundException(string.Format(ServiceFabricProperties.Resources.NoVmssFoundForCluster, this.ResourceGroupName, clusterId));
             }
 
-            return ComputeClient.VirtualMachineScaleSets.CreateOrUpdateAsync(
-                   this.ResourceGroupName,
-                   vmss.Name,
-                   vmss);
+            return allTasks;
         }
 
         protected void GetKeyVaultReady(out Vault vault, out CertificateBundle certificateBundle, out string thumbprint, out string pfxOutputPath, out string commonName, string srcPfxPath = null)
         { 
-            vault = TryGetKeyVault(this.KeyVaultResouceGroupName, this.KeyVaultName);
+            vault = TryGetKeyVault(this.KeyVaultResourceGroupName, this.KeyVaultName);
             pfxOutputPath = null;
             if (vault == null)
             {
                 WriteVerboseWithTimestamp(string.Format("Creating Azure Key Vault {0}", this.KeyVaultName));
-                vault = CreateKeyVault(this.Name, this.KeyVaultName, this.KeyVaultResouceGroupLocation, this.KeyVaultResouceGroupName);
+                vault = CreateKeyVault(this.Name, this.KeyVaultName, this.KeyVaultResourceGroupLocation, this.KeyVaultResourceGroupName);
                 WriteVerboseWithTimestamp(string.Format("Key Vault is created: {0}", vault.Id));
             }
 
@@ -624,15 +663,14 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
                 }
             }
 
-            X509Certificate2Collection certCollection = GetCertCollectionFromSecret(secretUrl);
-           
-            var lastCert = certCollection.Count > 0 ? certCollection[certCollection.Count - 1] : null;
-            if (lastCert?.Thumbprint != null)
+            X509Certificate2 cert = GetCertFromSecret(secretUrl);
+            if (cert.Thumbprint == null)
             {
-                return lastCert.Thumbprint;
+                throw new PSInvalidOperationException(string.Format("Thumbprint from secretUrl: {0} is null.", secretUrl));
             }
 
-            throw new PSInvalidOperationException(string.Format("Failed to find the thumbprint from {0}", secretUrl));
+            WriteVerboseWithTimestamp("Certificate found from secret with thumbprint: {0}", cert.Thumbprint);
+            return cert.Thumbprint;
         }
 
         private string GetCommonNameFromSecret(string secretUrl)
@@ -655,14 +693,50 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
                 }
             }
 
+            var cert = GetCertFromSecret(secretUrl);
+            string commonName = cert.GetNameInfo(X509NameType.SimpleName, false);
+            WriteVerboseWithTimestamp("Certificate found from secret with common name: {0}", commonName);
+            return commonName;
+        }
+
+        private X509Certificate2 GetCertFromSecret(string secretUrl)
+        {
             X509Certificate2Collection certCollection = GetCertCollectionFromSecret(secretUrl);
-            var lastCert = certCollection.Count > 0 ? certCollection[certCollection.Count - 1] : null;
-            if (lastCert != null)
+
+            if (certCollection.Count == 0)
             {
-                return lastCert.GetNameInfo(X509NameType.SimpleName, false);
+                throw new PSInvalidOperationException(string.Format("Failed to get certificate from secretUrl: {0}. Certcollection is empty", secretUrl));
             }
 
-            throw new PSInvalidOperationException(string.Format("Failed to find the common name from {0}", secretUrl));
+            var firstCert = certCollection[0];
+            var lastCert = certCollection[certCollection.Count - 1];
+
+            if (!IsCertCA(firstCert))
+            {
+                return firstCert;
+            }
+            else if (!IsCertCA(lastCert))
+            {
+                return lastCert;
+            }
+            else
+            {
+                throw new PSInvalidOperationException(string.Format("Failed to get certificate from secretUrl: {0}. All certs in the chain are Certificate Authority", secretUrl));
+            }
+        }
+
+        private bool IsCertCA(X509Certificate2 cert)
+        {
+            foreach (var currExt in cert.Extensions)
+            {
+                if (currExt.Oid.FriendlyName == BasicConstraintsExtensionName)
+                {
+                    X509BasicConstraintsExtension ext = (X509BasicConstraintsExtension)currExt;
+                    return ext.CertificateAuthority;
+                }
+            }
+
+            return false;
         }
 
         private X509Certificate2Collection GetCertCollectionFromSecret(string secretUrl)
@@ -679,6 +753,7 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
             }
             catch (Exception ex)
             {
+                PrintSdkExceptionDetail(ex);
                 throw GetInnerException(ex);
             }
 
@@ -747,6 +822,116 @@ namespace Microsoft.Azure.Commands.ServiceFabric.Commands
 
             vaultSecretName = tokens[3];
             version = tokens[4];
+        }
+
+        private Task AddCertToVmssTask(VirtualMachineScaleSet vmss, CertificateInformation certInformation)
+        {
+            var secretGroup = vmss.VirtualMachineProfile.OsProfile.Secrets.SingleOrDefault(
+                s => s.SourceVault.Id.Equals(certInformation.KeyVault.Id, StringComparison.OrdinalIgnoreCase));
+
+
+            string configStore = null;
+            if (vmss.VirtualMachineProfile.OsProfile.WindowsConfiguration != null)
+            {
+                configStore = Constants.DefaultCertificateStore;
+            }
+
+            if (secretGroup == null)
+            {
+                vmss.VirtualMachineProfile.OsProfile.Secrets.Add(
+                    new VaultSecretGroup()
+                    {
+                        SourceVault = new Azure.Commands.Common.Compute.Version_2018_04.Models.SubResource()
+                        {
+                            Id = certInformation.KeyVault.Id
+                        },
+                        VaultCertificates = new List<VaultCertificate>()
+                        {
+                          new VaultCertificate()
+                          {
+                          CertificateStore = configStore,
+                          CertificateUrl = certInformation.SecretUrl
+                          }
+                        }
+                    });
+            }
+            else
+            {
+                if (secretGroup.VaultCertificates != null)
+                {
+                    var exsit =
+                        secretGroup.VaultCertificates.Any(
+                            cert =>
+                                cert.CertificateUrl.Equals(certInformation.SecretUrl,
+                                    StringComparison.OrdinalIgnoreCase));
+
+                    if (!exsit)
+                    {
+                        secretGroup.VaultCertificates.Add(
+                            new VaultCertificate()
+                            {
+                                CertificateStore = configStore,
+                                CertificateUrl = certInformation.SecretUrl
+                            });
+                    }
+                }
+                else
+                {
+                    secretGroup.VaultCertificates = new List<VaultCertificate>()
+                    {
+                        new VaultCertificate()
+                        {
+                            CertificateStore = configStore,
+                            CertificateUrl = certInformation.SecretUrl
+                        }
+                   };
+                }
+            }
+
+            return ComputeClient.VirtualMachineScaleSets.CreateOrUpdateAsync(
+                   this.ResourceGroupName,
+                   vmss.Name,
+                   vmss);
+        }
+
+        private Task RemoveCertFromVmssTask(VirtualMachineScaleSet vmss, CertificateInformation certInformation)
+        {
+            var secretGroup = vmss.VirtualMachineProfile.OsProfile.Secrets.SingleOrDefault(
+                s => s.SourceVault.Id.Equals(certInformation.KeyVault.Id, StringComparison.OrdinalIgnoreCase));
+
+            bool removeNeeded = false;
+            if (secretGroup != null)
+            {
+                if (secretGroup.VaultCertificates != null)
+                {
+                    if (secretGroup.VaultCertificates.Count() == 1 && secretGroup.VaultCertificates.First().CertificateUrl.Equals(certInformation.SecretUrl))
+                    {
+                        vmss.VirtualMachineProfile.OsProfile.Secrets.Remove(secretGroup);
+                        removeNeeded = true;
+                    }
+                    else
+                    {
+                        var certAdded = secretGroup.VaultCertificates.Single(cert => cert.CertificateUrl.Equals(certInformation.SecretUrl));
+                        if (certAdded != null)
+                        {
+                            secretGroup.VaultCertificates.Remove(certAdded);
+                            removeNeeded = true;
+                        }
+                    }
+                }
+            }
+
+            if (removeNeeded)
+            {
+                return ComputeClient.VirtualMachineScaleSets.CreateOrUpdateAsync(
+                       this.ResourceGroupName,
+                       vmss.Name,
+                       vmss);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
 
         #endregion Defaults
 
-        #region Input Paramters
+        #region Input Parameters
 
         [Parameter(Mandatory = true, HelpMessage = "The integration account resource group name.",
             ValueFromPipelineByPropertyName = true)]
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
             if (!string.IsNullOrEmpty(this.SchemaFilePath))
             {
                 integrationAccountSchemaCopy.Content =
-                    CmdletHelper.GetContentFromFile(this.TryResolvePath(this.SchemaFilePath));
+                    CmdletHelper.GetStringContentFromFile(this.TryResolvePath(this.SchemaFilePath));
             }
 
             if (!string.IsNullOrEmpty(this.SchemaDefinition))
@@ -140,7 +140,7 @@ namespace Microsoft.Azure.Commands.LogicApp.Cmdlets
 
             if (!string.IsNullOrEmpty(this.schemaType))
             {
-                integrationAccountSchemaCopy.SchemaType = (SchemaType)Enum.Parse(typeof(SchemaType), this.SchemaType);
+                integrationAccountSchemaCopy.SchemaType = this.SchemaType;
             }
 
             if (!string.IsNullOrEmpty(this.ContentType))
