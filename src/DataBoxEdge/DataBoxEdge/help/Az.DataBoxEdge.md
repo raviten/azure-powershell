@@ -11,6 +11,9 @@ Locale:
 Module to create a device and perform operations on DataBoxEdge devices
 
 ## Az.DataBoxEdge Cmdlets
+### [Get-AzDataBoxEdgeAlert](Get-AzDataBoxEdgeAlert.md)
+Get the alerts for the device
+
 ### [Get-AzDataBoxEdgeBandwidthSchedule](Get-AzDataBoxEdgeBandwidthSchedule.md)
 Gets the information about Bandwidth schedules
 
@@ -31,6 +34,9 @@ Get the Storage Account credential corresponding to device and storage account
 
 ### [Get-AzDataBoxEdgeUser](Get-AzDataBoxEdgeUser.md)
 Get the created users  for this device
+
+### [Invoke-AzDataBoxEdgeDevice](Invoke-AzDataBoxEdgeDevice.md)
+Invoke specific actions on the device
 
 ### [New-AzDataBoxEdgeBandwidthSchedule](New-AzDataBoxEdgeBandwidthSchedule.md)
 Create a new Bandwidth schedule
