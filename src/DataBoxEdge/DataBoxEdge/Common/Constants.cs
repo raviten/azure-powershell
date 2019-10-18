@@ -10,9 +10,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string AzurePrefix = "Az";
         internal const string ServiceName = "DataBoxEdge";
 
-
         //Device Comands
         internal const string Device = AzurePrefix + ServiceName + "Device";
+        internal const string Alert = AzurePrefix + ServiceName + "Alert";
         internal const string Action = AzurePrefix + ServiceName + "Device" + "Action";
         internal const string User = AzurePrefix + ServiceName + "User";
         internal const string Sac = AzurePrefix + ServiceName + "StorageAccountCredential";
