@@ -18,6 +18,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
         internal const string Sac = AzurePrefix + ServiceName + "StorageAccountCredential";
         internal const string Role = AzurePrefix + ServiceName + "Role";
         internal const string Share = AzurePrefix + ServiceName + "Share";
+        internal const string Trigger = AzurePrefix + ServiceName + "Trigger";
         internal const string BandwidthSchedule = AzurePrefix + ServiceName + "BandwidthSchedule";
         internal const string Test = AzurePrefix + ServiceName + "Test";
         internal const string ResourceAlreadyExists = " already exists with name ";

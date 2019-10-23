@@ -79,7 +79,8 @@ FunctionsToExport = @()
 
 CmdletsToExport = 'Get-AzDataBoxEdgeJob', 
 				  'Get-AzDataBoxEdgeAlert',
-				  'Get-AzDataBoxEdgeDevice', 'New-AzDataBoxEdgeDevice', 'Remove-AzDataBoxEdgeDevice','Invoke-AzDataBoxEdgeDevice',
+				  'Get-AzDataBoxEdgeDevice', 'New-AzDataBoxEdgeDevice', 'Remove-AzDataBoxEdgeDevice', 'Invoke-AzDataBoxEdgeDevice',
+				  'Get-AzDataBoxEdgeTrigger', 'New-AzDataBoxEdgeTrigger', 'Remove-AzDataBoxEdgeTrigger',
 				  'Get-AzDataBoxEdgeUser', 'New-AzDataBoxEdgeUser','Set-AzDataBoxEdgeUser','Remove-AzDataBoxEdgeUser',
 				  'Get-AzDataBoxEdgeStorageAccountCredential', 'New-AzDataBoxEdgeStorageAccountCredential', 'Set-AzDataBoxEdgeStorageAccountCredential','Remove-AzDataBoxEdgeStorageAccountCredential',
 				  'Get-AzDataBoxEdgeShare', 'New-AzDataBoxEdgeShare', 'Set-AzDataBoxEdgeShare', 'Remove-AzDataBoxEdgeShare',
