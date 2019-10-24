@@ -85,18 +85,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Triggers
         private ResourceModel GetResourceModel()
         {
             return this.DataBoxEdgeManagementClient.Triggers.Get(this.DeviceName, this.Name, this.ResourceGroupName);
-
-            //TriggersOperationsExtensions.Get(
-            //this.DataBoxEdgeManagementClient.Triggers,
-            //this.DeviceName,
-            //this.Name,
-            //this.ResourceGroupName);
         }
 
         private List<PSResourceModel> GetByResourceName()
         {
             var resourceModel = GetResourceModel();
-            return new List<PSResourceModel>() {new PSResourceModel(resourceModel)};
+            return new List<PSResourceModel>() {PSResourceModel.PSDataBoxEdgeTriggerObject(resourceModel)};
         }
 
         private IPage<ResourceModel> ListResourceModel()
@@ -130,7 +124,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Triggers
                 paginatedResult.AddRange(resourceModel);
             }
 
-            return paginatedResult.Select(t => new PSResourceModel(t)).ToList();
+            return paginatedResult.Select(PSResourceModel.PSDataBoxEdgeTriggerObject).ToList();
         }
 
         public override void ExecuteCmdlet()
