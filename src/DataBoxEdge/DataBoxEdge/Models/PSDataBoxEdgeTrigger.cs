@@ -43,6 +43,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
             this.DeviceName = resourceIdentifier.DeviceName;
             this.Name = resourceIdentifier.ResourceName;
+           
+
             switch (trigger)
             {
                 case FileEventTrigger fileEventTrigger:
