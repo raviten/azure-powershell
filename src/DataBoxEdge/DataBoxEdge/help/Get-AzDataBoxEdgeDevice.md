@@ -96,7 +96,7 @@ device-name-3      DataBoxEdgeDevice resource-grp-3    eastus
 ## PARAMETERS
 
 ### -Alert
-Fetch the alerts on the data box edge/gateway device
+Fetch the alerts for the data box edge/gateway device
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
