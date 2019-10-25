@@ -75,7 +75,7 @@ Removes the assosciated Role for the device
 Removes a storage account credentail object for the device
 
 ### [Remove-AzDataBoxEdgeTrigger](Remove-AzDataBoxEdgeTrigger.md)
-{{ Fill in the Synopsis }}
+Removes a trigger for the device
 
 ### [Remove-AzDataBoxEdgeUser](Remove-AzDataBoxEdgeUser.md)
 Removes the user

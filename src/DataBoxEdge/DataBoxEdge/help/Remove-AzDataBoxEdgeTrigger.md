@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzDataBoxEdgeTrigger
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Removes the trigger
 
 ## SYNTAX
 
@@ -31,16 +31,15 @@ Remove-AzDataBoxEdgeTrigger [-InputObject] <PSDataBoxEdgeTrigger> [-AsJob]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Remove-AzDataBoxEdgeTrigger** will remove the Trigger for the device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzDataBoxEdgeTrigger ResourceGroupName resource-group-name -DeviceName device-name -Name trigger-name
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 
