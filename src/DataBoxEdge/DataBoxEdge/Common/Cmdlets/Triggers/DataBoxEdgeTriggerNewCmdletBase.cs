@@ -213,7 +213,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Triggers
             }
 
 
-            return new PSResourceModel(TriggersOperationsExtensions.CreateOrUpdate(
+            return PSResourceModel.PSDataBoxEdgeTriggerObject(TriggersOperationsExtensions.CreateOrUpdate(
                 DataBoxEdgeManagementClient.Triggers,
                 this.DeviceName,
                 this.Name,

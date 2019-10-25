@@ -39,7 +39,6 @@ Get-AzDataBoxEdgeTrigger [[-Name] <String>] [-DefaultProfile <IAzureContextConta
 The **Get-AzDataBoxEdgeTriger** will List the triggers for a device. 
 If you specify the Name of the Trigger along with the resource group name and Device name, this cmdlet gets information about that specific Triggers
 
-
 ## EXAMPLES
 
 ### Example 1
@@ -47,8 +46,7 @@ If you specify the Name of the Trigger along with the resource group name and De
 PS C:\> Get-AzDataBoxEdgeTrigger -ResourceGroupName resource-group-name -DeviceName device-name
 Name                  Kind               
 ----                  ----               
-trigger-name          PeriodicTimerEvent 
-
+trigger-name          PeriodicTimerEvent
 ```
 
 ## PARAMETERS
@@ -57,7 +55,7 @@ trigger-name          PeriodicTimerEvent
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -72,7 +70,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
@@ -87,7 +85,7 @@ Accept wildcard characters: False
 Please provide corresponding device object
 
 ```yaml
-Type: PSDataBoxEdgeDevice
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
 Parameter Sets: GetByParentObjectParameterSet
 Aliases:
 
@@ -102,7 +100,7 @@ Accept wildcard characters: False
 Resource Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByNameParameterSet
 Aliases:
 
@@ -114,7 +112,7 @@ Accept wildcard characters: False
 ```
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByParentObjectParameterSet
 Aliases:
 
@@ -129,7 +127,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
@@ -144,7 +142,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 

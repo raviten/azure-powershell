@@ -41,7 +41,6 @@ New-AzDataBoxEdgeTrigger [-PeriodicTimerEvent] [-AsJob] [-DefaultProfile <IAzure
 ## DESCRIPTION
 The **New-AzDataBoxEdgeTrigger** is used to configure triggers on the device
 
-
 ## EXAMPLES
 
 ### Example 1
@@ -49,8 +48,7 @@ The **New-AzDataBoxEdgeTrigger** is used to configure triggers on the device
 PS C:\>  New-AzDataBoxEdgeTrigger -ResourceGroupName resource-group-name -DeviceName device-name -PeriodicTimerEvent -Name periodic-trigger -RoleName IOTRole -Schedule "00:00" -StartTime "2019-10-28 12:00:00" -Topic sample-topic
 Name                  Kind               
 ----                  ----               
-periodic-trigger      PeriodicTimerEvent 
-
+periodic-trigger      PeriodicTimerEvent
 ```
 
 ## PARAMETERS
@@ -59,7 +57,7 @@ periodic-trigger      PeriodicTimerEvent
 Run cmdlet in the background
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -74,7 +72,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -89,7 +87,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: FileEventTriggerParameterSet, PeriodicTimerTriggerParameterSet
 Aliases:
 
@@ -104,7 +102,7 @@ Accept wildcard characters: False
 Pass this switch parameter to configure FileEvent Trigger
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: FileEventTriggerParameterSet, FileEventTriggerResourceIdParameterSet
 Aliases:
 
@@ -119,7 +117,7 @@ Accept wildcard characters: False
 Resource Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: FileEventTriggerParameterSet, PeriodicTimerTriggerParameterSet
 Aliases:
 
@@ -134,7 +132,7 @@ Accept wildcard characters: False
 Pass this switch parameter to configure PeriodicTimerEvent Trigger
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: PeriodicTimerTriggerParameterSet, PeriodicTimerTriggerResourceIdParameterSet
 Aliases:
 
@@ -149,7 +147,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: FileEventTriggerParameterSet, PeriodicTimerTriggerParameterSet
 Aliases:
 
@@ -164,7 +162,7 @@ Accept wildcard characters: False
 Compute role against which events will be raised.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: FileEventTriggerParameterSet, PeriodicTimerTriggerParameterSet
 Aliases:
 
@@ -180,7 +178,7 @@ Periodic frequency at which timer event needs to be raised.
 Supports daily, hourly, minutes, and seconds
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: PeriodicTimerTriggerParameterSet, PeriodicTimerTriggerResourceIdParameterSet
 Aliases:
 
@@ -195,7 +193,7 @@ Accept wildcard characters: False
 File share ID to be passed in FileEvent Trigger
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: FileEventTriggerResourceIdParameterSet
 Aliases:
 
@@ -210,7 +208,7 @@ Accept wildcard characters: False
 File share ID to be passed in FileEvent Trigger
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: FileEventTriggerParameterSet
 Aliases:
 
@@ -228,7 +226,7 @@ If timezone is not specified the time will considered to be in device timezone.
 The value will always be returned as UTC time.
 
 ```yaml
-Type: DateTime
+Type: System.DateTime
 Parameter Sets: PeriodicTimerTriggerParameterSet, PeriodicTimerTriggerResourceIdParameterSet
 Aliases:
 
@@ -243,7 +241,7 @@ Accept wildcard characters: False
 Topic where periodic events are published to IoT device.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: PeriodicTimerTriggerParameterSet, PeriodicTimerTriggerResourceIdParameterSet
 Aliases:
 
@@ -258,7 +256,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -274,7 +272,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 
