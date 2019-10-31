@@ -82,8 +82,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Triggers
 
         private bool Remove()
         {
-            SharesOperationsExtensions.Delete(
-                this.DataBoxEdgeManagementClient.Shares,
+            TriggersOperationsExtensions.Delete(
+                this.DataBoxEdgeManagementClient.Triggers,
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
