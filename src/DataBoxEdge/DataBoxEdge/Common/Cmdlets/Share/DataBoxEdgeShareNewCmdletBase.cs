@@ -37,6 +37,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
     {
         private const string NfsParameterSet = "NfsParameterSet";
         private const string SmbParameterSet = "SmbParameterSet";
+        private const string LocalShareNfsParameterSet = "LocalShareNfsParameterSet";
+        private const string LocalShareSmbParameterSet = "LocalShareSmbParameterSet";
 
         [Parameter(Mandatory = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
@@ -58,11 +60,16 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true,
+        [Parameter(Mandatory = false,
             HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage,
             Position = 3)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountCredentialName { get; set; }
+
+        [Parameter(Mandatory = false,
+            HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter LocalShare { get; set; }
 
         [Parameter(Mandatory = false,
             ParameterSetName = SmbParameterSet,
@@ -146,11 +153,34 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         private ResourceModel InitShareObject()
         {
+            var cloudShare = this.IsParameterBound(c => c.StorageAccountCredentialName);
+            if (!this.LocalShare.IsPresent && !cloudShare)
+            {
+                throw new PSArgumentNullException(
+                    nameof(this.StorageAccountCredentialName),
+                    "StorageAccountCredential cannot be empty while creating Cloud Share. " +
+                    "\nIf you are trying to create local share please use switch parameter -" + nameof(this.LocalShare));
+            }
+
+            var dataPolicy = cloudShare ? "Cloud" : "Local";
             var accessProtocol = this.NFS.IsPresent ? "NFS" : "SMB";
-            return new ResourceModel("Online",
+            var share = new ResourceModel("Online",
                 "Enabled",
                 accessProtocol,
-                dataPolicy: "Cloud");
+                dataPolicy);
+            if (!this.LocalShare.IsPresent && cloudShare)
+            {
+                var sac = StorageAccountCredentialsOperationsExtensions.Get(
+                    this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                    this.DeviceName,
+                    this.StorageAccountCredentialName,
+                    this.ResourceGroupName);
+
+
+                share.AzureContainerInfo = new AzureContainerInfo(sac.Id, this.Name, this.DataFormat);
+            }
+
+            return share;
         }
 
         private string GetUserId(string username)
@@ -166,12 +196,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         public override void ExecuteCmdlet()
         {
-            var sac = StorageAccountCredentialsOperationsExtensions.Get(
-                this.DataBoxEdgeManagementClient.StorageAccountCredentials,
-                this.DeviceName,
-                this.StorageAccountCredentialName,
-                this.ResourceGroupName);
-
             _share = InitShareObject();
 
             if (this.IsParameterBound(c => c.ClientAccessRight))
@@ -204,7 +228,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 }
             }
 
-            _share.AzureContainerInfo = new AzureContainerInfo(sac.Id, this.Name, this.DataFormat);
             if (this.ShouldProcess(this.Name,
                 string.Format("Creating '{0}' in device '{1}' with name '{2}'.",
                     HelpMessageShare.ObjectName, this.DeviceName, this.Name)))
