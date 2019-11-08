@@ -68,7 +68,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountCredentialName { get; set; }
-        
+
         [Parameter(Mandatory = true,
             ParameterSetName = CloudShareNfsParameterSet,
             HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
@@ -80,12 +80,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         public string DataFormat { get; set; }
 
         [Parameter(Mandatory = false,
-            ParameterSetName = NfsParameterSet,
+            ParameterSetName = CloudShareNfsParameterSet,
             HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
         [Parameter(Mandatory = false,
-            ParameterSetName = SmbParameterSet,
+            ParameterSetName = CloudShareSmbParameterSet,
             HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
-        public SwitchParameter LocalShare { get; set; }
+        public SwitchParameter CloudShare { get; set; }
 
         [Parameter(Mandatory = false,
             ParameterSetName = SmbParameterSet,
@@ -123,7 +123,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         [ValidateNotNullOrEmpty]
         public Hashtable[] ClientAccessRight { get; set; }
 
-        
+
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
@@ -177,36 +177,23 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
 
         private ResourceModel InitShareObject()
         {
-            var cloudShare = this.IsParameterBound(c => c.StorageAccountCredentialName);
-            if (!this.LocalShare.IsPresent && !cloudShare)
-            {
-                throw new PSArgumentNullException(
-                    nameof(this.StorageAccountCredentialName),
-                    HelpMessageShare.LocalShareException + nameof(this.LocalShare));
-            }
-
-            if (this.LocalShare.IsPresent && cloudShare)
-            {
-                throw new PSArgumentNullException(
-                    nameof(this.StorageAccountCredentialName),
-                    HelpMessageShare.LocalShareException + nameof(this.LocalShare));
-            }
-
-            var dataPolicy = cloudShare ? "Cloud" : "Local";
+            var dataPolicy = this.CloudShare.IsPresent ? "Cloud" : "Local";
             var accessProtocol = this.NFS.IsPresent ? "NFS" : "SMB";
             var share = new ResourceModel("Online",
                 "Enabled",
                 accessProtocol,
                 null, dataPolicy: dataPolicy);
-            if (!this.LocalShare.IsPresent && cloudShare)
+            if (this.CloudShare.IsPresent)
             {
                 var sac = this.DataBoxEdgeManagementClient.StorageAccountCredentials.Get(
                     this.DeviceName,
                     this.StorageAccountCredentialName,
                     this.ResourceGroupName);
-
-
                 share.AzureContainerInfo = new AzureContainerInfo(sac.Id, this.Name, this.DataFormat);
+            }
+            else
+            {
+                share.AzureContainerInfo = new AzureContainerInfo(null, this.Name, this.DataFormat);
             }
 
             return share;
