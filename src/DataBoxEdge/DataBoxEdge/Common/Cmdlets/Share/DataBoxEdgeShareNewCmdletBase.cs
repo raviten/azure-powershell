@@ -191,10 +191,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                     this.ResourceGroupName);
                 share.AzureContainerInfo = new AzureContainerInfo(sac.Id, this.Name, this.DataFormat);
             }
-            else
-            {
-                share.AzureContainerInfo = new AzureContainerInfo(null, this.Name, this.DataFormat);
-            }
 
             return share;
         }
