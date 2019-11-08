@@ -37,8 +37,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
     {
         private const string NfsParameterSet = "NfsParameterSet";
         private const string SmbParameterSet = "SmbParameterSet";
-        private const string LocalShareNfsParameterSet = "LocalShareNfsParameterSet";
-        private const string LocalShareSmbParameterSet = "LocalShareSmbParameterSet";
+        private const string CloudShareNfsParameterSet = "CloudShareNfsParameterSet";
+        private const string CloudShareSmbParameterSet = "CloudShareSmbParameterSet";
 
         [Parameter(Mandatory = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
@@ -61,45 +61,69 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
         public string Name { get; set; }
 
         [Parameter(Mandatory = false,
-            HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage,
-            Position = 3)]
-        [ValidateNotNullOrEmpty]
-        public string StorageAccountCredentialName { get; set; }
-
+            ParameterSetName = CloudShareNfsParameterSet,
+            HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
         [Parameter(Mandatory = false,
+            ParameterSetName = CloudShareSmbParameterSet,
             HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
         [ValidateNotNullOrEmpty]
+        public string StorageAccountCredentialName { get; set; }
+        
+        [Parameter(Mandatory = true,
+            ParameterSetName = CloudShareNfsParameterSet,
+            HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
+        [Parameter(Mandatory = true,
+            ParameterSetName = CloudShareSmbParameterSet,
+            HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        [PSArgumentCompleter("BlockBlob", "PageBlob", "AzureFile")]
+        public string DataFormat { get; set; }
+
+        [Parameter(Mandatory = false,
+            ParameterSetName = NfsParameterSet,
+            HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = SmbParameterSet,
+            HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
         public SwitchParameter LocalShare { get; set; }
 
         [Parameter(Mandatory = false,
             ParameterSetName = SmbParameterSet,
             HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = CloudShareSmbParameterSet,
+            HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SwitchParameter SMB { get; set; }
 
         [Parameter(Mandatory = false,
-            ParameterSetName = NfsParameterSet,
-            HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter NFS { get; set; }
-
-        [Parameter(Mandatory = false,
             ParameterSetName = SmbParameterSet,
+            HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = CloudShareSmbParameterSet,
             HelpMessage = HelpMessageShare.SetUserAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
         public Hashtable[] UserAccessRight { get; set; }
 
         [Parameter(Mandatory = false,
             ParameterSetName = NfsParameterSet,
+            HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = CloudShareNfsParameterSet,
+            HelpMessage = HelpMessageShare.AccessProtocolHelpMessage)]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter NFS { get; set; }
+
+        [Parameter(Mandatory = false,
+            ParameterSetName = NfsParameterSet,
+            HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = CloudShareNfsParameterSet,
             HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
         [ValidateNotNullOrEmpty]
         public Hashtable[] ClientAccessRight { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = HelpMessageShare.DataFormatHelpMessage)]
-        [ValidateNotNullOrEmpty]
-        [PSArgumentCompleter("BlockBlob", "PageBlob", "AzureFile")]
-        public string DataFormat { get; set; }
-
+        
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
@@ -158,8 +182,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             {
                 throw new PSArgumentNullException(
                     nameof(this.StorageAccountCredentialName),
-                    "StorageAccountCredential cannot be empty while creating Cloud Share. " +
-                    "\nIf you are trying to create local share please use switch parameter -" + nameof(this.LocalShare));
+                    HelpMessageShare.LocalShareException + nameof(this.LocalShare));
+            }
+
+            if (this.LocalShare.IsPresent && cloudShare)
+            {
+                throw new PSArgumentNullException(
+                    nameof(this.StorageAccountCredentialName),
+                    HelpMessageShare.LocalShareException + nameof(this.LocalShare));
             }
 
             var dataPolicy = cloudShare ? "Cloud" : "Local";
@@ -167,11 +197,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             var share = new ResourceModel("Online",
                 "Enabled",
                 accessProtocol,
-                dataPolicy);
+                null, dataPolicy: dataPolicy);
             if (!this.LocalShare.IsPresent && cloudShare)
             {
-                var sac = StorageAccountCredentialsOperationsExtensions.Get(
-                    this.DataBoxEdgeManagementClient.StorageAccountCredentials,
+                var sac = this.DataBoxEdgeManagementClient.StorageAccountCredentials.Get(
                     this.DeviceName,
                     this.StorageAccountCredentialName,
                     this.ResourceGroupName);
