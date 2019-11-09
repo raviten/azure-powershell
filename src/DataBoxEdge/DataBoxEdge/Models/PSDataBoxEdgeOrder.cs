@@ -8,19 +8,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeOrder
     {
-        [Ps1Xml(Label = "DeviceType", Target = ViewControl.Table,
-            ScriptBlock = "$_.dataBoxEdgeDevice.DeviceType", Position = 2)]
-        [Ps1Xml(Label = "Location", Target = ViewControl.Table,
-            ScriptBlock = "$_.dataBoxEdgeOrder.OrderStatus.'", Position = 4)]
+        [Ps1Xml(Label = "Status", Target = ViewControl.Table,
+            ScriptBlock = "$_.dataBoxEdgeOrder.CurrentStatus.Status", Position = 2)]
+        [Ps1Xml(Label = "UpdatedDatetime", Target = ViewControl.Table,
+            ScriptBlock = "$_.dataBoxEdgeOrder.CurrentStatus.UpdateDateTime", Position = 3)]
         public DataBoxEdgeOrder DataBoxEdgeOrder;
 
-        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table, Position = 3, GroupByThis = false)]
+        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table, Position = 1)]
         public string ResourceGroupName { get; set; }
 
         [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table, Position = 0)]
         public string DeviceName;
-
-        public PSDataBoxEdgeOrderStatus OrderStatus;
 
         public string Id;
 
@@ -40,8 +38,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.Id = dataBoxEdgeOrder.Id;
             var dataBoxEdgeResourceIdentifier = new DataBoxEdgeResourceIdentifier(dataBoxEdgeOrder.Id);
             this.ResourceGroupName = dataBoxEdgeResourceIdentifier.ResourceGroupName;
-            this.DeviceName = dataBoxEdgeResourceIdentifier.Name;
-            this.OrderStatus = new PSDataBoxEdgeOrderStatus(dataBoxEdgeOrder.CurrentStatus);
+            this.DeviceName = dataBoxEdgeResourceIdentifier.DeviceName;
                                                                                     
         }
     }

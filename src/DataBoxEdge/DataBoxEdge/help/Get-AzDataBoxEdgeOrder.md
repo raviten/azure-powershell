@@ -40,7 +40,9 @@ This command **Get-AzDataBoxEdgeOrder** will get the order details, tracking inf
 ### Example 1
 ```powershell
 PS C:\> Get-AzDataBoxEdgeOrder -ResourceGroupName rgname -DeviceName device-name
-
+DeviceName  ResourceGroupName Status    UpdatedDatetime
+----------  ----------------- ------    ---------------
+device-name psrgpfortest      Untracked 01-Jan-01 12:00:00 AM
 ```
 
 ## PARAMETERS

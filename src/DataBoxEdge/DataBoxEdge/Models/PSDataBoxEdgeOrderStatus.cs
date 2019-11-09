@@ -10,7 +10,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
     {
         [Ps1Xml(Label = "Status", Target = ViewControl.Table,
             ScriptBlock = "$_.dataBoxEdgeOrderStatus.Status", Position = 0)]
-        [Ps1Xml(Label = "Status", Target = ViewControl.Table,
+        [Ps1Xml(Label = "UpdateDateTime", Target = ViewControl.Table,
             ScriptBlock = "$_.dataBoxEdgeOrderStatus.UpdateDateTime", Position = 1)]
         public DataBoxEdgeOrderStatus DataBoxEdgeOrderStatus;
 

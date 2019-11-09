@@ -26,8 +26,10 @@ This **New-AzDataBoxEdgeOrder** will create new order for the provided order det
 
 ### Example 1
 ```powershell
-PS C:\> New-AzDataBoxEdgeOrder -ResourceGroupName resource-group-name -DeviceName device-name -ContactPerson "John Mcclane" -CompanyName Microsoft -Phone 8004269400 -Email john@microsoft.com -AddressLine1  "Microsoft Corporation" -PostalCode 98052 -City Redmond -State WA -Country USA
-
+PS C:\> New-AzDataBoxEdgeOrder -ResourceGroupName rg-name -DeviceName device-name -ContactPerson "John Mcclane" -CompanyName Microsoft -Phone 8004269400 -Email john@microsoft.com -AddressLine1  "Microsoft Corporation" -PostalCode 98052 -City Redmond -State WA -Country USA
+DeviceName  ResourceGroupName Status    UpdatedDatetime
+----------  ----------------- ------    ---------------
+device-name rgname            Untracked 01-Jan-01 12:00:00 AM
 ```
 
 ## PARAMETERS
