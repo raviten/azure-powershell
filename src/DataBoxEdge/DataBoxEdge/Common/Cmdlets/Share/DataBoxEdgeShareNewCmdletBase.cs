@@ -86,7 +86,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = CloudShareSmbParameterSet,
             HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
         public SwitchParameter CloudShare { get; set; }
-        
+
         [Parameter(Mandatory = false,
             ParameterSetName = NfsParameterSet,
             HelpMessage = HelpMessageShare.ContainerName)]
@@ -183,6 +183,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 this.ResourceGroupName));
         }
 
+        private ResourceModel AddAzureContainer(ResourceModel resourceModel)
+        {
+            var sac = this.DataBoxEdgeManagementClient.StorageAccountCredentials.Get(
+                this.DeviceName,
+                this.StorageAccountCredentialName,
+                this.ResourceGroupName);
+            resourceModel.AzureContainerInfo = this.IsParameterBound(c => c.ContainerName)
+                ? new AzureContainerInfo(sac.Id, ContainerName, DataFormat)
+                : new AzureContainerInfo(sac.Id, Name, this.DataFormat);
+            return resourceModel;
+        }
 
         private ResourceModel InitShareObject()
         {
@@ -192,15 +203,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
                 "Enabled",
                 accessProtocol,
                 null, dataPolicy: dataPolicy);
-            if (this.CloudShare.IsPresent)
-            {
-                var sac = this.DataBoxEdgeManagementClient.StorageAccountCredentials.Get(
-                    this.DeviceName,
-                    this.StorageAccountCredentialName,
-                    this.ResourceGroupName);
-                share.AzureContainerInfo = new AzureContainerInfo(sac.Id, this.Name, this.DataFormat);
-            }
-
+            share = this.CloudShare.IsPresent ? AddAzureContainer(share) : share;
             return share;
         }
 
