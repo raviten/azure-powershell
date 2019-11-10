@@ -42,7 +42,6 @@ PS C:\> $a = Set-AzDataBoxEdgeRole -ResourceGroupName rgname -DeviceName device-
 Name 
 -----------
 iot-role-name
-
 ```
 
 Share Names will replace the old mounted shares with the newly provided ones
@@ -53,7 +52,7 @@ Share Names will replace the old mounted shares with the newly provided ones
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -68,7 +67,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: SetByNameParameterSet
 Aliases:
 
@@ -83,7 +82,7 @@ Accept wildcard characters: False
 Please provide corresponding device object
 
 ```yaml
-Type: PSDataBoxEdgeDevice
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
 Parameter Sets: SetByParentObjectParameterSet
 Aliases:
 
@@ -98,7 +97,7 @@ Accept wildcard characters: False
 Name of the Role
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: (All)
 Aliases:
 
@@ -113,7 +112,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: SetByNameParameterSet
 Aliases:
 
@@ -128,7 +127,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: SetByResourceIdParameterSet
 Aliases:
 
@@ -143,7 +142,7 @@ Accept wildcard characters: False
 Mount points of local share in role(s)
 
 ```yaml
-Type: String[]
+Type: System.String[]
 Parameter Sets: (All)
 Aliases:
 

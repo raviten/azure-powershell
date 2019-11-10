@@ -86,6 +86,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Share
             ParameterSetName = CloudShareSmbParameterSet,
             HelpMessage = HelpMessageShare.StorageAccountCredentialHelpMessage)]
         public SwitchParameter CloudShare { get; set; }
+        
+        [Parameter(Mandatory = false,
+            ParameterSetName = NfsParameterSet,
+            HelpMessage = HelpMessageShare.ContainerName)]
+        [Parameter(Mandatory = false,
+            ParameterSetName = CloudShareNfsParameterSet,
+            HelpMessage = HelpMessageShare.ContainerName)]
+        [ValidateNotNullOrEmpty]
+        public string ContainerName { get; set; }
 
         [Parameter(Mandatory = false,
             ParameterSetName = SmbParameterSet,

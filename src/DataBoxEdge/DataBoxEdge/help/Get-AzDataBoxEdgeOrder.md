@@ -10,7 +10,6 @@ schema: 2.0.0
 ## SYNOPSIS
 Get the order details for the device
 
-
 ## SYNTAX
 
 ### GetByNameParameterSet (Default)
@@ -42,7 +41,7 @@ This command **Get-AzDataBoxEdgeOrder** will get the order details, tracking inf
 PS C:\> Get-AzDataBoxEdgeOrder -ResourceGroupName rgname -DeviceName device-name
 DeviceName  ResourceGroupName Status    UpdatedDatetime
 ----------  ----------------- ------    ---------------
-device-name psrgpfortest      Untracked 01-Jan-01 12:00:00 AM
+device-name rgname            Untracked 01-Jan-01 12:00:00 AM
 ```
 
 ## PARAMETERS
@@ -51,7 +50,7 @@ device-name psrgpfortest      Untracked 01-Jan-01 12:00:00 AM
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -66,7 +65,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByNameParameterSet
 Aliases:
 
@@ -81,7 +80,7 @@ Accept wildcard characters: False
 Please provide corresponding device object
 
 ```yaml
-Type: PSDataBoxEdgeDevice
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
 Parameter Sets: GetByDeviceObjectParameterSet
 Aliases:
 
@@ -96,7 +95,7 @@ Accept wildcard characters: False
 Current order status
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -111,7 +110,7 @@ Accept wildcard characters: False
 History of order status updates
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -126,7 +125,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByNameParameterSet
 Aliases:
 
@@ -141,7 +140,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
@@ -156,7 +155,7 @@ Accept wildcard characters: False
 Fetch the Return TrackingInfo for the Device
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -171,7 +170,7 @@ Accept wildcard characters: False
 Fetch the Forward TrackingInfo for the Device
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 

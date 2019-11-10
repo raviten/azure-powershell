@@ -22,7 +22,7 @@ New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Na
 ### CloudShareNfsParameterSet
 ```
 New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [[-StorageAccountCredentialName] <String>] -DataFormat <String> [-CloudShare] [-NFS]
+ [[-StorageAccountCredentialName] <String>] -DataFormat <String> [-CloudShare] [-ContainerName <String>] [-NFS]
  [-ClientAccessRight <Hashtable[]>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
@@ -37,9 +37,9 @@ New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Na
 
 ### NfsParameterSet
 ```
-New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-NFS]
- [-ClientAccessRight <Hashtable[]>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+New-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ [-ContainerName <String>] [-NFS] [-ClientAccessRight <Hashtable[]>] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -94,6 +94,21 @@ Provide existing StorageAccountCredential's Resource Name
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 Parameter Sets: CloudShareNfsParameterSet, CloudShareSmbParameterSet
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ContainerName
+If provided, will use the same container name in the storage account, if container is not present it will create a new one
+
+```yaml
+Type: System.String
+Parameter Sets: CloudShareNfsParameterSet, NfsParameterSet
 Aliases:
 
 Required: False
