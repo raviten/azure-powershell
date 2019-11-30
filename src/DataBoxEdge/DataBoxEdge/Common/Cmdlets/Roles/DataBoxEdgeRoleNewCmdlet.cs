@@ -14,8 +14,8 @@
 
 using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.Management.DataBoxEdge;
+using Microsoft.Azure.Management.DataBoxEdge.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Common;
@@ -186,11 +186,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             string roleStatus)
         {
             var authentication = new Authentication() {SymmetricKey = new SymmetricKey(iotDeviceSecret)};
-            var ioTDeviceInfo = new IoTDeviceInfo(deviceId, ioTHostHub, authentication);
+            var ioTDeviceInfo = new IoTDeviceInfo(deviceId, ioTHostHub, authentication: authentication);
 
             var edgeAuthentication = new Authentication()
                 {SymmetricKey = new SymmetricKey(iotEdgeDeviceSecret)};
-            var ioTEdgeDeviceInfo = new IoTDeviceInfo(edgeDeviceId, ioTHostHub, edgeAuthentication);
+            var ioTEdgeDeviceInfo = new IoTDeviceInfo(edgeDeviceId, ioTHostHub, authentication: edgeAuthentication);
 
             return new IoTRole(platform, ioTDeviceInfo, ioTEdgeDeviceInfo, roleStatus);
         }

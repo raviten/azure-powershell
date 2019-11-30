@@ -3,7 +3,7 @@ using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NetworkSettings = Microsoft.Azure.Management.EdgeGateway.Models.NetworkSettings;
+using NetworkSettings = Microsoft.Azure.Management.DataBoxEdge.Models.NetworkSettings;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {

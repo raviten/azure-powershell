@@ -2,7 +2,7 @@
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;
 using System.Collections.Generic;
-using Share = Microsoft.Azure.Management.EdgeGateway.Models.Share;
+using Share = Microsoft.Azure.Management.DataBoxEdge.Models.Share;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {

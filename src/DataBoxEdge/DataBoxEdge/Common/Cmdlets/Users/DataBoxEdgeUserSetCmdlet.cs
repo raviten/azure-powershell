@@ -12,8 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Azure.Management.DataBoxEdge;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Utils;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.WindowsAzure.Commands.Common;
@@ -21,6 +22,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Security;
+using Microsoft.Azure.Management.DataBoxEdge.Models;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 {
@@ -75,7 +77,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = true, HelpMessage = HelpMessageUsers.PasswordHelpMessage)]
         [ValidateNotNullOrEmpty]
-
         public SecureString Password { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = Constants.EncryptionKeyHelpMessage)]
@@ -90,7 +91,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
             return this.EncryptionKey.ConvertToString();
         }
 
-        private PSDataBoxEdgeUser SetResource()
+        private User GetResource()
+        {
+            return this.DataBoxEdgeManagementClient.Users.Get(
+                this.DeviceName,
+                this.Name,
+                this.ResourceGroupName);
+        }
+
+        private User UpdateUser(User user)
         {
             var password = this.Password.ConvertToString();
             PasswordUtility.ValidateUserPasswordPattern(nameof(this.Password), password);
@@ -102,14 +111,17 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     password,
                     this.GetKeyForEncryption()
                 );
+            user.EncryptedPassword = encryptedSecret;
+            return this.DataBoxEdgeManagementClient.Users.CreateOrUpdate(
+                this.DeviceName,
+                this.Name,
+                user,
+                this.ResourceGroupName);
+        }
 
-            return new PSDataBoxEdgeUser(
-                this.DataBoxEdgeManagementClient.Users.CreateOrUpdate(
-                    this.DeviceName,
-                    this.Name,
-                    this.ResourceGroupName,
-                    encryptedSecret
-                ));
+        private PSDataBoxEdgeUser SetResource()
+        {
+            return new PSDataBoxEdgeUser(UpdateUser(GetResource()));
         }
 
         public override void ExecuteCmdlet()

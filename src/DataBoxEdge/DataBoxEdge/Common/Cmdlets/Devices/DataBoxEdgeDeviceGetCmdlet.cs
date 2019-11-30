@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.Management.DataBoxEdge;
+using Microsoft.Azure.Management.DataBoxEdge.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -71,6 +71,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             ParameterSetName = GetAlertByResourceIdParameterSet,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage)]
+        [ResourceIdCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices")]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
@@ -79,6 +80,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
+        [PSArgumentCompleter("BlockBlob", "BlobBlob")]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
             ValueFromPipelineByPropertyName = true,

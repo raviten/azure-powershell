@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.Management.DataBoxEdge;
+using Microsoft.Azure.Management.DataBoxEdge.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Utils;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.Rest.Azure;
@@ -57,6 +57,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        [Parameter(Mandatory = false,
+            HelpMessage = HelpMessageUsers.UserTypeHelpMessage,
+            Position = 2)]
+        [ValidateNotNullOrEmpty]
+        [PSArgumentCompleter("Share", "ARM", "LocalManagement")]
+        public string Type;
+
         [Parameter(Mandatory = true, HelpMessage = HelpMessageUsers.PasswordHelpMessage)]
         [ValidateNotNullOrEmpty]
         public SecureString Password { get; set; }
@@ -67,6 +74,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
+
+        private string[] userTypes = new string[]
+            {UserType.Share, UserType.ARM, UserType.LocalManagement};
 
         private string GetKeyForEncryption()
         {
@@ -107,6 +117,24 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
             }
         }
 
+        private string GetUserType()
+        {
+            var userType = UserType.Share;
+            if (string.IsNullOrEmpty(this.Type))
+            {
+                return userType;
+            }
+
+            if (Utility.IsOneOf(this.Type, userTypes))
+            {
+                return userType;
+            }
+            else
+            {
+                throw new PSArgumentException(HelpMessageUsers.InvalidUserType);
+            }
+        }
+
         private PSDataBoxEdgeUser CreateResource()
         {
             var password = this.Password.ConvertToString();
@@ -118,12 +146,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
                     password,
                     this.GetKeyForEncryption()
                 );
+            var user = new User(GetUserType(), null, Name, encryptedPassword: encryptedSecret);
             return new PSDataBoxEdgeUser(
                 this.DataBoxEdgeManagementClient.Users.CreateOrUpdate(
                     this.DeviceName,
                     this.Name,
-                    this.ResourceGroupName,
-                    encryptedSecret
+                    user,
+                    this.ResourceGroupName
                 ));
         }
 

@@ -2,7 +2,7 @@
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;
 using System.Collections.Generic;
-using Alert = Microsoft.Azure.Management.EdgeGateway.Models.Alert;
+using Alert = Microsoft.Azure.Management.DataBoxEdge.Models.Alert;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
@@ -13,7 +13,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 
         [Ps1Xml(Label = "AppearedDateTime", Target = ViewControl.Table,
             Position = 2)]
-        public DateTime? ApeearedDateTime;
+        public DateTime? AppearedDateTime;
 
         [Ps1Xml(Label = "Severity", Target = ViewControl.Table, Position = 1)]
         public string Severity;
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             this.DeviceName = dataBoxResourceIdentifier.DeviceName;
             this.ResourceGroupName = dataBoxResourceIdentifier.ResourceGroupName;
             this.DetailedInformation = alert.DetailedInformation;
-            this.ApeearedDateTime = alert.AppearedAtDateTime;
+            this.AppearedDateTime = alert.AppearedAtDateTime;
             this.Severity = alert.Severity;
         }
     }

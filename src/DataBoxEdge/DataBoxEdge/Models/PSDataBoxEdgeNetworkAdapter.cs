@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;
-using NetworkAdapter = Microsoft.Azure.Management.EdgeGateway.Models.NetworkAdapter;
+using NetworkAdapter = Microsoft.Azure.Management.DataBoxEdge.Models.NetworkAdapter;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {

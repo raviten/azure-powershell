@@ -16,8 +16,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.Management.DataBoxEdge;
+using Microsoft.Azure.Management.DataBoxEdge.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.Rest.Azure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -86,6 +86,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
             HelpMessage = Constants.PsDeviceObjectHelpMessage)]
         [ValidateNotNull]
         public PSDataBoxEdgeDevice DeviceObject;
+
+        [Parameter(Mandatory = false,
+            HelpMessage = HelpMessageUsers.UserTypeHelpMessage)]
+        [ValidateNotNull]
+        public SwitchParameter Type;
 
         private User GetResource()
         {

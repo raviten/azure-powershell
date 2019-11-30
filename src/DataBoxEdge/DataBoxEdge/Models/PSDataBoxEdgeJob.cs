@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.Management.EdgeGateway.Models;
+﻿using Microsoft.Azure.Management.DataBoxEdge.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;

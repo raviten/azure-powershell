@@ -1,14 +1,16 @@
 ﻿using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;
-using User = Microsoft.Azure.Management.EdgeGateway.Models.User;
+using User = Microsoft.Azure.Management.DataBoxEdge.Models.User;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeUser
     {
-        [Ps1Xml(Label = "Name", Target = ViewControl.Table,
+        [Ps1Xml(Label = "User name", Target = ViewControl.Table,
             ScriptBlock = "$_.user.Name")]
+        [Ps1Xml(Label = "Type", Target = ViewControl.Table,
+            ScriptBlock = "$_.user.UserType")]
         public User User;
 
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]

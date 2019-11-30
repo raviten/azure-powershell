@@ -12,8 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.EdgeGateway;
-using Microsoft.Azure.Management.EdgeGateway.Models;
+using Microsoft.Azure.Management.DataBoxEdge;
+using Microsoft.Azure.Management.DataBoxEdge.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.Rest.Azure;
 using System.Collections.Generic;
@@ -24,15 +24,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
     public class DataBoxEdgeDeviceAlert
     {
         public string ResourceId { get; set; }
-
         public string ResourceGroupName { get; set; }
-
         public string DeviceName { get; set; }
         public string Name { get; set; }
         public DataBoxEdgeManagementClient DataBoxEdgeManagementClient;
-
-        public PSDataBoxEdgeDevice DeviceObject { get; set; }
-
 
         private Alert GetResource()
         {

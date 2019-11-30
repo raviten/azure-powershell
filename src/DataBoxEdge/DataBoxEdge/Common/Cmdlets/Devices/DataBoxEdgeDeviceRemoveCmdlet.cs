@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
-using Microsoft.Azure.Management.EdgeGateway;
+using Microsoft.Azure.Management.DataBoxEdge;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Management.Automation;
@@ -35,6 +35,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             HelpMessage = Constants.ResourceIdHelpMessage,
             ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
+        [ResourceIdCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices")]
         public string ResourceId { get; set; }
 
         [Parameter(Mandatory = true,

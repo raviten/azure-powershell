@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;
-using UpdateSummary = Microsoft.Azure.Management.EdgeGateway.Models.UpdateSummary;
+using UpdateSummary = Microsoft.Azure.Management.DataBoxEdge.Models.UpdateSummary;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
