@@ -16,7 +16,7 @@
           "FxVersion/4.6.28008.01",
           "OSName/Windows",
           "OSVersion/Microsoft.Windows.10.0.18363.",
-          "Microsoft.Azure.Management.EdgeGateway.DataBoxEdgeManagementClient/0.8.1.0"
+          "Microsoft.Azure.Management.DataBoxEdge.DataBoxEdgeManagementClient/0.8.1.0"
         ]
       },
       "ResponseHeaders": {
@@ -76,7 +76,7 @@
           "FxVersion/4.6.28008.01",
           "OSName/Windows",
           "OSVersion/Microsoft.Windows.10.0.18363.",
-          "Microsoft.Azure.Management.EdgeGateway.DataBoxEdgeManagementClient/0.8.1.0"
+          "Microsoft.Azure.Management.DataBoxEdge.DataBoxEdgeManagementClient/0.8.1.0"
         ],
         "Content-Type": [
           "application/json; charset=utf-8"
@@ -148,7 +148,7 @@
           "FxVersion/4.6.28008.01",
           "OSName/Windows",
           "OSVersion/Microsoft.Windows.10.0.18363.",
-          "Microsoft.Azure.Management.EdgeGateway.DataBoxEdgeManagementClient/0.8.1.0"
+          "Microsoft.Azure.Management.DataBoxEdge.DataBoxEdgeManagementClient/0.8.1.0"
         ]
       },
       "ResponseHeaders": {
@@ -214,7 +214,7 @@
           "FxVersion/4.6.28008.01",
           "OSName/Windows",
           "OSVersion/Microsoft.Windows.10.0.18363.",
-          "Microsoft.Azure.Management.EdgeGateway.DataBoxEdgeManagementClient/0.8.1.0"
+          "Microsoft.Azure.Management.DataBoxEdge.DataBoxEdgeManagementClient/0.8.1.0"
         ]
       },
       "ResponseHeaders": {
