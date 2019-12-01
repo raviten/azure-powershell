@@ -184,30 +184,36 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Shares
             if (this.IsParameterBound(c => c.ClientAccessRight))
             {
                 share.ClientAccessRights = new List<ClientAccessRight>();
-                foreach (var clientAccessRight in this.ClientAccessRight)
+                if (ClientAccessRight.Length > 0)
                 {
-                    var accessRightPolicy = HashtableToDictionary<string, string>(clientAccessRight);
-                    share.ClientAccessRights.Add(
-                        new ClientAccessRight(
-                            accessRightPolicy.GetOrNull("ClientId"),
-                            accessRightPolicy.GetOrNull("AccessRight")
-                        )
-                    );
+                    foreach (var clientAccessRight in this.ClientAccessRight)
+                    {
+                        var accessRightPolicy = HashtableToDictionary<string, string>(clientAccessRight);
+                        share.ClientAccessRights.Add(
+                            new ClientAccessRight(
+                                accessRightPolicy.GetOrNull("ClientId"),
+                                accessRightPolicy.GetOrNull("AccessRight")
+                            )
+                        );
+                    }
                 }
             }
 
             if (this.IsParameterBound(c => c.UserAccessRight))
             {
                 share.UserAccessRights = new List<UserAccessRight>();
-                foreach (var userAccessRight in this.UserAccessRight)
+                if (UserAccessRight.Length > 0)
                 {
-                    var accessRightPolicy = HashtableToDictionary<string, string>(userAccessRight);
+                    foreach (var userAccessRight in this.UserAccessRight)
+                    {
+                        var accessRightPolicy = HashtableToDictionary<string, string>(userAccessRight);
 
-                    share.UserAccessRights.Add(
-                        new UserAccessRight(
-                            GetUserId(accessRightPolicy.GetOrNull("Username")),
-                            accessRightPolicy.GetOrNull("AccessRight")
-                        ));
+                        share.UserAccessRights.Add(
+                            new UserAccessRight(
+                                GetUserId(accessRightPolicy.GetOrNull("Username")),
+                                accessRightPolicy.GetOrNull("AccessRight")
+                            ));
+                    }
                 }
             }
 

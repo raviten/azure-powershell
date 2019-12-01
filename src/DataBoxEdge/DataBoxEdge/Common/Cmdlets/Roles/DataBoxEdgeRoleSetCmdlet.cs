@@ -20,6 +20,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.Common.Strategies;
 
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
@@ -100,9 +101,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         {
             if (role is IoTRole iotRole)
             {
-                foreach (var shareId in ListShareIdFromShareName())
+                iotRole.ShareMappings = new List<MountPointMap>();
+                if (this.ShareName.Length > 0)
                 {
-                    iotRole.ShareMappings.Add(new MountPointMap(shareId));
+                    foreach (var shareId in ListShareIdFromShareName())
+                    {
+                        iotRole.ShareMappings.Add(new MountPointMap(shareId));
+                    }
                 }
             }
             else

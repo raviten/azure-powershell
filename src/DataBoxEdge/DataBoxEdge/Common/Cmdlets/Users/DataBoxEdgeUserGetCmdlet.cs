@@ -43,12 +43,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = true,
             ParameterSetName = ListParameterSet,
-            ValueFromPipelineByPropertyName = true, 
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true, 
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -57,12 +57,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         [Parameter(Mandatory = true,
             ParameterSetName = ListParameterSet,
-            ValueFromPipelineByPropertyName = true, 
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true, 
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ValidateNotNullOrEmpty]
@@ -80,7 +80,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, 
+        [Parameter(Mandatory = true,
             ValueFromPipeline = true,
             ParameterSetName = GetByParentObjectParameterSet,
             HelpMessage = Constants.PsDeviceObjectHelpMessage)]
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Users
 
         private List<PSDataBoxEdgeUser> GetByResourceName()
         {
-            return new List<PSDataBoxEdgeUser>() {new PSDataBoxEdgeUser(GetResource()) };
+            return new List<PSDataBoxEdgeUser>() {new PSDataBoxEdgeUser(GetResource())};
         }
 
         private IPage<User> ListResource()

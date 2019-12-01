@@ -80,7 +80,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
             ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
-        [PSArgumentCompleter("BlockBlob", "BlobBlob")]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
             ValueFromPipelineByPropertyName = true,
