@@ -129,7 +129,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Shares
         [Parameter(Mandatory = true,
             ParameterSetName = UpdateByInputObjectNfsParameterSet,
             HelpMessage = HelpMessageShare.SetClientAccessRightsHelpMessage)]
-        [ValidateNotNullOrEmpty]
         public Hashtable[] ClientAccessRight { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]

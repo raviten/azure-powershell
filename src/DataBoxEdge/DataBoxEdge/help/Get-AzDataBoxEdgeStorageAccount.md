@@ -1,46 +1,52 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
-online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/get-azdataboxedgejob
+online version:
 schema: 2.0.0
 ---
 
-# Get-AzDataBoxEdgeJob
+# Get-AzDataBoxEdgeStorageAccount
 
 ## SYNOPSIS
-Get job by Name
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### GetByNameParameterSet (Default)
+### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeJob [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+Get-AzDataBoxEdgeStorageAccount [-ResourceGroupName] <String> [-DeviceName] <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
-### GetByResourceIdObject
+### GetByResourceIdParameterSet
 ```
-Get-AzDataBoxEdgeJob -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeStorageAccount -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
+```
+
+### GetByNameParameterSet
+```
+Get-AzDataBoxEdgeStorageAccount [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
+ [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByParentObjectParameterSet
 ```
-Get-AzDataBoxEdgeJob [-Name] <String> [-DefaultProfile <IAzureContextContainer>]
+Get-AzDataBoxEdgeStorageAccount [[-Name] <String>] [-DefaultProfile <IAzureContextContainer>]
  -DeviceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This **Get-AzDataBoxEdgeJob** gets the active jobs for a device
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-AzDataBoxEdgeJob -ResourceGroupName resource-group-name -DeviceName device-name -Name 1f2d8f1b-9104-49c3-b780-76db9abe7bd1
-Name                                   Device-Name    status
-------------------                     -------------  -------
-1f2d8f1b-9104-49c3-b780-76db9abe7bd1   device-name    Scheduled
+PS C:\> {{ Add example code here }}
 ```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -48,7 +54,7 @@ Name                                   Device-Name    status
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -60,11 +66,11 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-Name of the device 
+Device Name
 
 ```yaml
-Type: System.String
-Parameter Sets: GetByNameParameterSet
+Type: String
+Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
@@ -78,7 +84,7 @@ Accept wildcard characters: False
 Please provide corresponding device object
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Type: PSDataBoxEdgeDevice
 Parameter Sets: GetByParentObjectParameterSet
 Aliases:
 
@@ -90,11 +96,11 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Name of the job
+Resource Name
 
 ```yaml
-Type: System.String
-Parameter Sets: GetByNameParameterSet, GetByParentObjectParameterSet
+Type: String
+Parameter Sets: GetByNameParameterSet
 Aliases:
 
 Required: True
@@ -104,12 +110,24 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+```yaml
+Type: String
+Parameter Sets: GetByParentObjectParameterSet
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
-Resource Group Name of the Job
+Resource Group Name
 
 ```yaml
-Type: System.String
-Parameter Sets: GetByNameParameterSet
+Type: String
+Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
 Required: True
@@ -123,8 +141,8 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: System.String
-Parameter Sets: GetByResourceIdObject
+Type: String
+Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True
@@ -139,11 +157,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeJob
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccount
 
 ## NOTES
 

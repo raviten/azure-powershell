@@ -15,24 +15,25 @@ Get the created users  for this device
 ### ListParameterSet (Default)
 ```
 Get-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-DefaultProfile <IAzureContextContainer>] [-Type] [<CommonParameters>]
 ```
 
 ### GetByResourceIdParameterSet
 ```
-Get-AzDataBoxEdgeUser -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeUser -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [-Type]
+ [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
 Get-AzDataBoxEdgeUser [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+ [-DefaultProfile <IAzureContextContainer>] [-Type] [<CommonParameters>]
 ```
 
 ### GetByParentObjectParameterSet
 ```
 Get-AzDataBoxEdgeUser [[-Name] <String>] [-DefaultProfile <IAzureContextContainer>]
- -DeviceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+ -DeviceObject <PSDataBoxEdgeDevice> [-Type] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -77,7 +78,7 @@ Aliases:
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -134,7 +135,7 @@ Aliases:
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -147,6 +148,21 @@ Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Type
+Select UserType
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

@@ -177,12 +177,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Shares
 
         private PSDataBoxEdgeShare CreateResource()
         {
-            return new PSDataBoxEdgeShare(SharesOperationsExtensions.CreateOrUpdate(
-                DataBoxEdgeManagementClient.Shares,
-                this.DeviceName,
-                this.Name,
-                _share,
-                this.ResourceGroupName));
+            return new PSDataBoxEdgeShare(
+                this.DataBoxEdgeManagementClient.Shares.CreateOrUpdate(
+                    this.DeviceName,
+                    this.Name,
+                    _share,
+                    this.ResourceGroupName));
         }
 
         private Share AddAzureContainer(Share share)

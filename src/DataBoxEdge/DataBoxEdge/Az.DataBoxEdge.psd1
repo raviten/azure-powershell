@@ -82,9 +82,11 @@ CmdletsToExport = 'Get-AzDataBoxEdgeJob', 'Get-AzDataBoxEdgeDevice', 'Invoke-AzD
                'Set-AzDataBoxEdgeUser', 'Remove-AzDataBoxEdgeUser', 
                'Get-AzDataBoxEdgeStorageAccountCredential', 
                'New-AzDataBoxEdgeStorageAccountCredential', 
+			   'Set-AzDataBoxEdgeStorageAccountCredential', 
                'Remove-AzDataBoxEdgeStorageAccountCredential', 
                'Get-AzDataBoxEdgeShare', 'New-AzDataBoxEdgeShare', 
                'Set-AzDataBoxEdgeShare', 'Remove-AzDataBoxEdgeShare', 
+			   'Invoke-AzDataBoxEdgeShare',
                'Get-AzDataBoxEdgeBandwidthSchedule', 
                'Set-AzDataBoxEdgeBandwidthSchedule', 
                'New-AzDataBoxEdgeBandwidthSchedule', 
@@ -92,7 +94,11 @@ CmdletsToExport = 'Get-AzDataBoxEdgeJob', 'Get-AzDataBoxEdgeDevice', 'Invoke-AzD
                'New-AzDataBoxEdgeRole', 'Remove-AzDataBoxEdgeRole',
 			   'Get-AzDataBoxEdgeTrigger', 'New-AzDataBoxEdgeTrigger', 
 			   'Remove-AzDataBoxEdgeTrigger',
-			   'Get-AzDataBoxEdgeOrder', 'New-AzDataBoxEdgeOrder', 'Remove-AzDataBoxEdgeOrder'
+			   'Get-AzDataBoxEdgeOrder', 'New-AzDataBoxEdgeOrder', 'Remove-AzDataBoxEdgeOrder',
+			   'Get-AzDataBoxEdgeStorageAccount', 'New-AzDataBoxEdgeStorageAccount', 'Remove-AzDataBoxEdgeStorageAccount',
+			   'Get-AzDataBoxEdgeStorageContainer', 'New-AzDataBoxEdgeStorageContainer', 'Remove-AzDataBoxEdgeStorageContainer',
+			   'Invoke-AzDataBoxEdgeStorageContainer'
+
 
 # Variables to export from this module
 # VariablesToExport = @()

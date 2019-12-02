@@ -1,44 +1,47 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
-online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/remove-azdataboxedgeorder
+online version:
 schema: 2.0.0
 ---
 
-# Remove-AzDataBoxEdgeOrder
+# Remove-AzDataBoxEdgeStorageContainer
 
 ## SYNOPSIS
-Remove the Order for a data box
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ### DeleteByNameParameterSet (Default)
 ```
-Remove-AzDataBoxEdgeOrder [-ResourceGroupName] <String> [-DeviceName] <String> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-AzDataBoxEdgeStorageContainer [-ResourceGroupName] <String> [-DeviceName] <String>
+ [-EdgeStorageAccountName] <String> [-Name] <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### DeleteByResourceIdParameterSet
 ```
-Remove-AzDataBoxEdgeOrder -ResourceId <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-PassThru]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-AzDataBoxEdgeStorageContainer -ResourceId <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### DeleteByInputObjectParameterSet
 ```
-Remove-AzDataBoxEdgeOrder -InputObject <PSDataBoxEdgeOrder> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
- [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-AzDataBoxEdgeStorageContainer -InputObject <PSDataBoxEdgeStorageContainer> [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This **Remove-AzDataBoxEdgeOrder** will delete the configured order
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Remove-AzDataBoxEdgeOrder -ResourceGroupName rgname -DeviceName device-name
+PS C:\> {{ Add example code here }}
 ```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -46,7 +49,7 @@ PS C:\> Remove-AzDataBoxEdgeOrder -ResourceGroupName rgname -DeviceName device-n
 Run cmdlet in the background
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -61,7 +64,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -76,7 +79,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -87,11 +90,26 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -EdgeStorageAccountName
+Provide existing EdgeStorageAccountName's Resource Name
+
+```yaml
+Type: String
+Parameter Sets: DeleteByNameParameterSet
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -InputObject
 Input Object
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeOrder
+Type: PSDataBoxEdgeStorageContainer
 Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 
@@ -102,11 +120,26 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
+### -Name
+Resource Name
+
+```yaml
+Type: String
+Parameter Sets: DeleteByNameParameterSet
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -PassThru
 returns true if successful
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -121,7 +154,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByNameParameterSet
 Aliases:
 
@@ -136,7 +169,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: DeleteByResourceIdParameterSet
 Aliases:
 
@@ -151,7 +184,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -167,7 +200,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 
@@ -185,11 +218,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeOrder
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageContainer
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeOrder
+### System.Boolean
 
 ## NOTES
 

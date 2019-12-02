@@ -1,53 +1,53 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
-online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/get-azdataboxedgerole
+online version:
 schema: 2.0.0
 ---
 
-# Get-AzDataBoxEdgeRole
+# Get-AzDataBoxEdgeStorageContainer
 
 ## SYNOPSIS
-Fetch the available roles for a device
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ### ListParameterSet (Default)
 ```
-Get-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeStorageContainer [-ResourceGroupName] <String> [-DeviceName] <String>
+ [-EdgeStorageAccountName] <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByResourceIdParameterSet
 ```
-Get-AzDataBoxEdgeRole -ResourceId <String> [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeStorageContainer [-ResourceId] <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ### GetByNameParameterSet
 ```
-Get-AzDataBoxEdgeRole [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String>
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzDataBoxEdgeStorageContainer [-ResourceGroupName] <String> [-DeviceName] <String>
+ [-EdgeStorageAccountName] <String> [-Name] <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ### GetByParentObjectParameterSet
 ```
-Get-AzDataBoxEdgeRole [[-Name] <String>] [-DefaultProfile <IAzureContextContainer>]
- -DeviceObject <PSDataBoxEdgeDevice> [<CommonParameters>]
+Get-AzDataBoxEdgeStorageContainer [[-Name] <String>] [-DefaultProfile <IAzureContextContainer>]
+ -EdgeStorageAccountObject <PSDataBoxEdgeStorageAccount> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This **Get-AzDataBoxEdgeRole** fetches the available IOT role by Name or lists the IOT roles available for the  device
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-AzDataBoxEdgeRole -ResourceGroupName resource-group-name -DeviceName device-name
-
-Name    IotEdgeDeviceId IotDeviceId            IotEdgeDeviceId                ResourceGroupName
-----    --------------- -----------            ---------------                -----------------
-IotRole dbedge-edge     dbedge-storagegateway iothub-dbedge.azure-devices.net dbedge-rg
+PS C:\> {{ Add example code here }}
 ```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -55,7 +55,7 @@ IotRole dbedge-edge     dbedge-storagegateway iothub-dbedge.azure-devices.net db
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -67,10 +67,10 @@ Accept wildcard characters: False
 ```
 
 ### -DeviceName
-Name of the device
+Device Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
@@ -81,11 +81,26 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -DeviceObject
-Please provide corresponding device object
+### -EdgeStorageAccountName
+Provide existing EdgeStorageAccountName's Resource Name
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeDevice
+Type: String
+Parameter Sets: ListParameterSet, GetByNameParameterSet
+Aliases:
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -EdgeStorageAccountObject
+Provide existing EdgeStorageAccount Object
+
+```yaml
+Type: PSDataBoxEdgeStorageAccount
 Parameter Sets: GetByParentObjectParameterSet
 Aliases:
 
@@ -97,38 +112,37 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Name of the Role
+Name of the EdgeStorageContainer
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: GetByNameParameterSet
-Aliases:
+Aliases: EdgeStorageContainerName
 
 Required: True
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: GetByParentObjectParameterSet
-Aliases:
+Aliases: EdgeStorageContainerName
 
 Required: False
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-Resource Group Name 
-
+Resource Group Name
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
@@ -143,12 +157,12 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -159,11 +173,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccount
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSStorageAccountCredential
+### Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageContainer
 
 ## NOTES
 
