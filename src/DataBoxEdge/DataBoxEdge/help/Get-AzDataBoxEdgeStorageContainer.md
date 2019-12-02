@@ -55,7 +55,7 @@ PS C:\> {{ Add example code here }}
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -70,7 +70,7 @@ Accept wildcard characters: False
 Device Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
@@ -85,7 +85,7 @@ Accept wildcard characters: False
 Provide existing EdgeStorageAccountName's Resource Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
@@ -100,7 +100,7 @@ Accept wildcard characters: False
 Provide existing EdgeStorageAccount Object
 
 ```yaml
-Type: PSDataBoxEdgeStorageAccount
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccount
 Parameter Sets: GetByParentObjectParameterSet
 Aliases:
 
@@ -115,7 +115,7 @@ Accept wildcard characters: False
 Name of the EdgeStorageContainer
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByNameParameterSet
 Aliases: EdgeStorageContainerName
 
@@ -127,7 +127,7 @@ Accept wildcard characters: False
 ```
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByParentObjectParameterSet
 Aliases: EdgeStorageContainerName
 
@@ -142,7 +142,7 @@ Accept wildcard characters: False
 Resource Group Name
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ListParameterSet, GetByNameParameterSet
 Aliases:
 
@@ -157,7 +157,7 @@ Accept wildcard characters: False
 Azure ResourceId
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: GetByResourceIdParameterSet
 Aliases:
 

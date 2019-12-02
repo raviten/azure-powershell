@@ -29,8 +29,14 @@ Fetch the available roles for a device
 ### [Get-AzDataBoxEdgeShare](Get-AzDataBoxEdgeShare.md)
 Gets the creted shares for this device
 
+### [Get-AzDataBoxEdgeStorageAccount](Get-AzDataBoxEdgeStorageAccount.md)
+{{ Fill in the Synopsis }}
+
 ### [Get-AzDataBoxEdgeStorageAccountCredential](Get-AzDataBoxEdgeStorageAccountCredential.md)
 Get the Storage Account credential corresponding to device and storage account
+
+### [Get-AzDataBoxEdgeStorageContainer](Get-AzDataBoxEdgeStorageContainer.md)
+{{ Fill in the Synopsis }}
 
 ### [Get-AzDataBoxEdgeTrigger](Get-AzDataBoxEdgeTrigger.md)
 Get the Triggers configured on the device
@@ -40,6 +46,12 @@ Get the created users  for this device
 
 ### [Invoke-AzDataBoxEdgeDevice](Invoke-AzDataBoxEdgeDevice.md)
 Invoke specific actions on the device
+
+### [Invoke-AzDataBoxEdgeShare](Invoke-AzDataBoxEdgeShare.md)
+{{ Fill in the Synopsis }}
+
+### [Invoke-AzDataBoxEdgeStorageContainer](Invoke-AzDataBoxEdgeStorageContainer.md)
+{{ Fill in the Synopsis }}
 
 ### [New-AzDataBoxEdgeBandwidthSchedule](New-AzDataBoxEdgeBandwidthSchedule.md)
 Create a new Bandwidth schedule
@@ -56,8 +68,14 @@ Creates a new Iot Role for the device
 ### [New-AzDataBoxEdgeShare](New-AzDataBoxEdgeShare.md)
 Creates a new share in the device
 
+### [New-AzDataBoxEdgeStorageAccount](New-AzDataBoxEdgeStorageAccount.md)
+{{ Fill in the Synopsis }}
+
 ### [New-AzDataBoxEdgeStorageAccountCredential](New-AzDataBoxEdgeStorageAccountCredential.md)
 Create new storage account credential object
+
+### [New-AzDataBoxEdgeStorageContainer](New-AzDataBoxEdgeStorageContainer.md)
+{{ Fill in the Synopsis }}
 
 ### [New-AzDataBoxEdgeTrigger](New-AzDataBoxEdgeTrigger.md)
 To Configure Triggers 
@@ -80,8 +98,14 @@ Removes the assosciated Role for the device
 ### [Remove-AzDataBoxEdgeRole](Remove-AzDataBoxEdgeRole.md)
 Removes the assosciated Role for the device
 
+### [Remove-AzDataBoxEdgeStorageAccount](Remove-AzDataBoxEdgeStorageAccount.md)
+{{ Fill in the Synopsis }}
+
 ### [Remove-AzDataBoxEdgeStorageAccountCredential](Remove-AzDataBoxEdgeStorageAccountCredential.md)
 Removes a storage account credentail object for the device
+
+### [Remove-AzDataBoxEdgeStorageContainer](Remove-AzDataBoxEdgeStorageContainer.md)
+{{ Fill in the Synopsis }}
 
 ### [Remove-AzDataBoxEdgeTrigger](Remove-AzDataBoxEdgeTrigger.md)
 Removes the trigger
@@ -97,6 +121,9 @@ Update the Role
 
 ### [Set-AzDataBoxEdgeShare](Set-AzDataBoxEdgeShare.md)
 Update the share 
+
+### [Set-AzDataBoxEdgeStorageAccountCredential](Set-AzDataBoxEdgeStorageAccountCredential.md)
+{{ Fill in the Synopsis }}
 
 ### [Set-AzDataBoxEdgeUser](Set-AzDataBoxEdgeUser.md)
 Set the new password for the user

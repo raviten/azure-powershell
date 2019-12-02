@@ -83,7 +83,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         public PSDataBoxEdgeStorageContainer InputObject;
 
         [Parameter(Mandatory = false, HelpMessage = HelpMessageEdgeStorageContainer.RefreshDataHelpMessage)]
-        public SwitchParameter Refresh { get; set; }
+        public SwitchParameter RefreshData { get; set; }
         
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
