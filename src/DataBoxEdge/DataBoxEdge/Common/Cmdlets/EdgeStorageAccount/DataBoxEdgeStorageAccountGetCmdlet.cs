@@ -76,10 +76,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
             Position = 2)]
         [Parameter(Mandatory = false,
             ParameterSetName = GetByParentObjectParameterSet,
-            ValueFromPipelineByPropertyName = true,
+            ValueFromPipelineByPropertyName = false,
             HelpMessage = HelpMessageEdgeStorageAccount.NameHelpMessage
         )]
         [ValidateNotNullOrEmpty]
+        [Alias("EdgeStorageAccountName")]
         public string Name { get; set; }
 
         [Parameter(Mandatory = true,

@@ -8,7 +8,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
     {
         [Ps1Xml(Label = "SslStatus", Target = ViewControl.Table,
             ScriptBlock = "$_.storageAccountCredential.SslStatus")]
-        
         public StorageAccountCredential StorageAccountCredential;
 
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]

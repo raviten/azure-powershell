@@ -49,7 +49,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         [ValidateNotNull]
         public PSDataBoxEdgeShare InputObject { get; set; }
 
-
         [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
             ValueFromPipelineByPropertyName = true,

@@ -101,9 +101,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         {
             if (this.IsParameterBound(c => c.ResourceId))
             {
-                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                var resourceIdentifier = new DataBoxEdgeStorageResourceIdentifier(this.ResourceId);
                 this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
                 this.DeviceName = resourceIdentifier.DeviceName;
+                this.EdgeStorageAccountName = resourceIdentifier.EdgeStorageAccountName;
                 this.Name = resourceIdentifier.ResourceName;
             }
 

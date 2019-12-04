@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
-online version:
+online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/invoke-azdataboxedgestoragecontainer
 schema: 2.0.0
 ---
 
 # Invoke-AzDataBoxEdgeStorageContainer
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Invoke specific actions on the share, For ex: Refresh Data
 
 ## SYNTAX
 
@@ -32,16 +32,22 @@ Invoke-AzDataBoxEdgeStorageContainer [-RefreshData] [-AsJob] [-DefaultProfile <I
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Invoke-AzDataBoxEdgeStorageContainer** will invoke actions on  the device to refresh the data
+ 
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Invoke-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1 
+true
 ```
 
-{{ Add example description here }}
+### Example 2
+```powershell
+PS C:\> Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1 | Invoke-AzDataBoxEdgeStorageContainer 
+true
+```
 
 ## PARAMETERS
 

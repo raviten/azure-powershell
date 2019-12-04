@@ -1,18 +1,16 @@
-﻿using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
-using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
+﻿using Microsoft.Azure.Management.DataBoxEdge.Models;
+using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common;
 using Microsoft.WindowsAzure.Commands.Common.Attributes;
 using System;
-using System.Collections.Generic;
-using Microsoft.Azure.Management.DataBoxEdge.Models;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeStorageContainer
     {
         [Ps1Xml(Label = "Name", Target = ViewControl.Table,
-            ScriptBlock = "$_.container.Name", Position = 0)]
-        [Ps1Xml(Label = "Name", Target = ViewControl.Table,
-            ScriptBlock = "$_.container.DataFormat", Position = 1)]
+            ScriptBlock = "$_.EdgeStorageContainer.Name", Position = 0)]
+        [Ps1Xml(Label = "DataFormat", Target = ViewControl.Table,
+            ScriptBlock = "$_.EdgeStorageContainer.DataFormat", Position = 1)]
         public Container EdgeStorageContainer;
 
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
@@ -37,11 +35,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
         {
             this.EdgeStorageContainer = container ?? throw new ArgumentNullException(nameof(container));
             this.Id = container.Id;
-            var resourceIdentifier = new DataBoxEdgeResourceIdentifier(container.Id);
+            var resourceIdentifier = new DataBoxEdgeStorageResourceIdentifier(container.Id);
             this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
             this.DeviceName = resourceIdentifier.DeviceName;
-            this.EdgeStorageAccountName = resourceIdentifier.ParentResource;
-            this.Name = resourceIdentifier.ResourceName;
+            this.EdgeStorageAccountName = resourceIdentifier.EdgeStorageAccountName;
+            this.Name = resourceIdentifier.Name;
         }
     }
 }

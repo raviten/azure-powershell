@@ -21,6 +21,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Microsoft.Azure.Management.Internal.Resources.Utilities.Models;
 
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStorageContainer
@@ -83,6 +84,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
             HelpMessage = HelpMessageEdgeStorageContainer.EdgeStorageAccountHelpMessage,
             Position = 2)]
         [ValidateNotNullOrEmpty]
+        [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices/storageAccounts", nameof(ResourceGroupName), nameof(DeviceName))]
         public string EdgeStorageAccountName { get; set; }
 
         [Parameter(Mandatory = true,
@@ -92,7 +94,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
             Position = 3)]
         [Parameter(Mandatory = false,
             ParameterSetName = GetByParentObjectParameterSet,
-            ValueFromPipelineByPropertyName = true,
+            ValueFromPipelineByPropertyName = false,
             HelpMessage = HelpMessageEdgeStorageContainer.NameHelpMessage
         )]
         [ValidateNotNullOrEmpty]
@@ -161,14 +163,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         {
             if (this.IsParameterBound(c => c.ResourceId))
             {
-                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                var resourceIdentifier = new DataBoxEdgeStorageResourceIdentifier(this.ResourceId);
                 this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
                 this.DeviceName = resourceIdentifier.DeviceName;
-                this.EdgeStorageAccountName = resourceIdentifier.ParentResource;
+                this.EdgeStorageAccountName = resourceIdentifier.EdgeStorageAccountName;
                 this.Name = resourceIdentifier.Name;
             }
 
-            if (this.IsParameterBound(c => this.EdgeStorageAccountName))
+            if (this.IsParameterBound(c => this.EdgeStorageAccountObject))
             {
                 this.ResourceGroupName = this.EdgeStorageAccountObject.ResourceGroupName;
                 this.DeviceName = this.EdgeStorageAccountObject.DeviceName;

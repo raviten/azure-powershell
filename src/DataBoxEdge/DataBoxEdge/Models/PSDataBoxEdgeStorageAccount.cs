@@ -9,21 +9,26 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
 {
     public class PSDataBoxEdgeStorageAccount
     {
-        [Ps1Xml(Label = "Name", Target = ViewControl.Table,
-            ScriptBlock = "$_.storageAccount.Name", Position = 0)]
+        
+        [Ps1Xml(Label = "ContainerCount", Target = ViewControl.Table,
+            ScriptBlock = "$_.edgeStorageAccount.ContainerCount")]
+        [Ps1Xml(Label = "BlobEndpoint", Target = ViewControl.Table,
+            ScriptBlock = "$_.edgeStorageAccount.BlobEndpoint")]
         public StorageAccount EdgeStorageAccount;
 
         [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
         public string ResourceGroupName;
 
-        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table)]
+        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table, Position = 1)]
         public string DeviceName;
+
+        [Ps1Xml(Label = "Name", Target = ViewControl.Table, Position = 0)]
+        public string Name;
 
         [Ps1Xml(Label = "CloudStorageAccountName", Target = ViewControl.Table)]
         public string StorageAccountName;
 
         public string Id;
-        public string Name;
         
         public PSDataBoxEdgeStorageAccount()
         {
@@ -44,17 +49,18 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             throw new Exception("InvalidStorageAccountCredential");
         }
 
-        public PSDataBoxEdgeStorageAccount(StorageAccount storageAccount)
+        public PSDataBoxEdgeStorageAccount(StorageAccount edgeStorageAccount)
         {
-            this.EdgeStorageAccount = storageAccount ?? throw new ArgumentNullException("storageAccount");
-            this.Id = storageAccount.Id;
+            this.EdgeStorageAccount = edgeStorageAccount ?? throw new ArgumentNullException("edgeStorageAccount");
+            this.Id = edgeStorageAccount.Id;
             var resourceIdentifier = new DataBoxEdgeResourceIdentifier(EdgeStorageAccount.Id);
             this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
             this.DeviceName = resourceIdentifier.DeviceName;
             this.Name = resourceIdentifier.ResourceName;
-            if (storageAccount.DataPolicy == "Cloud")
+            var s = edgeStorageAccount.BlobEndpoint;
+            if (edgeStorageAccount.DataPolicy == "Cloud")
             {
-                this.StorageAccountName = GetStorageAccountCredentialAccountName(storageAccount.StorageAccountCredentialId);
+                this.StorageAccountName = GetStorageAccountCredentialAccountName(edgeStorageAccount.StorageAccountCredentialId);
             }
         }
     }

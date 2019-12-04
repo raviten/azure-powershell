@@ -446,7 +446,7 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>Name</Label>
+            <Label>DataFormat</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
@@ -466,11 +466,11 @@
             <TableColumnItems>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <ScriptBlock>$_.container.Name</ScriptBlock>
+                <ScriptBlock>$_.EdgeStorageContainer.Name</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <ScriptBlock>$_.container.DataFormat</ScriptBlock>
+                <ScriptBlock>$_.EdgeStorageContainer.DataFormat</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
@@ -502,11 +502,19 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>ResourceGroupName</Label>
+            <Label>DeviceName</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
-            <Label>DeviceName</Label>
+            <Label>ContainerCount</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>BlobEndpoint</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Label>ResourceGroupName</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Alignment>Left</Alignment>
@@ -518,15 +526,23 @@
             <TableColumnItems>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
-                <ScriptBlock>$_.storageAccount.Name</ScriptBlock>
-              </TableColumnItem>
-              <TableColumnItem>
-                <Alignment>Left</Alignment>
-                <PropertyName>ResourceGroupName</PropertyName>
+                <PropertyName>Name</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>
                 <PropertyName>DeviceName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.edgeStorageAccount.ContainerCount</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <ScriptBlock>$_.edgeStorageAccount.BlobEndpoint</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <Alignment>Left</Alignment>
+                <PropertyName>ResourceGroupName</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <Alignment>Left</Alignment>

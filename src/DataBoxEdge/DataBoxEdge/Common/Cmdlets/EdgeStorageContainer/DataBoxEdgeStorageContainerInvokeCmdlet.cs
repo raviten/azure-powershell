@@ -83,8 +83,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         public PSDataBoxEdgeStorageContainer InputObject;
 
         [Parameter(Mandatory = false, HelpMessage = HelpMessageEdgeStorageContainer.RefreshDataHelpMessage)]
-        public SwitchParameter RefreshData { get; set; }
-        
+        public SwitchParameter Refresh { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]
+        public SwitchParameter PassThru;
+
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
@@ -102,10 +105,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         {
             if (this.IsParameterBound(c => c.ResourceId))
             {
-                var resourceIdentifier = new DataBoxEdgeResourceIdentifier(this.ResourceId);
+                var resourceIdentifier = new DataBoxEdgeStorageResourceIdentifier(this.ResourceId);
                 this.ResourceGroupName = resourceIdentifier.ResourceGroupName;
                 this.DeviceName = resourceIdentifier.DeviceName;
-                this.EdgeStorageAccountName = resourceIdentifier.ParentResource;
+                this.EdgeStorageAccountName = resourceIdentifier.EdgeStorageAccountName;
                 this.Name = resourceIdentifier.Name;
             }
 
@@ -121,7 +124,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
                 string.Format("Invoking '{0}' device '{1}' for storage account container with name '{2}'.",
                     HelpMessageEdgeStorageContainer.ObjectName, this.DeviceName, this.Name)))
             {
-                WriteObject(RefreshContainer(), true);
+                var refreshed = RefreshContainer();
+                if (this.PassThru.IsPresent)
+                {
+                    WriteObject(refreshed);
+                }
             }
         }
     }

@@ -12,15 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Common.Strategies;
 using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.DataBoxEdge;
 using Microsoft.Azure.Management.DataBoxEdge.Models;
 using Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models;
 using Microsoft.Rest.Azure;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Net;
@@ -53,7 +50,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         public string DeviceName { get; set; }
 
         [Parameter(Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.NameHelpMessage,
             Position = 2)]
         [ValidateNotNullOrEmpty]
@@ -61,6 +57,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
 
         [Parameter(Mandatory = true,
             ParameterSetName = EdgeStorageAccountParameterSet,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = HelpMessageEdgeStorageAccount.StorageAccountCredentialHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountCredentialName { get; set; }
@@ -74,9 +71,9 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         public SwitchParameter AsJob { get; set; }
 
 
-        private Share GetResource()
+        private StorageAccount GetResource()
         {
-            return this.DataBoxEdgeManagementClient.Shares.Get(
+            return this.DataBoxEdgeManagementClient.StorageAccounts.Get(
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
@@ -113,18 +110,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
                 this.StorageAccountCredentialName,
                 this.ResourceGroupName);
 
-            var storageAccount = new StorageAccount(
+            var edgeStorageAccount = new StorageAccount(
                 name: Name,
                 dataPolicy: "Cloud",
+                storageAccountStatus:"OK",
+                description:"",
                 storageAccountCredentialId: storageAccountCredential.Id);
-
-            return new PSDataBoxEdgeStorageAccount(
-                this.DataBoxEdgeManagementClient.StorageAccounts.CreateOrUpdate(
-                    DeviceName,
-                    Name,
-                    storageAccount,
-                    this.ResourceGroupName
-                ));
+            edgeStorageAccount = this.DataBoxEdgeManagementClient.StorageAccounts.CreateOrUpdate(
+                DeviceName,
+                Name,
+                edgeStorageAccount,
+                this.ResourceGroupName
+            );
+            return new PSDataBoxEdgeStorageAccount(edgeStorageAccount
+            );
         }
 
         public override void ExecuteCmdlet()

@@ -1,6 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
+online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/get-azdataboxedgestoragecontainer
 online version:
 schema: 2.0.0
 ---
@@ -8,7 +9,7 @@ schema: 2.0.0
 # Get-AzDataBoxEdgeStorageContainer
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Gets the containers for a edge storage account
 
 ## SYNTAX
 
@@ -38,16 +39,36 @@ Get-AzDataBoxEdgeStorageContainer [[-Name] <String>] [-DefaultProfile <IAzureCon
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Get-AzDataBoxEdgeStorageContainer** get the EdgeStorageContainer for the EdgeStorageAccount on device. If Name is provided this will get the EdgeStorageContainer by Name
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\>  Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1
+Name       DataFormat ResourceGroupName DeviceName EdgeStorageAccountName
+----       ---------- ----------------- ---------- ----------------------
+container1 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
+```
+### Example 2
+```powershell
+PS C:\>  Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1
+Name       DataFormat ResourceGroupName DeviceName EdgeStorageAccountName
+----       ---------- ----------------- ---------- ----------------------
+container1 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
+container2 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
 ```
 
-{{ Add example description here }}
+### Example 3
+```powershell
+PS C:\>  Get-AzDataBoxEdgeDevice -ResourceGroupName resourceGroupName -DeviceName db-edge | Get-AzDataBoxEdgeStorageAccount | Get-AzDataBoxEdgeStorageContainer
+Name       DataFormat ResourceGroupName DeviceName EdgeStorageAccountName
+----       ---------- ----------------- ---------- ----------------------
+container1 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
+container2 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
+container4 BlockBlob  resourceGroupName db-edge    edgestorageaccount2
+container5 BlockBlob  resourceGroupName db-edge    edgestorageaccount2
+```
 
 ## PARAMETERS
 

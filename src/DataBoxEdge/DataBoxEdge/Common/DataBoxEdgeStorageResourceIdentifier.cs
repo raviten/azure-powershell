@@ -19,13 +19,14 @@ using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
 {
-    public class DataBoxEdgeResourceIdentifier : ResourceIdentifier
+    public class DataBoxEdgeStorageResourceIdentifier : ResourceIdentifier
     {
         public bool IsSubResource { get; }
         public string DeviceName { get; }
+        public string EdgeStorageAccountName { get; }
         public string Name { get; }
-        
-        public DataBoxEdgeResourceIdentifier(string resourceId) : base(resourceId)
+
+        public DataBoxEdgeStorageResourceIdentifier(string resourceId) : base(resourceId)
         {
             if (!this.ResourceType.StartsWithInsensitively(Constants.DataBoxEdgeDeviceProvider))
             {
@@ -35,7 +36,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
             if (!string.IsNullOrEmpty(this.ParentResource))
             {
                 this.IsSubResource = true;
-                this.DeviceName = this.ParentResource.Remove(0, Constants.DevicesPath.Length);
+                string[] storageResources = this.ParentResource.Split('/');
+                if (storageResources.Length < 4)
+                {
+                    throw new ArgumentException("Invalid format of the storage resource identifier.",
+                        nameof(resourceId));
+                }
+                if (!storageResources[2].StartsWithInsensitively("storageAccounts"))
+                {
+                    throw new ArgumentException("Invalid format of the storage resource identifier.",
+                        nameof(resourceId));
+                }
+
+                this.DeviceName = storageResources[1];
+                this.EdgeStorageAccountName = storageResources[3];
             }
             else
             {
@@ -45,7 +59,5 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common
 
             this.Name = this.ResourceName;
         }
-
-
     }
 }
