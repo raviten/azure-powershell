@@ -70,7 +70,6 @@ edgestoragegacount1  db-edge      2              https://edgestoragegacount1.blo
 edgestoragegacount2  db-edge      0              https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount2
 ```
 
-
 ## PARAMETERS
 
 ### -DefaultProfile
@@ -124,7 +123,7 @@ Resource Name
 ```yaml
 Type: System.String
 Parameter Sets: GetByNameParameterSet
-Aliases:
+Aliases: EdgeStorageAccountName
 
 Required: True
 Position: 2
@@ -136,7 +135,7 @@ Accept wildcard characters: False
 ```yaml
 Type: System.String
 Parameter Sets: GetByParentObjectParameterSet
-Aliases:
+Aliases: EdgeStorageAccountName
 
 Required: False
 Position: 2

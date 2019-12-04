@@ -1,46 +1,51 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
-online version:
+online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/invoke-azdataboxedgeshare
 schema: 2.0.0
 ---
 
 # Invoke-AzDataBoxEdgeShare
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Invoke specific actions on the share, For ex: Refresh Data
 
 ## SYNTAX
 
 ### InvokeByNameParameterSet (Default)
 ```
 Invoke-AzDataBoxEdgeShare [-ResourceGroupName] <String> [-DeviceName] <String> [-Name] <String> [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-RefreshData] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DefaultProfile <IAzureContextContainer>] [-RefreshData] [-PassThru] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### InvokeByResourceIdParameterSet
 ```
 Invoke-AzDataBoxEdgeShare -ResourceId <String> [-AsJob] [-DefaultProfile <IAzureContextContainer>]
- [-RefreshData] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RefreshData] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InvokeByInputObjectParameterSet
 ```
 Invoke-AzDataBoxEdgeShare [-AsJob] [-DefaultProfile <IAzureContextContainer>] -InputObject <PSDataBoxEdgeShare>
- [-RefreshData] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RefreshData] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Invoke-AzDataBoxEdgeShare** will invoke actions on  the device to refresh the data pn a share
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Invoke-AzDataBoxEdgeShare -ResourceGroupName resourceGroupName -DeviceName db-edge -Name share1 -PassThru
+PS C:\> true
 ```
 
-{{ Add example description here }}
+### Example 2
+```powershell
+PS C:\> Get-AzDataBoxEdgeShare -ResourceGroupName resourceGroupName -DeviceName db-edge -Name share1 | Invoke-AzDataBoxEdgeShare
+```
 
 ## PARAMETERS
 
@@ -116,6 +121,21 @@ Required: True
 Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -PassThru
+returns true if successful
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

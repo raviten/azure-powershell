@@ -8,45 +8,43 @@ schema: 2.0.0
 # Invoke-AzDataBoxEdgeStorageContainer
 
 ## SYNOPSIS
-Invoke specific actions on the share, For ex: Refresh Data
+Invoke specific actions on the storage container, For ex: Refresh Data
 
 ## SYNTAX
 
 ### InvokeByNameParameterSet (Default)
 ```
 Invoke-AzDataBoxEdgeStorageContainer [-ResourceGroupName] <String> [-DeviceName] <String>
- [-EdgeStorageAccountName] <String> [-Name] <String> [-RefreshData] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-EdgeStorageAccountName] <String> [-Name] <String> [-Refresh] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InvokeByResourceIdParameterSet
 ```
-Invoke-AzDataBoxEdgeStorageContainer [-ResourceId] <String> [-RefreshData] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Invoke-AzDataBoxEdgeStorageContainer [-ResourceId] <String> [-Refresh] [-AsJob]
+ [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InvokeByInputObjectParameterSet
 ```
-Invoke-AzDataBoxEdgeStorageContainer [-RefreshData] [-AsJob] [-DefaultProfile <IAzureContextContainer>]
- -InputObject <PSDataBoxEdgeStorageContainer> [-WhatIf] [-Confirm] [<CommonParameters>]
+Invoke-AzDataBoxEdgeStorageContainer [-Refresh] [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+ -InputObject <PSDataBoxEdgeStorageContainer> [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This **Invoke-AzDataBoxEdgeStorageContainer** will invoke actions on  the device to refresh the data
- 
+This **Invoke-AzDataBoxEdgeStorageContainer** will invoke actions on  the device to refresh the data on container
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Invoke-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1 
-true
+PS C:\> Invoke-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1 -PassThru
+PS C:\> true
 ```
 
 ### Example 2
 ```powershell
-PS C:\> Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1 | Invoke-AzDataBoxEdgeStorageContainer 
-true
+PS C:\> Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1 | Invoke-AzDataBoxEdgeStorageContainer
 ```
 
 ## PARAMETERS
@@ -141,7 +139,22 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -RefreshData
+### -PassThru
+returns true if successful
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Refresh
 Refresh Container Metadata with the data from the cloud
 
 ```yaml

@@ -72,19 +72,23 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Shares
         public PSDataBoxEdgeShare InputObject;
 
         [Parameter(Mandatory = false,
-            HelpMessage = Constants.InputObjectHelpMessage)]
+            HelpMessage = HelpMessageShare.RefreshDataHelpMessage)]
         [ValidateNotNull]
         public SwitchParameter RefreshData;
+
+        [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]
+        public SwitchParameter PassThru;
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
         public SwitchParameter AsJob { get; set; }
 
-        private void ShareRefreshData()
+        private bool ShareRefreshData()
         {
             this.DataBoxEdgeManagementClient.Shares.Refresh(
                 this.DeviceName,
                 this.Name,
                 this.ResourceGroupName);
+            return true;
         }
 
         public override void ExecuteCmdlet()
@@ -104,14 +108,15 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Shares
                 this.Name = resourceIdentifier.ResourceName;
             }
 
-            if (this.RefreshData.IsPresent)
+            if (this.ShouldProcess(this.Name,
+                string.Format("Invoking '{0}' in device '{1}' with name '{2}'.",
+                    HelpMessageShare.ObjectName, this.DeviceName, this.Name)))
             {
-                ShareRefreshData();
-                WriteObject(true);
-            }
-            else
-            {
-                WriteObject(false);
+                var refreshed = ShareRefreshData();
+                if (this.PassThru.IsPresent)
+                {
+                    WriteObject(refreshed);
+                }
             }
         }
     }

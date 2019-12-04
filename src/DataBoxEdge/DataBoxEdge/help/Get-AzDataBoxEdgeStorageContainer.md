@@ -2,7 +2,6 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
 online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/get-azdataboxedgestoragecontainer
-online version:
 schema: 2.0.0
 ---
 
@@ -50,6 +49,7 @@ Name       DataFormat ResourceGroupName DeviceName EdgeStorageAccountName
 ----       ---------- ----------------- ---------- ----------------------
 container1 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
 ```
+
 ### Example 2
 ```powershell
 PS C:\>  Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1

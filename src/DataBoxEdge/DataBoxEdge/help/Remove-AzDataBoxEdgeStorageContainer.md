@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzDataBoxEdgeStorageContainer
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Removes a storage account container for the EdgeStorageAccount on the device
 
 ## SYNTAX
 
@@ -32,16 +32,14 @@ Remove-AzDataBoxEdgeStorageContainer -InputObject <PSDataBoxEdgeStorageContainer
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Remove-AzDataBoxEdgeStorageContainer** will remove the assosciated Edge Storage Container for the EdgeStorageAccount on the device.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzDataBoxEdgeStorageContainer -ResourceGroupName rgpName -DeviceName device-name -EdgeStorageAccountName edgestorageaccountname -Name container1
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 

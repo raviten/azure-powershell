@@ -82,7 +82,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
         [ValidateNotNull]
         public PSDataBoxEdgeStorageContainer InputObject;
 
-        [Parameter(Mandatory = false, HelpMessage = HelpMessageEdgeStorageContainer.RefreshDataHelpMessage)]
+        [Parameter(Mandatory = false, 
+            HelpMessage = HelpMessageEdgeStorageContainer.RefreshDataHelpMessage)]
         public SwitchParameter Refresh { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]

@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
-online version:
+online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/set-azdataboxedgestorageaccountcredential
 schema: 2.0.0
 ---
 
 # Set-AzDataBoxEdgeStorageAccountCredential
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Update the storage account keys for a storage credential 
 
 ## SYNTAX
 
@@ -34,16 +34,17 @@ Set-AzDataBoxEdgeStorageAccountCredential -StorageAccountAccessKey <SecureString
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This **Set-AzDataBoxEdgeStorageAccountCredential** will help in updating storage account credentials
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Set-AzDataBoxEdgeStorageAccountCredential -ResourceGroupName resource-group-name -DeviceName device-name -Name storage-acount-credential-name -StorageAccountAccessKey access-key -EncryptionKey encryption-key
+Name                             StorageAccount          SslStatus  ResourceGroupName
+-------------------------------- ---------------------- ---------- ---------------------
+storage-account-credential-name  storage-account-name    Enabled    resource-group-name
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 

@@ -44,6 +44,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Shares
             "Container name (Based on the data format specified, this represents " +
             "the name of Azure Files/Pageblob/Block blob)";
 
+        internal const string RefreshDataHelpMessage = "This will refreshes the data on the share";
+
+
+
 
     }
 }

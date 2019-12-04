@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.dll-Help.xml
 Module Name: Az.DataBoxEdge
-online version:
+online version: https://docs.microsoft.com/en-us/powershell/module/az.databoxedge/get-azdataboxedgestorageaccount
 schema: 2.0.0
 ---
 
 # New-AzDataBoxEdgeStorageAccount
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Creates a new storage account in the device
 
 ## SYNTAX
 
@@ -19,16 +19,30 @@ New-AzDataBoxEdgeStorageAccount [-ResourceGroupName] <String> [-DeviceName] <Str
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The command **New-AzDataBoxEdgeStorageAccount** is used to create a new EdgeStorageAccount in the device. 
+For a device, each EdgeStorageAccount can be mapped at most to one cloud storage account only. 
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> New-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName db-edge -Name edgestoragegacount1 -StorageAccountCredentialName cloudstorageaccount1 -Cloud
+
+Name                 DeviceName   ContainerCount BlobEndpoint                                                   ResourceGroupName CloudStorageAccountName
+----                 ----------   -------------- ------------                                                   ----------------- -----------------------
+edgestoragegacount1  db-edge      0              https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount1
 ```
 
-{{ Add example description here }}
+### Example 2
+```powershell
+PS C:\> New-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName db-edge -Name edgestoragegacount2 -StorageAccountCredentialName cloudstorageaccount2
+
+Name                 DeviceName   ContainerCount BlobEndpoint                                                   ResourceGroupName CloudStorageAccountName
+----                 ----------   -------------- ------------                                                   ----------------- -----------------------
+edgestoragegacount2  db-edge      0              https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount2
+```
+
+2 EdgeStorageAccounts on the device cannot share more than 1 Cloud Storage Account
 
 ## PARAMETERS
 
@@ -103,7 +117,7 @@ Aliases:
 Required: True
 Position: 2
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -133,7 +147,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
