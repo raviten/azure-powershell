@@ -45,29 +45,29 @@ The **Get-AzDataBoxEdgeStorageAccount** get the EdgeStorageAccounts for the devi
 ```powershell
 PS C:\> Get-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName db-edge -Name edgestoragegacount1
 
-Name                 DeviceName   ContainerCount BlobEndpoint                                                   ResourceGroupName CloudStorageAccountName
-----                 ----------   -------------- ------------                                                   ----------------- -----------------------
-edgestoragegacount1  db-edge      2              https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount1
+Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
+----                --------------  ----------------------- ------------                                                   ---------- -----------------
+edgestoragegacount1 2               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
 ```
 
 ### Example 2
 ```powershell
 PS C:\> Get-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName db-edge
 
-Name                 DeviceName   ContainerCount BlobEndpoint                                                   ResourceGroupName CloudStorageAccountName
-----                 ----------   -------------- ------------                                                   ----------------- -----------------------
-edgestoragegacount1  db-edge      2              https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount1
-edgestoragegacount2  db-edge      0              https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount2
+Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
+----                --------------  ----------------------- ------------                                                   ---------- -----------------
+edgestoragegacount1 2               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
+edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
 ```
 
 ### Example 3
 ```powershell
 PS C:\> Get-AzDataBoxEdgeDevice -ResourceGroupName rgpName -DeviceName db-edge | Get-AzDataBoxEdgeStorageAccount
 
-Name                 DeviceName   ContainerCount BlobEndpoint                                                   ResourceGroupName CloudStorageAccountName
-----                 ----------   -------------- ------------                                                   ----------------- -----------------------
-edgestoragegacount1  db-edge      2              https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount1
-edgestoragegacount2  db-edge      0              https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount2
+Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
+----                --------------  ----------------------- ------------                                                   ---------- -----------------
+edgestoragegacount1 2               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
+edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
 ```
 
 ## PARAMETERS

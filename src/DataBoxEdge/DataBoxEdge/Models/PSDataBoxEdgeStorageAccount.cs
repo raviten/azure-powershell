@@ -11,22 +11,23 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
     {
         
         [Ps1Xml(Label = "ContainerCount", Target = ViewControl.Table,
-            ScriptBlock = "$_.edgeStorageAccount.ContainerCount")]
+            ScriptBlock = "$_.edgeStorageAccount.ContainerCount", Position = 1)]
         [Ps1Xml(Label = "BlobEndpoint", Target = ViewControl.Table,
-            ScriptBlock = "$_.edgeStorageAccount.BlobEndpoint")]
+            ScriptBlock = "$_.edgeStorageAccount.BlobEndpoint", Position = 3)]
         public StorageAccount EdgeStorageAccount;
 
-        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
-        public string ResourceGroupName;
-
-        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table, Position = 1)]
-        public string DeviceName;
-
+        
         [Ps1Xml(Label = "Name", Target = ViewControl.Table, Position = 0)]
         public string Name;
 
-        [Ps1Xml(Label = "CloudStorageAccountName", Target = ViewControl.Table)]
+        [Ps1Xml(Label = "CloudStorageAccountName", Target = ViewControl.Table, Position = 2)]
         public string StorageAccountName;
+        
+        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table, Position = 5)]
+        public string ResourceGroupName;
+        
+        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table, Position = 4)]
+        public string DeviceName;
 
         public string Id;
         

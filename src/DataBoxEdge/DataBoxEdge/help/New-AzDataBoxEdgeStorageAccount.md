@@ -27,19 +27,18 @@ For a device, each EdgeStorageAccount can be mapped at most to one cloud storage
 ### Example 1
 ```powershell
 PS C:\> New-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName db-edge -Name edgestoragegacount1 -StorageAccountCredentialName cloudstorageaccount1 -Cloud
-
-Name                 DeviceName   ContainerCount BlobEndpoint                                                   ResourceGroupName CloudStorageAccountName
-----                 ----------   -------------- ------------                                                   ----------------- -----------------------
-edgestoragegacount1  db-edge      0              https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount1
+Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
+----                --------------  ----------------------- ------------                                                   ---------- -----------------
+edgestoragegacount1 0               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
 ```
 
 ### Example 2
 ```powershell
 PS C:\> New-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName db-edge -Name edgestoragegacount2 -StorageAccountCredentialName cloudstorageaccount2
 
-Name                 DeviceName   ContainerCount BlobEndpoint                                                   ResourceGroupName CloudStorageAccountName
-----                 ----------   -------------- ------------                                                   ----------------- -----------------------
-edgestoragegacount2  db-edge      0              https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ rgpName           cloudstorageaccount2
+Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
+----                --------------  ----------------------- ------------                                                   ---------- -----------------
+edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
 ```
 
 2 EdgeStorageAccounts on the device cannot share more than 1 Cloud Storage Account

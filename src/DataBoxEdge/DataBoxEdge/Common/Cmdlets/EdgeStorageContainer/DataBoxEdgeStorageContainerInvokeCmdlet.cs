@@ -84,7 +84,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
 
         [Parameter(Mandatory = false, 
             HelpMessage = HelpMessageEdgeStorageContainer.RefreshDataHelpMessage)]
-        public SwitchParameter Refresh { get; set; }
+        public SwitchParameter RefreshData { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]
         public SwitchParameter PassThru;

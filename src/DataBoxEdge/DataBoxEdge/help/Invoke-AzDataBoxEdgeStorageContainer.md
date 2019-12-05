@@ -15,19 +15,19 @@ Invoke specific actions on the storage container, For ex: Refresh Data
 ### InvokeByNameParameterSet (Default)
 ```
 Invoke-AzDataBoxEdgeStorageContainer [-ResourceGroupName] <String> [-DeviceName] <String>
- [-EdgeStorageAccountName] <String> [-Name] <String> [-Refresh] [-AsJob]
+ [-EdgeStorageAccountName] <String> [-Name] <String> [-RefreshData] [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InvokeByResourceIdParameterSet
 ```
-Invoke-AzDataBoxEdgeStorageContainer [-ResourceId] <String> [-Refresh] [-AsJob]
+Invoke-AzDataBoxEdgeStorageContainer [-ResourceId] <String> [-RefreshData] [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InvokeByInputObjectParameterSet
 ```
-Invoke-AzDataBoxEdgeStorageContainer [-Refresh] [-AsJob] [-DefaultProfile <IAzureContextContainer>]
+Invoke-AzDataBoxEdgeStorageContainer [-RefreshData] [-AsJob] [-DefaultProfile <IAzureContextContainer>]
  -InputObject <PSDataBoxEdgeStorageContainer> [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -154,7 +154,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Refresh
+### -RefreshData
 Refresh Container Metadata with the data from the cloud
 
 ```yaml

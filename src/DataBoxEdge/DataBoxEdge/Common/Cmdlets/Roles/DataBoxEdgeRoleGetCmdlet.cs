@@ -77,7 +77,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
             Position = 2)]
         [Parameter(Mandatory = false,
             ParameterSetName = GetByParentObjectParameterSet,
-            ValueFromPipelineByPropertyName = true,
+            ValueFromPipelineByPropertyName = false,
             HelpMessage = HelpMessageRoles.Name
         )]
         [ValidateNotNullOrEmpty]

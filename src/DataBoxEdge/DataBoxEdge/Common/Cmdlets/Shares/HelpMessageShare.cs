@@ -46,8 +46,5 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Shares
 
         internal const string RefreshDataHelpMessage = "Refresh Share Metadata with the data from the cloud";
 
-
-
-
     }
 }

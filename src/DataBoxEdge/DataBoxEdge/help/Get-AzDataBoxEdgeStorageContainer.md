@@ -45,29 +45,29 @@ The **Get-AzDataBoxEdgeStorageContainer** get the EdgeStorageContainer for the E
 ### Example 1
 ```powershell
 PS C:\>  Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name container1
-Name       DataFormat ResourceGroupName DeviceName EdgeStorageAccountName
-----       ---------- ----------------- ---------- ----------------------
-container1 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
+Name       DataFormat EdgeStorageAccountName DeviceName ResourceGroupName
+----       ---------- ---------------------- ---------- -----------------
+container1 BlockBlob  edgestorageaccount1    db-edge    resourceGroupName
 ```
 
 ### Example 2
 ```powershell
 PS C:\>  Get-AzDataBoxEdgeStorageContainer -ResourceGroupName resourceGroupName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1
-Name       DataFormat ResourceGroupName DeviceName EdgeStorageAccountName
-----       ---------- ----------------- ---------- ----------------------
-container1 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
-container2 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
+Name       DataFormat EdgeStorageAccountName DeviceName ResourceGroupName
+----       ---------- ---------------------- ---------- -----------------
+container1 BlockBlob  edgestorageaccount1    db-edge    resourceGroupName
+container2 BlockBlob  edgestorageaccount1    db-edge    resourceGroupName
 ```
 
 ### Example 3
 ```powershell
 PS C:\>  Get-AzDataBoxEdgeDevice -ResourceGroupName resourceGroupName -DeviceName db-edge | Get-AzDataBoxEdgeStorageAccount | Get-AzDataBoxEdgeStorageContainer
-Name       DataFormat ResourceGroupName DeviceName EdgeStorageAccountName
-----       ---------- ----------------- ---------- ----------------------
-container1 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
-container2 BlockBlob  resourceGroupName db-edge    edgestorageaccount1
-container4 BlockBlob  resourceGroupName db-edge    edgestorageaccount2
-container5 BlockBlob  resourceGroupName db-edge    edgestorageaccount2
+Name       DataFormat EdgeStorageAccountName DeviceName ResourceGroupName
+----       ---------- ---------------------- ---------- -----------------
+container1 BlockBlob  edgestorageaccount1    db-edge    resourceGroupName
+container2 BlockBlob  edgestorageaccount1    db-edge    resourceGroupName
+container4 BlockBlob  edgestorageaccount2    db-edge    resourceGroupName
+container5 BlockBlob  edgestorageaccount2    db-edge    resourceGroupName
 ```
 
 ## PARAMETERS

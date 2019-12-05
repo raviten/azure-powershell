@@ -26,9 +26,9 @@ The command **New-AzDataBoxEdgeStorageContainer** is used to create a new EdgeSt
 ### Example 1
 ```powershell
 PS C:\> New-AzDataBoxEdgeStorageContainer -ResourceGroupName rgpName -DeviceName db-edge -EdgeStorageAccountName edgestorageaccount1 -Name edgecontainer1 -DataFormat BlockBlob
-Name           DataFormat ResourceGroupName DeviceName  EdgeStorageAccountName
-----           ---------- ----------------- ----------  ----------------------
-edgecontainer1 BlockBlob  rgpName           db-edge     edgestorageaccount1
+Name       DataFormat EdgeStorageAccountName DeviceName ResourceGroupName
+----       ---------- ---------------------- ---------- -----------------
+container1 BlockBlob  edgestorageaccount1    db-edge    rgpName
 ```
 
 ## PARAMETERS

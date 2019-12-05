@@ -26,7 +26,7 @@ Remove-AzDataBoxEdgeStorageAccount [-ResourceId] <String> [-AsJob] [-DefaultProf
 
 ### DeleteByInputObjectParameterSet
 ```
-Remove-AzDataBoxEdgeStorageAccount [-InputObject] <PSDataBoxEdgeShare> [-AsJob]
+Remove-AzDataBoxEdgeStorageAccount [-InputObject] <PSDataBoxEdgeStorageAccount> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] [-PassThru] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -91,7 +91,7 @@ Accept wildcard characters: False
 Input Object
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeShare
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models.PSDataBoxEdgeStorageAccount
 Parameter Sets: DeleteByInputObjectParameterSet
 Aliases:
 

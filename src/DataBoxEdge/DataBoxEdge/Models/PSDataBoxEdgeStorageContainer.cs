@@ -13,13 +13,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Models
             ScriptBlock = "$_.EdgeStorageContainer.DataFormat", Position = 1)]
         public Container EdgeStorageContainer;
 
-        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table)]
+        [Ps1Xml(Label = "ResourceGroupName", Target = ViewControl.Table, Position = 4)]
         public string ResourceGroupName;
 
-        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table)]
+        [Ps1Xml(Label = "DeviceName", Target = ViewControl.Table, Position = 3)]
         public string DeviceName;
 
-        [Ps1Xml(Label = "EdgeStorageAccountName", Target = ViewControl.Table)]
+        [Ps1Xml(Label = "EdgeStorageAccountName", Target = ViewControl.Table, Position = 2)]
         public string EdgeStorageAccountName;
 
         public string Id;
