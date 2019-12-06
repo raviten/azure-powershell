@@ -29,7 +29,7 @@ For a device, each EdgeStorageAccount can be mapped at most to one cloud storage
 PS C:\> New-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName db-edge -Name edgestoragegacount1 -StorageAccountCredentialName cloudstorageaccount1 -Cloud
 Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
 ----                --------------  ----------------------- ------------                                                   ---------- -----------------
-edgestoragegacount1 0               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
+edgestoragegacount1 0               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName
 ```
 
 ### Example 2
@@ -38,7 +38,7 @@ PS C:\> New-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName d
 
 Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
 ----                --------------  ----------------------- ------------                                                   ---------- -----------------
-edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
+edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName
 ```
 
 2 EdgeStorageAccounts on the device cannot share more than 1 Cloud Storage Account

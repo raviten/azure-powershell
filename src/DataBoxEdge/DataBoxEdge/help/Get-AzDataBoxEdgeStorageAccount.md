@@ -47,7 +47,7 @@ PS C:\> Get-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName d
 
 Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
 ----                --------------  ----------------------- ------------                                                   ---------- -----------------
-edgestoragegacount1 2               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
+edgestoragegacount1 2               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName
 ```
 
 ### Example 2
@@ -57,7 +57,7 @@ PS C:\> Get-AzDataBoxEdgeStorageAccount -ResourceGroupName rgpName -DeviceName d
 Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
 ----                --------------  ----------------------- ------------                                                   ---------- -----------------
 edgestoragegacount1 2               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
-edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
+edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName
 ```
 
 ### Example 3
@@ -67,7 +67,7 @@ PS C:\> Get-AzDataBoxEdgeDevice -ResourceGroupName rgpName -DeviceName db-edge |
 Name                ContainerCount  CloudStorageAccountName BlobEndpoint                                                   DeviceName ResourceGroupName
 ----                --------------  ----------------------- ------------                                                   ---------- -----------------
 edgestoragegacount1 2               cloudstorageaccount1    https://edgestoragegacount1.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
-edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName          
+edgestoragegacount2 0               cloudstorageaccount2    https://edgestoragegacount2.blob.db-edge.microsoftdatabox.com/ db-edge    rgpName
 ```
 
 ## PARAMETERS
