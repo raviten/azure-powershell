@@ -48,7 +48,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 
         [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage, 
             Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -56,7 +55,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
         public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
             ParameterSetName = DeleteByNameParameterSet,
             HelpMessage = Constants.DeviceNameHelpMessage, 
             Position = 1)]
@@ -65,7 +63,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Roles
 
         [Parameter(Mandatory = true, 
             ParameterSetName = DeleteByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.NameHelpMessage, 
             Position = 2)]
         [ValidateNotNullOrEmpty]
