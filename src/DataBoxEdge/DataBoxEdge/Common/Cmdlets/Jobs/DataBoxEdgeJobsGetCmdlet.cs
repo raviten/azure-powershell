@@ -34,14 +34,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByResourceIdObject,
-            ValueFromPipelineByPropertyName = true,
+            
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ValidateNotNullOrEmpty]
         public string ResourceId { get; set; }
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
+            
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
+            
             HelpMessage = HelpMessageJobs.DeviceName,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
@@ -59,12 +59,12 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Jobs
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
+            
             HelpMessage = HelpMessageJobs.Name,
             Position = 2)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByParentObjectParameterSet,
-            ValueFromPipelineByPropertyName = true,
+            
             HelpMessage = HelpMessageJobs.Name
         )]
         [ValidateNotNullOrEmpty]
