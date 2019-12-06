@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 
-
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 {
     [Cmdlet(VerbsCommon.Get, Constants.Device, DefaultParameterSetName = ListByParameterSet
@@ -53,23 +52,18 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByResourceIdParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetExtendedInfoByResourceIdParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetNetworkSettingByResourceIdParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetSummaryUpdateByResourceIdParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetAlertByResourceIdParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceIdHelpMessage)]
         [ResourceIdCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices")]
         [ValidateNotNullOrEmpty]
@@ -77,32 +71,26 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         [Parameter(Mandatory = false,
             ParameterSetName = ListByParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetSummaryUpdateParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetNetworkSettingParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetExtendedInfoParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetAlertParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -112,31 +100,25 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
-            ValueFromPipelineByPropertyName = true,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetSummaryUpdateParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
-            ValueFromPipelineByPropertyName = true,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetNetworkSettingParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
-            ValueFromPipelineByPropertyName = true,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetExtendedInfoParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
-            ValueFromPipelineByPropertyName = true,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetAlertParameterSet,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
-            ValueFromPipelineByPropertyName = true,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
-        [Alias("DeviceName")]
         public string Name { get; set; }
 
         [Parameter(Mandatory = true,

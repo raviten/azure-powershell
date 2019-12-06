@@ -47,7 +47,6 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ResourceGroupCompleter]
@@ -56,12 +55,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         [Parameter(Mandatory = true,
             ParameterSetName = DeleteByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.NameHelpMessage,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
-        [Alias("DeviceName")]
         public string Name { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = Constants.PassThruHelpMessage)]

@@ -65,17 +65,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeScanForUpdateParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeInstallUpdateParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeFetchUpdateParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ValidateNotNullOrEmpty]
@@ -84,35 +81,28 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Devices
 
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeScanForUpdateParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeInstallUpdateParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeFetchUpdateParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
         [ValidateNotNullOrEmpty]
-        [Alias("DeviceName")]
         public string Name { get; set; }
 
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeFetchUpdatesByDeviceObjectParameterSet,
-            ValueFromPipeline = true,
             HelpMessage = Constants.PsDeviceObjectHelpMessage)]
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeScanForUpdateByDeviceObjectParameterSet,
-            ValueFromPipeline = true,
             HelpMessage = Constants.PsDeviceObjectHelpMessage)]
         [Parameter(Mandatory = true,
             ParameterSetName = InvokeInstallUpdatesByDeviceObjectParameterSet,
-            ValueFromPipeline = true,
             HelpMessage = Constants.PsDeviceObjectHelpMessage)]
         [ValidateNotNullOrEmpty]
         public PSDataBoxEdgeDevice DeviceObject { get; set; }
