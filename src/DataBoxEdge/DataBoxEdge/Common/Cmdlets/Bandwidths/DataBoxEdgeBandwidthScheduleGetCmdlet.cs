@@ -42,12 +42,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         [Parameter(Mandatory = true,
             ParameterSetName = ListParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.ResourceGroupNameHelpMessage,
             Position = 0)]
         [ResourceGroupCompleter]
@@ -56,12 +54,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         [Parameter(Mandatory = true,
             ParameterSetName = ListParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.DeviceNameHelpMessage,
             Position = 1)]
         [ResourceNameCompleter("Microsoft.DataBoxEdge/dataBoxEdgeDevices", nameof(ResourceGroupName))]
@@ -70,12 +66,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.Bandwidt
 
         [Parameter(Mandatory = true,
             ParameterSetName = GetByNameParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.NameHelpMessage,
             Position = 2)]
         [Parameter(Mandatory = false,
             ParameterSetName = GetByParentObjectParameterSet,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = Constants.NameHelpMessage
         )]
         [ValidateNotNullOrEmpty]

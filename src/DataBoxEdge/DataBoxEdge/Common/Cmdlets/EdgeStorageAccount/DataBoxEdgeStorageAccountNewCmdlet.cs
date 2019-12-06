@@ -28,7 +28,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
          DefaultParameterSetName = EdgeStorageAccountParameterSet,
          SupportsShouldProcess = true
      ),
-     OutputType(typeof(PSDataBoxEdgeShare))]
+     OutputType(typeof(PSDataBoxEdgeStorageAccount))]
     public class DataBoxEdgeStorageAccountNewCmdlet : AzureDataBoxEdgeCmdletBase
     {
         private const string EdgeStorageAccountParameterSet = "EdgeStorageAccountParameterSet";
@@ -113,8 +113,8 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
             var edgeStorageAccount = new StorageAccount(
                 name: Name,
                 dataPolicy: "Cloud",
-                storageAccountStatus:"OK",
-                description:"",
+                storageAccountStatus: "OK",
+                description: "",
                 storageAccountCredentialId: storageAccountCredential.Id);
             edgeStorageAccount = this.DataBoxEdgeManagementClient.StorageAccounts.CreateOrUpdate(
                 DeviceName,

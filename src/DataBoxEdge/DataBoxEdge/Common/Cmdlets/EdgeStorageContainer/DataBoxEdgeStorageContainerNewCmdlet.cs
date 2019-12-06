@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Net;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStorageContainer
 {
@@ -67,6 +68,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
             ValueFromPipelineByPropertyName = true,
             HelpMessage = HelpMessageEdgeStorageContainer.DataFormatHelpMessage)]
         [PSArgumentCompleter("BlockBlob")]
+        [ValidateNotNullOrEmpty]
         public string DataFormat;
 
         [Parameter(Mandatory = false, HelpMessage = Constants.AsJobHelpMessage)]
@@ -108,6 +110,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataBoxEdge.Common.Cmdlets.EdgeStor
 
         private PSDataBoxEdgeStorageContainer CreateResource()
         {
+            if (!this.IsParameterBound(c => c.DataFormat))
+            {
+                DataFormat = "BlockBlob";
+            }
             var container = new Container(
                 name: Name,
                 dataFormat: DataFormat

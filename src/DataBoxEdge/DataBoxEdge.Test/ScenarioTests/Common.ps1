@@ -28,7 +28,7 @@ Gets valid resource name
 #>
 function Get-DeviceName
 {
-	return "psdataboxedgedevice"
+	return "mockobstore"
 }
 
 <#
@@ -82,9 +82,8 @@ Returns standard EncryptionKey
 #>
 function Get-EncryptionKey
 {
-	$vaultName = Get-VaultName
-	$val = Get-AzKeyVaultSecret -VaultName $vaultName -Name "EncryptionKey"
-	return $val.SecretValue
+	$val = "2d39f3303c751820e5ee86cd11913200df52e454c4214529867482fd269b9578223f5b1f7130f0ad0da8eee85dbf1f8610241aca03706b8017ff69a94c8ea4f9"
+	return ConvertTo-SecureString $val -AsPlainText -Force
 }
 
 
